@@ -58,7 +58,7 @@ expect class AwsS3 private constructor(
      */
     fun generatePresignedUrl(bucketName: String, key: String, expiration: Instant): String?
 
-    class Builder {
+    class Builder() {
         fun accessKey(accessKey: String): Builder
         fun secretKey(secretKey: String): Builder
         fun setEndpoint(endpoint: String): Builder

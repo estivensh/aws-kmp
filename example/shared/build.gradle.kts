@@ -25,17 +25,15 @@ kotlin {
         version = "1.0"
         ios.deploymentTarget = "14.1"
         framework {
-            baseName = "aws-s3"
+            baseName = "shared"
         }
-        pod("AWSS3")
     }
     
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(projects.awsCommon)
-                implementation(libs.kotlinx.datetime)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+                api(libs.kotlinx.datetime)
+                api(projects.awsS3)
             }
         }
         val commonTest by getting {
@@ -43,16 +41,11 @@ kotlin {
                 implementation(libs.kotlin.test)
             }
         }
-        val androidMain by getting {
-            dependencies {
-                implementation("com.amazonaws:aws-android-sdk-s3:2.73.0")
-            }
-        }
     }
 }
 
 android {
-    namespace = "com.estivensh4.aws_s3"
+    namespace = "com.estivensh4.shared"
     compileSdk = 34
     defaultConfig {
         minSdk = 26

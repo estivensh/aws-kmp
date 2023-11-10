@@ -17,3 +17,6 @@ dependencyResolutionManagement {
 rootProject.name = "aws-kmp"
 include(":aws-common")
 include(":aws-s3")
+include(":example")
+include(":example:androidapp")
+include(":example:shared")

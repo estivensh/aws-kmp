@@ -5,7 +5,11 @@ import com.amazonaws.regions.Region
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3Client
 import com.amazonaws.services.s3.S3ClientOptions
+import com.amazonaws.services.s3.model.AmazonS3Exception
+import com.estivensh4.aws_kmp.AwsException
 import kotlinx.datetime.Instant
+import java.io.FileNotFoundException
+import java.util.Calendar
 import java.util.Date
 
 // AwsS3Android.kt (Android-specific)
@@ -15,6 +19,21 @@ actual class AwsS3 actual constructor(
     private val secretKey: String,
     private val endpoint: String
 ) {
+
+    private val client: AmazonS3Client
+        get() {
+            return AmazonS3Client(
+                BasicAWSCredentials(
+                    accessKey,
+                    secretKey
+                ),
+                Region.getRegion(Regions.US_EAST_1)
+            ).apply {
+                this.endpoint = this@AwsS3.endpoint
+                setS3ClientOptions(S3ClientOptions.builder().setPathStyleAccess(true).build())
+            }
+        }
+
     /**
      *
      *
@@ -69,21 +88,19 @@ actual class AwsS3 actual constructor(
         key: String,
         expiration: Instant
     ): String? {
-
-        val client = AmazonS3Client(
-            BasicAWSCredentials(
-                accessKey,
-                secretKey
-            ),
-            Region.getRegion(Regions.US_EAST_1)
-        ).apply {
-            this.endpoint = this@AwsS3.endpoint
-            setS3ClientOptions(S3ClientOptions.builder().setPathStyleAccess(true).build())
+        return try {
+            val date = Calendar.getInstance()
+            date.add(Calendar.MINUTE, 15)
+            val result = client.generatePresignedUrl(bucketName, key, Date(expiration.toEpochMilliseconds()))
+            result.toString()
+        } catch (exception: AmazonS3Exception) {
+            when (exception.statusCode) {
+                404 -> throw FileNotFoundException("this key $key does not exist")
+                else -> {
+                    throw AwsException("Exception is ${exception.message}", exception)
+                }
+            }
         }
-
-        val result =
-            client.generatePresignedUrl(bucketName, key, Date(expiration.toEpochMilliseconds()))
-        return result.toString()
     }
 
     actual class Builder {
@@ -91,12 +108,12 @@ actual class AwsS3 actual constructor(
         private var secretKey: String = ""
         private var endpoint: String = ""
 
-        actual fun accessKey(accessKey: String): AwsS3.Builder {
+        actual fun accessKey(accessKey: String): Builder {
             this.accessKey = accessKey
             return this
         }
 
-        actual fun secretKey(secretKey: String): AwsS3.Builder {
+        actual fun secretKey(secretKey: String): Builder {
             this.secretKey = secretKey
             return this
         }

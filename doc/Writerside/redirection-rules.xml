@@ -14,4 +14,9 @@
         <description>Created after removal of "Add Mermaid diagrams" from AWS Kotlin Multiplatform</description>
         <accepts>Add-Mermaid-diagrams.html</accepts>
     </rule>
+    <rule id="33334e95">
+        <description>Created after removal of "Add semantic elements to Markdown" from AWS Kotlin Multiplatform
+        </description>
+        <accepts>Add-semantic-elements-to-Markdown.html</accepts>
+    </rule>
 </rules>

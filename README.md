@@ -2,7 +2,7 @@
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/estivensh4/aws-kmp/main/.github/images/aws.svg">
-    <img alt="Ktor logo" src="https://raw.githubusercontent.com/estivensh4/aws-kmp/main/.github/images/aws.svg">
+    <img alt="Ktor logo" src="https://raw.githubusercontent.com/estivensh4/aws-kmp/main/.github/images/aws.svg" style="width: 60px">
   </picture>
 
 </div>

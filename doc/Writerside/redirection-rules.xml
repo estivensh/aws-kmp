@@ -10,4 +10,8 @@
         <description>Created after removal of "Add math formulas" from AWS Kotlin Multiplatform</description>
         <accepts>Add-math-formulas.html</accepts>
     </rule>
+    <rule id="433c273a">
+        <description>Created after removal of "Add Mermaid diagrams" from AWS Kotlin Multiplatform</description>
+        <accepts>Add-Mermaid-diagrams.html</accepts>
+    </rule>
 </rules>

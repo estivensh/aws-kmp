@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE instance-profile
+        SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
+
+<instance-profile id="akm"
+                 name="AWS Kotlin Multiplatform"
+                 start-page="Default-topic.md">
+
+    <toc-element topic="Default-topic.md"/>
+    <toc-element topic="Play-with-semantic-attributes.md"/>
+    <toc-element topic="Add-semantic-elements-to-Markdown.md"/>
+    <toc-element topic="Convert-Markdown-to-XML.md"/>
+    <toc-element topic="Quickly-add-images-links-and-tables.md"/>
+    <toc-element topic="Add-Mermaid-diagrams.md"/>
+    <toc-element topic="Add-math-formulas.md"/>
+</instance-profile>

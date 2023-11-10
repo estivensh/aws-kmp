@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "aws-kmp"
 include(":aws-common")
+include(":aws-s3")

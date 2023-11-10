@@ -12,9 +12,15 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("aws") {
+            from(files("gradle/aws.versions.toml"))
+        }
+    }
 }
 
 rootProject.name = "aws-kmp"
+includeBuild("build-logic")
 include(":aws-common")
 include(":aws-s3")
 include(":example")

@@ -2,6 +2,7 @@ package com.estivensh4.aws_s3
 
 import cocoapods.AWSS3.AWSS3GetPreSignedURLRequest
 import cocoapods.AWSS3.AWSS3PreSignedURLBuilder
+import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.datetime.Instant
 import platform.Foundation.NSDate
@@ -67,6 +68,7 @@ actual class AwsS3 actual constructor(
      * request for the specified S3 object.
      * @see AwsS3.generatePresignedUrl
      */
+    @OptIn(ExperimentalForeignApi::class)
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,

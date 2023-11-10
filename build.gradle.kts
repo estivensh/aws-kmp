@@ -6,3 +6,24 @@ plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.kotlinAndroid) apply false
 }
+
+buildscript {
+    repositories {
+        mavenCentral()
+        google()
+
+        maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath(":build-logic")
+    }
+}
+
+allprojects {
+    plugins.withId("org.gradle.maven-publish") {
+        group = "io.github.estivensh4"
+        version = aws.versions.aws.get()
+    }
+}

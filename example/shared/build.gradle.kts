@@ -27,6 +27,7 @@ kotlin {
         framework {
             baseName = "shared"
         }
+        pod("AWSS3")
     }
     
     sourceSets {

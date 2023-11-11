@@ -18,3 +18,4 @@ dependencyResolutionManagement {
 include(":androidapp")
 include(":desktopApp")
 include(":shared")
+include(":webApp")

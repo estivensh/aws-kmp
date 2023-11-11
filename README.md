@@ -11,6 +11,8 @@
 [![Kotlin](https://img.shields.io/badge/kotlin-1.9.20-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
 
+[Documentation](https://estivensh4.github.io/aws-kmp/default-topic.html)
+
 First add the dependency to your project:
 
 ```kotlin
@@ -29,3 +31,11 @@ framework {
 }
 pod("AWSS3")
 ```
+
+### Contributors
+
+Thank you all for your work! ❤️
+
+<a href="https://github.com/estivensh4/aws-kmp/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=estivensh4/aws-kmp" />
+</a>

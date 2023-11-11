@@ -29,3 +29,11 @@ framework {
 }
 pod("AWSS3")
 ```
+
+### Contributors
+
+Thank you all for your work! ❤️
+
+<a href="https://github.com/estivensh4/aws-kmp/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=estivensh4/aws-kmp" />
+</a>

@@ -51,7 +51,7 @@ android {
 }
 
 dependencies {
-    implementation(projects.example.shared)
+    implementation(projects.shared)
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

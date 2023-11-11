@@ -27,14 +27,14 @@ kotlin {
         framework {
             baseName = "shared"
         }
-        pod("AWSS3")
+        pod("AWSS3", "~> 2.33.4")
     }
     
     sourceSets {
         val commonMain by getting {
             dependencies {
                 api(libs.kotlinx.datetime)
-                api(projects.awsS3)
+                implementation("io.github.estivensh4:aws-s3:0.1.0")
             }
         }
         val commonTest by getting {

@@ -1,24 +1,20 @@
-/*
- * Copyright 2019 IceRock MAG Inc. Use of this source code is governed by the Apache 2.0 license.
- */
-
-dependencyResolutionManagement {
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+pluginManagement {
     repositories {
-        mavenCentral()
         google()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("moko") {
-            from(files("../../gradle/moko.versions.toml"))
-        }
+        gradlePluginPortal()
+        mavenCentral()
     }
 }
 
-include(":mpp-library")
-include(":mpp-library:nested-module")
-include(":mpp-library:empty-module")
-include(":mpp-library:test-utils")
-include(":android-app")
-include(":jvm-app")
-include(":web-app")
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+    }
+}
+
+include(":androidapp")
+include(":desktopApp")
+include(":shared")

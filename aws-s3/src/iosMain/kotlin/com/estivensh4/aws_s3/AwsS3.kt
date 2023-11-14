@@ -287,5 +287,3 @@ actual class AwsS3 actual constructor(
         }
     }
 }
-
-actual fun AwsS3Builder(): AwsS3.Builder = AwsS3.Builder()

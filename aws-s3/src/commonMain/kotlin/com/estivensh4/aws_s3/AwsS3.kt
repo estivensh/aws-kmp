@@ -181,7 +181,4 @@ expect class AwsS3 private constructor(
         fun setEndpoint(endpoint: String): Builder
         fun build(): AwsS3
     }
-
 }
-
-expect fun AwsS3Builder(): AwsS3.Builder

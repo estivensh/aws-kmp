@@ -42,3 +42,7 @@ Thank you all for your work! ❤️
 <a href="https://github.com/estivensh4/aws-kmp/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=estivensh4/aws-kmp" />
 </a>
+
+[badge-android]: http://img.shields.io/badge/-android-6EDB8D.svg?style=flat
+[badge-ios]: http://img.shields.io/badge/-ios-CDCDCD.svg?style=flat
+[badge-jvm]: http://img.shields.io/badge/-jvm-DB413D.svg?style=flat

@@ -26,6 +26,7 @@ kotlin {
         ios.deploymentTarget = "14.1"
         framework {
             baseName = "shared"
+            export(libs.kotlinx.datetime)
         }
         pod("AWSS3", "~> 2.33.4")
     }
@@ -34,7 +35,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.kotlinx.datetime)
-                implementation("io.github.estivensh4:aws-s3:0.1.0")
+                implementation("io.github.estivensh4:aws-s3:0.2.0")
             }
         }
         val commonTest by getting {

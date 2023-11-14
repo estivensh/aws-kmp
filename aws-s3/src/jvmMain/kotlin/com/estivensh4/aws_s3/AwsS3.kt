@@ -1,44 +1,38 @@
 package com.estivensh4.aws_s3
 
-import cocoapods.AWSCore.AWSEndpoint
-import cocoapods.AWSCore.AWSRegionType
-import cocoapods.AWSCore.AWSServiceConfiguration
-import cocoapods.AWSCore.AWSStaticCredentialsProvider
-import cocoapods.AWSS3.AWSS3GetPreSignedURLRequest
-import cocoapods.AWSS3.AWSS3PreSignedURLBuilder
-import com.estivensh4.aws_kmp.AwsException
+import com.amazonaws.auth.AWSStaticCredentialsProvider
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.services.s3.S3ClientOptions
+import com.amazonaws.services.s3.model.AmazonS3Exception
 import com.estivensh4.aws_s3.util.toAWSMethod
-import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.datetime.Instant
-import platform.Foundation.NSDate
-import platform.Foundation.NSURL
+import java.io.FileNotFoundException
+import java.util.Calendar
+import java.util.Date
 
-@OptIn(ExperimentalForeignApi::class)
 actual class AwsS3 actual constructor(
     private val accessKey: String,
     private val secretKey: String,
     private val endpoint: String
 ) {
+    private val client: AmazonS3
+        get() {
+            val credentials = AWSStaticCredentialsProvider(
+                BasicAWSCredentials(accessKey, secretKey)
+            )
+            return AmazonS3Client.builder()
+                .withCredentials(credentials)
+                .build()
+                .apply {
+                    setEndpoint(endpoint)
+                    setS3ClientOptions(S3ClientOptions.builder().setPathStyleAccess(true).build())
+                }
+        }
 
-    actual val endpointAWS get() = ""
-    private var awsServiceConfiguration: AWSServiceConfiguration? = null
-
-    init {
-        initS3()
-    }
-
-    private fun initS3() {
-        val credentialsProvider = AWSStaticCredentialsProvider(
-            accessKey,
-            secretKey
-        )
-        val configuration = AWSServiceConfiguration(
-            region = AWSRegionType.AWSRegionAPEast1,
-            credentialsProvider = credentialsProvider,
-            endpoint = AWSEndpoint(endpoint)
-        )
-        awsServiceConfiguration = configuration
-    }
+    actual val endpointAWS: String
+        get() = endpoint
 
     /**
      *
@@ -85,31 +79,28 @@ actual class AwsS3 actual constructor(
      * @return A pre-signed URL which expires at the specified time, and can be
      * used to allow anyone to download the specified object from S3,
      * without exposing the owner's AWS secret access key.
-     * @throws AmazonClientException If there were any problems pre-signing the
+     * @throws Exception If there were any problems pre-signing the
      * request for the specified S3 object.
      * @see AwsS3.generatePresignedUrl
      */
-    @OptIn(ExperimentalForeignApi::class)
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,
         expiration: Instant
     ): String? {
-
         return try {
-            val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
-            preSignedURLRequest.apply {
-                bucket = bucketName
-                this.key = key
-                expires = NSDate(expiration.toEpochMilliseconds().toDouble())
+            val date = Calendar.getInstance()
+            date.add(Calendar.MINUTE, 15)
+            val result =
+                client.generatePresignedUrl(bucketName, key, Date(expiration.toEpochMilliseconds()))
+            result.toString()
+        } catch (exception: AmazonS3Exception) {
+            when (exception.statusCode) {
+                404 -> throw FileNotFoundException("this key $key does not exist")
+                else -> {
+                    throw Exception("Exception is ${exception.message}", exception)
+                }
             }
-
-            val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
-                .getPreSignedURL(preSignedURLRequest)
-            val url = request.result() as NSURL
-            url.absoluteString
-        } catch (exception: Exception) {
-            throw AwsException("Exception is ${exception.message}", exception)
         }
     }
 
@@ -159,12 +150,11 @@ actual class AwsS3 actual constructor(
      * @return A pre-signed URL which expires at the specified time, and can be
      * used to allow anyone to download the specified object from S3,
      * without exposing the owner's AWS secret access key.
-     * @throws AwsException If there were any problems pre-signing the
+     * @throws Exception If there were any problems pre-signing the
      * request for the specified S3 object.
      * @see AwsS3.generatePresignedUrl
      * @see AwsS3.generatePresignedUrl
      */
-    @OptIn(ExperimentalForeignApi::class)
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,
@@ -172,20 +162,23 @@ actual class AwsS3 actual constructor(
         method: HttpMethod
     ): String? {
         return try {
-            val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
-            preSignedURLRequest.apply {
-                bucket = bucketName
-                this.key = key
-                setHTTPMethod(method.toAWSMethod())
-                expires = NSDate(expiration.toEpochMilliseconds().toDouble())
+            val date = Calendar.getInstance()
+            date.add(Calendar.MINUTE, 15)
+            val result =
+                client.generatePresignedUrl(
+                    bucketName,
+                    key,
+                    Date(expiration.toEpochMilliseconds()),
+                    method.toAWSMethod()
+                )
+            result.toString()
+        } catch (exception: AmazonS3Exception) {
+            when (exception.statusCode) {
+                404 -> throw FileNotFoundException("this key $key does not exist")
+                else -> {
+                    throw Exception("Exception is ${exception.message}", exception)
+                }
             }
-
-            val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
-                .getPreSignedURL(preSignedURLRequest)
-            val url = request.result() as NSURL
-            url.absoluteString
-        } catch (exception: Exception) {
-            throw AwsException("Exception is ${exception.message}", exception)
         }
     }
 
@@ -243,22 +236,22 @@ actual class AwsS3 actual constructor(
      * @see AwsS3.generatePresignedUrl
      * @see AwsS3.generatePresignedUrl
      */
-    @OptIn(ExperimentalForeignApi::class)
-    actual fun generatePresignedUrl(
-        generatePresignedUrlRequest: GeneratePresignedUrlRequest
-    ): String? {
+    actual fun generatePresignedUrl(generatePresignedUrlRequest: GeneratePresignedUrlRequest): String? {
         return try {
-            val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
-            preSignedURLRequest.apply {
-                bucket = generatePresignedUrlRequest.bucketName
-                key = generatePresignedUrlRequest.key
+            val result = client.generatePresignedUrl(
+                com.amazonaws.services.s3.model.GeneratePresignedUrlRequest(
+                    generatePresignedUrlRequest.bucketName,
+                    generatePresignedUrlRequest.key
+                )
+            )
+            result.toString()
+        } catch (exception: AmazonS3Exception) {
+            when (exception.statusCode) {
+                404 -> throw FileNotFoundException("this key ${generatePresignedUrlRequest.key} does not exist")
+                else -> {
+                    throw Exception("Exception is ${exception.message}", exception)
+                }
             }
-            val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
-                .getPreSignedURL(preSignedURLRequest)
-            val url = request.result() as NSURL
-            url.absoluteString
-        } catch (exception: Exception) {
-            throw AwsException("Exception is ${exception.message}", exception)
         }
     }
 
@@ -287,5 +280,3 @@ actual class AwsS3 actual constructor(
         }
     }
 }
-
-actual fun AwsS3Builder(): AwsS3.Builder = AwsS3.Builder()

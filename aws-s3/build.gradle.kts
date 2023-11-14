@@ -21,6 +21,7 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+    jvm()
 
     cocoapods {
         ios.deploymentTarget = "11.0"
@@ -29,6 +30,7 @@ kotlin {
         }
         noPodspec()
 
+        pod("AWSCore")
         pod("AWSS3")
     }
     
@@ -48,6 +50,13 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("com.amazonaws:aws-android-sdk-s3:2.73.0")
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                implementation(projects.awsCommon)
+                implementation(project.dependencies.platform("com.amazonaws:aws-java-sdk-bom:1.12.529"))
+                implementation("com.amazonaws:aws-java-sdk-s3")
             }
         }
     }

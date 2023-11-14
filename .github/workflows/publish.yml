@@ -11,7 +11,6 @@ on:
       - develop
 
 jobs:
-  #
   release:
     name: Create release
     needs: publish

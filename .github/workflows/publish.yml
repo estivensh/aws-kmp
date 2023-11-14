@@ -1,9 +1,12 @@
 name: Create release
 
 on:
-  push:
-    tags:
-      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        default: '0.1.0'
+        required: true
 
 jobs:
   publish:

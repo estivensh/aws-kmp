@@ -4,7 +4,9 @@ import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
 import com.amazonaws.regions.Regions
 import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.AmazonS3Builder
 import com.amazonaws.services.s3.AmazonS3Client
+import com.amazonaws.services.s3.AmazonS3ClientBuilder
 import com.amazonaws.services.s3.S3ClientOptions
 import com.amazonaws.services.s3.model.AmazonS3Exception
 import com.estivensh4.aws_s3.util.toAWSMethod
@@ -23,14 +25,12 @@ actual class AwsS3 actual constructor(
             val credentials = AWSStaticCredentialsProvider(
                 BasicAWSCredentials(accessKey, secretKey)
             )
-            return AmazonS3Client.builder()
-                .withCredentials(credentials)
+            return AmazonS3ClientBuilder.standard()
                 .withRegion(Regions.US_EAST_1)
+                .withCredentials(credentials)
+                .enablePathStyleAccess()
+                .disableChunkedEncoding()
                 .build()
-                .apply {
-                    setEndpoint(endpoint)
-                    setS3ClientOptions(S3ClientOptions.builder().setPathStyleAccess(true).build())
-                }
         }
 
     actual val endpointAWS: String

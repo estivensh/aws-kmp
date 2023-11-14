@@ -36,7 +36,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.kotlinx.datetime)
-                implementation("io.github.estivensh4:aws-s3:0.3.0")
+                implementation("io.github.estivensh4:aws-s3:0.3.2")
             }
         }
         val commonTest by getting {

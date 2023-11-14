@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinCocoapods).apply(false)
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.kotlinAndroid) apply false
+    id("io.kotest.multiplatform") version "5.8.0" apply false
 }
 
 buildscript {
@@ -26,4 +27,8 @@ allprojects {
         group = "io.github.estivensh4"
         version = aws.versions.aws.get()
     }
+}
+
+subprojects {
+    apply(plugin = "io.kotest.multiplatform")
 }

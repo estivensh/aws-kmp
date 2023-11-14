@@ -18,6 +18,7 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+    jvm()
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -26,15 +27,16 @@ kotlin {
         ios.deploymentTarget = "14.1"
         framework {
             baseName = "shared"
+            export(libs.kotlinx.datetime)
         }
-        pod("AWSS3")
+        pod("AWSS3", "~> 2.33.4")
     }
     
     sourceSets {
         val commonMain by getting {
             dependencies {
                 api(libs.kotlinx.datetime)
-                api(projects.awsS3)
+                implementation("io.github.estivensh4:aws-s3:0.3.2")
             }
         }
         val commonTest by getting {

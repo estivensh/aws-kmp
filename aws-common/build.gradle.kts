@@ -2,12 +2,13 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
+    id("javadoc-stub-convention")
     id("publication-convention")
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
 
     androidTarget {
         publishAllLibraryVariants()
@@ -20,6 +21,7 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+    jvm()
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -33,12 +35,8 @@ kotlin {
     }
     
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                //put your multiplatform dependencies here
-            }
-        }
-        val commonTest by getting {
+        commonMain
+        commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
             }

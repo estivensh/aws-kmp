@@ -1,0 +1,28 @@
+PODS:
+  - AWSCore (2.33.4)
+  - AWSS3 (2.33.4):
+    - AWSCore (= 2.33.4)
+  - shared (1.0):
+    - AWSS3 (~> 2.33.4)
+
+DEPENDENCIES:
+  - AWSS3 (~> 2.33.4)
+  - shared (from `../shared`)
+
+SPEC REPOS:
+  trunk:
+    - AWSCore
+    - AWSS3
+
+EXTERNAL SOURCES:
+  shared:
+    :path: "../shared"
+
+SPEC CHECKSUMS:
+  AWSCore: 83e3416d2224ba98b61d8eadcfcb1f90f48fab82
+  AWSS3: a0d31bc565dc8a6c5eaa756610ac15704c100674
+  shared: 1cfc236f5491e7e5a45539f90cc2a3fc382129ad
+
+PODFILE CHECKSUM: 3b18a239dee7366777d74cfdf76cb037975b13df
+
+COCOAPODS: 1.12.1

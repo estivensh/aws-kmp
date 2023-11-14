@@ -11,6 +11,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
     }
     versionCatalogs {
         create("aws") {
@@ -23,6 +24,3 @@ rootProject.name = "aws-kmp"
 includeBuild("build-logic")
 include(":aws-common")
 include(":aws-s3")
-include(":example")
-include(":example:androidapp")
-include(":example:shared")

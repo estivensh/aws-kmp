@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AWSCore/AWSCore.framework
+${BUILT_PRODUCTS_DIR}/AWSS3/AWSS3.framework
+${PODS_ROOT}/../../shared/build/cocoapods/framework/shared.framework

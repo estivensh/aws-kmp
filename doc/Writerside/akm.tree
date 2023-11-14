@@ -7,7 +7,5 @@
                  start-page="Default-topic.md">
 
     <toc-element topic="Default-topic.md"/>
-    <toc-element topic="Play-with-semantic-attributes.md"/>
-    <toc-element topic="Convert-Markdown-to-XML.md"/>
-    <toc-element topic="Quickly-add-images-links-and-tables.md"/>
+    <toc-element topic="Generate-Presigned-Url.md"/>
 </instance-profile>

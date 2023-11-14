@@ -2,13 +2,14 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
+    id("javadoc-stub-convention")
     id("publication-convention")
 }
 
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
 
     androidTarget {
         publishAllLibraryVariants()
@@ -21,6 +22,7 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+    jvm()
 
     cocoapods {
         ios.deploymentTarget = "11.0"
@@ -29,25 +31,43 @@ kotlin {
         }
         noPodspec()
 
+        pod("AWSCore")
         pod("AWSS3")
     }
     
     sourceSets {
-        val commonMain by getting {
+        androidNativeTest {
+            dependencies {
+                implementation(libs.kotest.runner)
+                implementation("io.mockk:mockk:1.13.8")
+                implementation(libs.kotlinx.coroutines.test)
+            }
+        }
+        commonTest {
+            dependencies {
+                implementation(libs.kotlin.test)
+                implementation(libs.kotest.assertions)
+                implementation(libs.kotest.engine)
+                implementation(libs.kotest.property)
+            }
+        }
+        commonMain {
             dependencies {
                 implementation(projects.awsCommon)
                 implementation(libs.kotlinx.datetime)
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
             }
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(libs.kotlin.test)
-            }
-        }
-        val androidMain by getting {
+        androidMain {
             dependencies {
                 implementation("com.amazonaws:aws-android-sdk-s3:2.73.0")
+            }
+        }
+        jvmMain {
+            dependencies {
+                implementation(projects.awsCommon)
+                implementation(project.dependencies.platform("com.amazonaws:aws-java-sdk-bom:1.12.529"))
+                implementation("com.amazonaws:aws-java-sdk-s3")
             }
         }
     }
@@ -58,5 +78,14 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 26
+    }
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
+    buildTypes {
+        getByName("debug") {
+            enableAndroidTestCoverage = true
+            enableUnitTestCoverage = true
+        }
     }
 }

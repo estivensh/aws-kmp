@@ -17,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.estivensh4.androidapp.ui.theme.AwskmpTheme
-import com.estivensh4.aws_s3.AwsS3
 import com.estivensh4.shared.ExampleViewModel
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit

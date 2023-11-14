@@ -19,4 +19,26 @@
         </description>
         <accepts>Add-semantic-elements-to-Markdown.html</accepts>
     </rule>
+    <rule id="318e069c">
+        <description>Created after removal of "S3" from AWS Kotlin Multiplatform</description>
+        <accepts>S3.html</accepts>
+    </rule>
+    <rule id="2035d9c3">
+        <description>Created after removal of "Overview" from AWS Kotlin Multiplatform</description>
+        <accepts>Overview.html</accepts>
+    </rule>
+    <rule id="4ec45a94">
+        <description>Created after removal of "Use semantic attributes in Markdown" from AWS Kotlin Multiplatform
+        </description>
+        <accepts>Play-with-semantic-attributes.html</accepts>
+    </rule>
+    <rule id="2a3a2ea1">
+        <description>Created after removal of "Convert Markdown to XML" from AWS Kotlin Multiplatform</description>
+        <accepts>Convert-Markdown-to-XML.html</accepts>
+    </rule>
+    <rule id="16415d6e">
+        <description>Created after removal of "Quickly add images, links, and tables" from AWS Kotlin Multiplatform
+        </description>
+        <accepts>Quickly-add-images-links-and-tables.html</accepts>
+    </rule>
 </rules>

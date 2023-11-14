@@ -1,26 +1,29 @@
-name: Create release
-
 on:
-  pull_request:
-    branches:
-      - master
-      - develop
+  push:
+    # Sequence of patterns matched against refs/tags
+    tags:
+      - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+name: Create Release
 
 jobs:
-  #
-  release:
-    name: Create release
-    needs: publish
+  build:
+    name: Create Release
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@master
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: actions/create-release@latest
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
         with:
-          commitish: ${{ github.ref }}
-          tag_name: release/${{ github.event.inputs.version }}
-          release_name: ${{ github.event.inputs.version }}
-          body: "Will be filled later"
-          draft: true
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Changes in this Release
+            - First Change
+            - Second Change
+          draft: false
+          prerelease: false

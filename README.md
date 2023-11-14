@@ -10,6 +10,9 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.estivensh4/aws-common)](https://mvnrepository.com/artifact/io.github.estivensh4)
 [![Kotlin](https://img.shields.io/badge/kotlin-1.9.20-blue.svg?logo=kotlin)](http://kotlinlang.org)
 [![GitHub License](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](http://www.apache.org/licenses/LICENSE-2.0)
+![badge][badge-android]
+![badge][badge-ios]
+![badge][badge-jvm]
 
 [Documentation](https://estivensh4.github.io/aws-kmp/default-topic.html)
 

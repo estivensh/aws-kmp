@@ -18,6 +18,7 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+    jvm()
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -35,7 +36,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.kotlinx.datetime)
-                implementation("io.github.estivensh4:aws-s3:0.2.0")
+                implementation("io.github.estivensh4:aws-s3:0.3.0")
             }
         }
         val commonTest by getting {

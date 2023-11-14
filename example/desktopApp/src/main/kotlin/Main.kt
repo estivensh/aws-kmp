@@ -9,15 +9,24 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
+import com.estivensh4.shared.ExampleViewModel
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.plus
 
 @Composable
 @Preview
 fun App() {
     var text by remember { mutableStateOf("Hello") }
+    val exampleViewModel = ExampleViewModel()
 
     MaterialTheme {
         Button(onClick = {
-            text = "Hello, Desktop!"
+            text = exampleViewModel.generatePresignedUrl(
+                bucketName = "bucket",
+                key = "key",
+                expiration = Clock.System.now().plus(15, DateTimeUnit.HOUR)
+            ) ?: ""
         }) {
             Text(text)
         }

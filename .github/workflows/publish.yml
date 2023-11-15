@@ -25,7 +25,7 @@ jobs:
         with:
           java-version: 17
       - name: Publish library
-        run: ./gradlew publish
+        run: ./gradlew aws-common:signAndroidDebugPublication
   release:
     name: Create release
     needs: publish

@@ -9,9 +9,9 @@ on:
         required: true
 
 jobs:
-  publish:
+  build:
     name: Publish library at mavenCentral
-    runs-on: macOS-latest
+    runs-on: macos-latest
     env:
       ossrhUsername: ${{ secrets.OSSH_USERNAME }}
       ossrhPassword: ${{ secrets.OSSH_PASSWORD }}

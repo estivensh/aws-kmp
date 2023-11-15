@@ -34,7 +34,7 @@ jobs:
         run: ./gradlew :aws-common:publish
   release:
     name: Create release
-    needs: publish
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Create Release

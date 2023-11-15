@@ -28,8 +28,10 @@ jobs:
           cache: gradle
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Publish library
-        run: ./gradlew aws-common:signAndroidDebugPublication
+      - name: Publish Common
+        run: ./gradlew :aws-common:publish
+      - name: Publish Common
+        run: ./gradlew :aws-common:publish
   release:
     name: Create release
     needs: publish

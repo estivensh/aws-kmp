@@ -15,7 +15,6 @@ publishing {
     }
 
     publications.withType<MavenPublication> {
-        // Provide artifacts information requited by Maven Central
         pom {
             name.set("AWS Kotlin Multiplatform")
             description.set("aws is an extension for kotlin cross-platform currently android/iOS")

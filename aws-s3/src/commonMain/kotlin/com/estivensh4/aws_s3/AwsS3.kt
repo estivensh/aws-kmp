@@ -61,6 +61,7 @@ expect class AwsS3 private constructor(
      * @see AwsS3.generatePresignedUrl
      */
     fun generatePresignedUrl(bucketName: String, key: String, expiration: Instant): String?
+
     /**
      *
      *
@@ -174,6 +175,83 @@ expect class AwsS3 private constructor(
      * @see AwsS3.generatePresignedUrl
      */
     fun generatePresignedUrl(generatePresignedUrlRequest: GeneratePresignedUrlRequest): String?
+
+    /**
+     *
+     *
+     * Creates a new Amazon S3 bucket with the specified name in the default
+     * (US) region, [Region.US_Standard].
+     *
+     *
+     *
+     * Every object stored in Amazon S3 is contained within a bucket. Buckets
+     * partition the namespace of objects stored in Amazon S3 at the top level.
+     * Within a bucket, any name can be used for objects. However, bucket names
+     * must be unique across all of Amazon S3.
+     *
+     *
+     *
+     * Bucket ownership is similar to the ownership of Internet domain names.
+     * Within Amazon S3, only a single user owns each bucket. Once a uniquely
+     * named bucket is created in Amazon S3, organize and name the objects
+     * within the bucket in any way. Ownership of the bucket is retained as long
+     * as the owner has an Amazon S3 account.
+     *
+     *
+     *
+     * To conform with DNS requirements, the following constraints apply:
+     *
+     *  * Bucket names should not contain underscores
+     *  * Bucket names should be between 3 and 63 characters long
+     *  * Bucket names should not end with a dash
+     *  * Bucket names cannot contain adjacent periods
+     *  * Bucket names cannot contain dashes next to periods (e.g.,
+     * "my-.bucket.com" and "my.-bucket" are invalid)
+     *  * Bucket names cannot contain uppercase characters
+     *
+     *
+     *
+     *
+     * There are no limits to the number of objects that can be stored in a
+     * bucket. Performance does not vary based on the number of buckets used.
+     * Store all objects within a single bucket or organize them across several
+     * buckets.
+     *
+     *
+     *
+     * Buckets cannot be nested; buckets cannot be created within other buckets.
+     *
+     *
+     *
+     * Do not make bucket create or delete calls in the high availability code
+     * path of an application. Create or delete buckets in a separate
+     * initialization or setup routine that runs less often.
+     *
+     *
+     *
+     * To create a bucket, authenticate with an account that has a valid AWS
+     * Access Key ID and is registered with Amazon S3. Anonymous requests are
+     * never allowed to create buckets.
+     *
+     *
+     * @param bucketName The name of the bucket to create. All buckets in Amazon
+     * S3 share a single namespace; ensure the bucket is given a
+     * unique name.
+     * @return The newly created bucket.
+     * @throws AwsException If any errors are encountered in the client
+     * while making the request or handling the response.
+     */
+    suspend fun createBucket(bucketName: String): Bucket
+
+    suspend fun listBuckets(): List<Bucket>
+
+    suspend fun deleteBucket(bucketName: String)
+    suspend fun deleteObjects(bucketName: String, vararg keys: String): DeleteObjectResult
+    suspend fun putObject(
+        bucketName: String,
+        key: String,
+        imageFile: ImageFile
+    ): PutObjectResult
 
     class Builder() {
         fun accessKey(accessKey: String): Builder

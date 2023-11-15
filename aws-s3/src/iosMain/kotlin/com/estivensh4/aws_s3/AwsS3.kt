@@ -1,15 +1,25 @@
 package com.estivensh4.aws_s3
 
-import cocoapods.AWSCore.AWSEndpoint
-import cocoapods.AWSCore.AWSRegionType
 import cocoapods.AWSCore.AWSServiceConfiguration
-import cocoapods.AWSCore.AWSStaticCredentialsProvider
+import cocoapods.AWSS3.AWSRequest
+import cocoapods.AWSS3.AWSS3
+import cocoapods.AWSS3.AWSS3Bucket
+import cocoapods.AWSS3.AWSS3CreateBucketRequest
+import cocoapods.AWSS3.AWSS3DeleteBucketRequest
+import cocoapods.AWSS3.AWSS3DeleteObjectsRequest
+import cocoapods.AWSS3.AWSS3DeletedObject
 import cocoapods.AWSS3.AWSS3GetPreSignedURLRequest
 import cocoapods.AWSS3.AWSS3PreSignedURLBuilder
+import cocoapods.AWSS3.AWSS3PutObjectRequest
+import cocoapods.AWSS3.AWSS3Remove
 import com.estivensh4.aws_kmp.AwsException
+import com.estivensh4.aws_s3.util.await
+import com.estivensh4.aws_s3.util.awaitResult
 import com.estivensh4.aws_s3.util.toAWSMethod
 import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Instant
+import kotlinx.datetime.toInstant
 import platform.Foundation.NSDate
 import platform.Foundation.NSURL
 
@@ -23,22 +33,8 @@ actual class AwsS3 actual constructor(
     actual val endpointAWS get() = ""
     private var awsServiceConfiguration: AWSServiceConfiguration? = null
 
-    init {
-        initS3()
-    }
-
-    private fun initS3() {
-        val credentialsProvider = AWSStaticCredentialsProvider(
-            accessKey,
-            secretKey
-        )
-        val configuration = AWSServiceConfiguration(
-            region = AWSRegionType.AWSRegionAPEast1,
-            credentialsProvider = credentialsProvider,
-            endpoint = AWSEndpoint(endpoint)
-        )
-        awsServiceConfiguration = configuration
-    }
+    private val client: AWSS3
+        get() = AWSS3.defaultS3()
 
     /**
      *
@@ -286,4 +282,144 @@ actual class AwsS3 actual constructor(
             return AwsS3(accessKey, secretKey, endpoint)
         }
     }
+
+    /**
+     *
+     *
+     * Creates a new Amazon S3 bucket with the specified name in the default
+     * (US) region, [Region.US_Standard].
+     *
+     *
+     *
+     * Every object stored in Amazon S3 is contained within a bucket. Buckets
+     * partition the namespace of objects stored in Amazon S3 at the top level.
+     * Within a bucket, any name can be used for objects. However, bucket names
+     * must be unique across all of Amazon S3.
+     *
+     *
+     *
+     * Bucket ownership is similar to the ownership of Internet domain names.
+     * Within Amazon S3, only a single user owns each bucket. Once a uniquely
+     * named bucket is created in Amazon S3, organize and name the objects
+     * within the bucket in any way. Ownership of the bucket is retained as long
+     * as the owner has an Amazon S3 account.
+     *
+     *
+     *
+     * To conform with DNS requirements, the following constraints apply:
+     *
+     *  * Bucket names should not contain underscores
+     *  * Bucket names should be between 3 and 63 characters long
+     *  * Bucket names should not end with a dash
+     *  * Bucket names cannot contain adjacent periods
+     *  * Bucket names cannot contain dashes next to periods (e.g.,
+     * "my-.bucket.com" and "my.-bucket" are invalid)
+     *  * Bucket names cannot contain uppercase characters
+     *
+     *
+     *
+     *
+     * There are no limits to the number of objects that can be stored in a
+     * bucket. Performance does not vary based on the number of buckets used.
+     * Store all objects within a single bucket or organize them across several
+     * buckets.
+     *
+     *
+     *
+     * Buckets cannot be nested; buckets cannot be created within other buckets.
+     *
+     *
+     *
+     * Do not make bucket create or delete calls in the high availability code
+     * path of an application. Create or delete buckets in a separate
+     * initialization or setup routine that runs less often.
+     *
+     *
+     *
+     * To create a bucket, authenticate with an account that has a valid AWS
+     * Access Key ID and is registered with Amazon S3. Anonymous requests are
+     * never allowed to create buckets.
+     *
+     *
+     * @param bucketName The name of the bucket to create. All buckets in Amazon
+     * S3 share a single namespace; ensure the bucket is given a
+     * unique name.
+     * @return The newly created bucket.
+     * @throws AwsException If any errors are encountered in the client
+     * while making the request or handling the response.
+     */
+    @Suppress("CAST_NEVER_SUCCEEDS")
+    actual suspend fun createBucket(bucketName: String) = runBlocking {
+        val request = AWSS3CreateBucketRequest()
+        request.bucket = bucketName
+
+        val result = awaitResult { client.createBucket(request, it) } as AWSS3Bucket
+
+        return@runBlocking result.toBucket()
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    actual suspend fun listBuckets(): List<Bucket> {
+        val request = AWSRequest()
+        val output = awaitResult { client.listBuckets(request, it) }
+        val result = output.buckets as List<AWSS3Bucket>
+        return result.map { it.toBucket() }
+    }
+
+    actual suspend fun deleteBucket(bucketName: String) {
+        val request = AWSS3DeleteBucketRequest()
+        request.bucket = bucketName
+        await { client.deleteBucket(request, it) }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    actual suspend fun deleteObjects(bucketName: String, vararg keys: String): DeleteObjectResult {
+        val deleteObjectsRequest = AWSS3DeleteObjectsRequest()
+        deleteObjectsRequest.bucket = bucketName
+        val s3Remove = AWSS3Remove()
+        s3Remove.setObjects(listOf(keys))
+        deleteObjectsRequest.setRemove(s3Remove)
+        val deleteObjectsOutput = awaitResult { client.deleteObjects(deleteObjectsRequest, it) }
+        val awsS3DeletedObjects = deleteObjectsOutput.deleted as List<AWSS3DeletedObject>
+        return DeleteObjectResult(
+            isRequesterCharged = false,
+            deleted = awsS3DeletedObjects.map {
+                DeleteObject(
+                    key = it.key,
+                    versionId = it.versionId,
+                    deleteMarker = it.deleteMarker?.boolValue,
+                    deleteMarkerVersionId = it.deleteMarkerVersionId
+                )
+            }
+        )
+    }
+
+    actual suspend fun putObject(
+        bucketName: String,
+        key: String,
+        imageFile: ImageFile
+    ): PutObjectResult {
+        val putObjectRequest = AWSS3PutObjectRequest().apply {
+            this.bucket = bucketName
+            this.key = key
+            this.body = imageFile.toByteArray()
+        }
+        val result = awaitResult { client.putObject(putObjectRequest, it) }
+        return PutObjectResult(
+            versionId = result.versionId,
+            eTag = result.ETag,
+            expirationTime = result.expiration?.toInstant(),
+            contentMd5 = result.SSECustomerKeyMD5,
+        )
+    }
+}
+
+@OptIn(ExperimentalForeignApi::class)
+fun AWSS3Bucket.toBucket(): Bucket {
+    return Bucket(
+        name = name ?: "",
+        creationDate = Instant.fromEpochMilliseconds(
+            creationDate?.timeIntervalSinceReferenceDate?.toLong() ?: 0L
+        )
+    )
 }

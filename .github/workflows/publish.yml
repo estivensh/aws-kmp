@@ -8,16 +8,16 @@ on:
         default: '0.1.0'
         required: true
 
+env:
+  ossrhUsername: ${{ secrets.OSSH_USERNAME }}
+  ossrhPassword: ${{ secrets.OSSH_PASSWORD }}
+  signingKey: ${{ secrets.SIGNING_KEY }}
+  signingPassword: ${{ secrets.SIGNING_PASS }}
+
 jobs:
   build:
     name: Publish library at mavenCentral
     runs-on: macos-latest
-    env:
-      ossrhUsername: ${{ secrets.OSSH_USERNAME }}
-      ossrhPassword: ${{ secrets.OSSH_PASSWORD }}
-      signingKey: ${{ secrets.SIGNING_KEY }}
-      signingPassword: ${{ secrets.SIGNING_PASS }}
-
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11

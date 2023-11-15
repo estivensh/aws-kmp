@@ -15,8 +15,8 @@ jobs:
     env:
       ossrhUsername: ${{ secrets.OSSH_USERNAME }}
       ossrhPassword: ${{ secrets.OSSH_PASSWORD }}
-      ORG_GRADLE_PROJECT_signingKey: ${{ secrets.SIGNING_KEY }}
-      ORG_GRADLE_PROJECT_signingPassword: ${{ secrets.SIGNING_PASS }}
+      signingKey: ${{ secrets.SIGNING_KEY }}
+      signingPassword: ${{ secrets.SIGNING_PASS }}
 
     steps:
       - uses: actions/checkout@v1

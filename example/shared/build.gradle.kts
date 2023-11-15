@@ -1,12 +1,17 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.native.coroutines)
+    alias(libs.plugins.ksp)
+    id("com.codingfeline.buildkonfig") version "0.15.0"
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
 
     androidTarget {
         compilations.all {
@@ -19,6 +24,10 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     jvm()
+
+    kotlin.sourceSets.all {
+        languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+    }
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -36,7 +45,8 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.kotlinx.datetime)
-                implementation("io.github.estivensh4:aws-s3:0.3.2")
+                implementation("io.github.estivensh4:aws-s3:0.4.0")
+                api(libs.kmm.viewmodel.core)
             }
         }
         val commonTest by getting {
@@ -52,5 +62,19 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 26
+    }
+
+}
+
+buildkonfig {
+
+    val localProperties = Properties()
+    localProperties.load(rootProject.file("local.properties").reader())
+
+    packageName = "com.estivensh4.shared"
+    exposeObjectWithName = "BuildPublicConfig"
+    defaultConfigs {
+        buildConfigField(STRING, "accessKey", localProperties.getProperty("AWS_ACCESS_KEY"))
+        buildConfigField(STRING, "secretKey", localProperties.getProperty("AWS_SECRET_KEY"))
     }
 }

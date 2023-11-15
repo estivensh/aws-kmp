@@ -1,5 +1,5 @@
 [versions]
-aws = "0.4.0"
+aws = "0.4.1"
 
 [libraries]
 aws-common = { module = "io.github.estivensh4:aws-common", version.ref = "aws" }

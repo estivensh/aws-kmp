@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -17,7 +17,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.estivensh4.androidapp.ui.theme.AwskmpTheme
-import com.estivensh4.shared.ExampleViewModel
+import com.estivensh4.shared.SampleViewModel
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
@@ -41,11 +41,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     var text by remember { mutableStateOf("") }
-    val exampleViewModel = ExampleViewModel()
+    val sampleViewModel = SampleViewModel()
 
-    Button(
-        onClick = {
-            text = exampleViewModel.generatePresignedUrl(
+    Column {
+        CButton(text = "GeneratePresignedURL") {
+            text = sampleViewModel.generatePresignedUrl(
                 bucketName = "bucket",
                 key = "key",
                 expiration = Clock.System.now().plus(15, DateTimeUnit.HOUR)
@@ -53,10 +53,22 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 
             Log.d("AwsS3", text)
         }
+        CButton(text = "Create bucket") {
+            sampleViewModel.createBucket("test-bucket-android-app")
+        }
+    }
+}
+
+@Composable
+fun CButton(
+    text: String,
+    onClick: ()  -> Unit
+) {
+    Button(
+        onClick = onClick
     ) {
         Text(
             text = text,
-            modifier = modifier
         )
     }
 }

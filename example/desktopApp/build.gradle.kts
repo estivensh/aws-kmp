@@ -15,6 +15,7 @@ repositories {
 }
 
 dependencies {
+    implementation("io.github.estivensh4:aws-s3:0.4.0")
     implementation(projects.shared)
     implementation(compose.desktop.currentOs)
 }

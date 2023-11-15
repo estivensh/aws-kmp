@@ -11,7 +11,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/compose/dev") }
+        maven(url = "https://packages.jetbrains.team/maven/p/aws-sdk-kotlin/dev")
     }
 }
 

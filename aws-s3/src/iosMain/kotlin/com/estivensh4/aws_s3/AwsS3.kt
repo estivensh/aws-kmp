@@ -17,7 +17,7 @@ import com.estivensh4.aws_s3.util.await
 import com.estivensh4.aws_s3.util.awaitResult
 import com.estivensh4.aws_s3.util.toAWSMethod
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 import platform.Foundation.NSDate
@@ -349,13 +349,13 @@ actual class AwsS3 actual constructor(
      * while making the request or handling the response.
      */
     @Suppress("CAST_NEVER_SUCCEEDS")
-    actual suspend fun createBucket(bucketName: String) = runBlocking {
+    actual suspend fun createBucket(bucketName: String): Bucket {
         val request = AWSS3CreateBucketRequest()
         request.bucket = bucketName
 
         val result = awaitResult { client.createBucket(request, it) } as AWSS3Bucket
 
-        return@runBlocking result.toBucket()
+        return result.toBucket()
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -417,9 +417,9 @@ actual class AwsS3 actual constructor(
 @OptIn(ExperimentalForeignApi::class)
 fun AWSS3Bucket.toBucket(): Bucket {
     return Bucket(
-        name = name ?: "",
-        creationDate = Instant.fromEpochMilliseconds(
-            creationDate?.timeIntervalSinceReferenceDate?.toLong() ?: 0L
-        )
+        name = name,
+        creationDate = creationDate?.timeIntervalSinceReferenceDate?.toLong()?.let {
+            Instant.fromEpochMilliseconds(it)
+        }
     )
 }

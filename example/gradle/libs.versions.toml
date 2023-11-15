@@ -22,6 +22,9 @@ legacy-support-v4 = "1.0.0"
 recyclerview = "1.3.0"
 compose-material = "1.0.0"
 compose-foundation = "1.0.0"
+kmmViewModelVersion = "1.0.0-ALPHA-15"
+native-coroutines = "1.0.0-ALPHA-20"
+ksp = "1.9.20-1.0.14"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -51,8 +54,10 @@ legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", ver
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "compose-material" }
 androidx-wear-compose-compose-foundation = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "compose-foundation" }
+kmm-viewmodel-core = { module = "com.rickclephas.kmm:kmm-viewmodel-core", version.ref = "kmmViewModelVersion" }
 
 [plugins]
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
@@ -60,4 +65,5 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 org-jetbrains-compose = { id = "org.jetbrains.compose", version="1.5.4" }
+native-coroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "native-coroutines" }
 

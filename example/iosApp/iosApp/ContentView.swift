@@ -7,8 +7,8 @@ import PhotosUI
 struct ContentView: View {
 	
     @StateViewModel var sampleViewModel = SampleViewModel()
-    let bucketName = "test-bucket-desktop-app"
-    let key = "test.jpg"
+    let bucketName = "test-bucket-ios-app"
+    let key = "test (4).jpg"
     @State private var selectedItem: PhotosPickerItem? = nil
     @State private var selectedImageData: Data? = nil
     

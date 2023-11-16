@@ -27,6 +27,7 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 import platform.Foundation.NSDate
 import platform.Foundation.NSURL
+import platform.Foundation.URLByAppendingPathComponent
 import platform.Foundation.dateByAddingTimeInterval
 
 @OptIn(ExperimentalForeignApi::class)
@@ -89,24 +90,16 @@ actual class AWSS3 actual constructor(
      * @see AWSS3.generatePresignedUrl
      */
     @OptIn(ExperimentalForeignApi::class)
-    actual fun generatePresignedUrl(
+    actual suspend fun generatePresignedUrl(
         bucketName: String,
         key: String,
         expirationInSeconds: Long
     ): String? {
 
         return try {
-            val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
-            preSignedURLRequest.apply {
-                this.bucket = bucketName
-                this.key = key
-                this.expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
-            }
-
-            val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
-                .getPreSignedURL(preSignedURLRequest)
-            val url = request.result() as NSURL
-            url.absoluteString
+            client.configuration.endpoint()?.URL()?.URLByAppendingPathComponent(
+                bucketName
+            )?.URLByAppendingPathComponent(key)?.absoluteString
         } catch (exception: Exception) {
             throw Exception("Exception is ${exception.message}", exception)
         }
@@ -163,7 +156,7 @@ actual class AWSS3 actual constructor(
      * @see AWSS3.generatePresignedUrl
      */
     @OptIn(ExperimentalForeignApi::class)
-    actual fun generatePresignedUrl(
+    actual suspend fun generatePresignedUrl(
         bucketName: String,
         key: String,
         expirationInSeconds: Long,
@@ -241,7 +234,7 @@ actual class AWSS3 actual constructor(
      * @see AWSS3.generatePresignedUrl
      */
     @OptIn(ExperimentalForeignApi::class)
-    actual fun generatePresignedUrl(
+    actual suspend fun generatePresignedUrl(
         generatePresignedUrlRequest: GeneratePresignedUrlRequest
     ): String? {
         return try {

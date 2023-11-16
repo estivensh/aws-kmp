@@ -88,7 +88,7 @@ actual class AWSS3 actual constructor(
      * request for the specified S3 object.
      * @see AWSS3.generatePresignedUrl
      */
-    actual fun generatePresignedUrl(
+    actual suspend fun generatePresignedUrl(
         bucketName: String,
         key: String,
         expirationInSeconds: Long
@@ -158,7 +158,7 @@ actual class AWSS3 actual constructor(
      * request for the specified S3 object.
      * @see AWSS3.generatePresignedUrl
      */
-    actual fun generatePresignedUrl(
+    actual suspend fun generatePresignedUrl(
         bucketName: String,
         key: String,
         expirationInSeconds: Long,
@@ -238,7 +238,7 @@ actual class AWSS3 actual constructor(
      * @see AWSS3.generatePresignedUrl
      * @see AWSS3.generatePresignedUrl
      */
-    actual fun generatePresignedUrl(
+    actual suspend fun generatePresignedUrl(
         generatePresignedUrlRequest: GeneratePresignedUrlRequest
     ): String? {
         return try {

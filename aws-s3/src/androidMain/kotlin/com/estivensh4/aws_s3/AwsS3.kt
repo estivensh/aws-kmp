@@ -12,7 +12,7 @@ import com.estivensh4.aws_kmp.AwsException
 import com.estivensh4.aws_s3.util.toAWSMethod
 import kotlinx.datetime.Instant
 import java.io.FileNotFoundException
-import java.util.Date
+import java.util.Calendar
 
 
 actual class AwsS3 actual constructor(
@@ -89,10 +89,12 @@ actual class AwsS3 actual constructor(
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,
-        expiration: Instant
+        expirationInSeconds: Long
     ): String? {
         return try {
-            val result = client.generatePresignedUrl(bucketName, key, Date(expiration.epochSeconds))
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.SECOND, expirationInSeconds.toInt())
+            val result = client.generatePresignedUrl(bucketName, key, calendar.time)
             result.toString()
         } catch (exception: AmazonS3Exception) {
             when (exception.statusCode) {
@@ -158,14 +160,16 @@ actual class AwsS3 actual constructor(
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,
-        expiration: Instant,
+        expirationInSeconds: Long,
         method: HttpMethod
     ): String? {
         return try {
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.SECOND, expirationInSeconds.toInt())
             val result = client.generatePresignedUrl(
                 bucketName,
                 key,
-                Date(expiration.epochSeconds),
+                calendar.time,
                 method.toAWSMethod()
             )
             result.toString()

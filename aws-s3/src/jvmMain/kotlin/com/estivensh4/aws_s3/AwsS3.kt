@@ -9,7 +9,7 @@ import com.amazonaws.services.s3.model.AmazonS3Exception
 import com.amazonaws.services.s3.model.DeleteObjectsRequest
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.estivensh4.aws_s3.util.toAWSMethod
-import kotlinx.coroutines.runBlocking
+import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import java.io.FileNotFoundException
 import java.util.Calendar
@@ -347,9 +347,9 @@ actual class AwsS3 actual constructor(
      * @throws AwsException If any errors are encountered in the client
      * while making the request or handling the response.
      */
-    actual suspend fun createBucket(bucketName: String): Bucket = runBlocking {
+    actual suspend fun createBucket(bucketName: String): Bucket {
         val result = client.createBucket(bucketName)
-        return@runBlocking result.toBucket()
+        return result.toBucket()
     }
 
     actual suspend fun listBuckets(): List<Bucket> {
@@ -396,7 +396,7 @@ actual class AwsS3 actual constructor(
         return PutObjectResult(
             versionId = result.versionId,
             eTag = result.eTag,
-            expirationTime = Instant.fromEpochMilliseconds(result.expirationTime.time),
+            expirationTime = result.expirationTime?.let { Instant.fromEpochMilliseconds(it.time) },
             contentMd5 = result.contentMd5,
         )
     }
@@ -405,6 +405,6 @@ actual class AwsS3 actual constructor(
 fun com.amazonaws.services.s3.model.Bucket.toBucket(): Bucket {
     return Bucket(
         name = name,
-        creationDate = Instant.fromEpochMilliseconds(creationDate.time)
+        creationDate = creationDate?.let { Instant.fromEpochMilliseconds(it.time) }
     )
 }

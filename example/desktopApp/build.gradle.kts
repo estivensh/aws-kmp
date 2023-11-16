@@ -15,6 +15,7 @@ repositories {
 }
 
 dependencies {
+    implementation(libs.aws.s3)
     implementation(projects.shared)
     implementation(compose.desktop.currentOs)
 }

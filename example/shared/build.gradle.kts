@@ -1,12 +1,17 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.native.coroutines)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.buildKonfig)
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
+    applyDefaultHierarchyTemplate()
 
     androidTarget {
         compilations.all {
@@ -20,6 +25,10 @@ kotlin {
     iosSimulatorArm64()
     jvm()
 
+    kotlin.sourceSets.all {
+        languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+    }
+
     cocoapods {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
@@ -28,18 +37,20 @@ kotlin {
         framework {
             baseName = "shared"
             export(libs.kotlinx.datetime)
+            linkerOpts.add("-lsqlite3")
         }
         pod("AWSS3", "~> 2.33.4")
     }
-    
+
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(libs.kotlinx.datetime)
-                implementation("io.github.estivensh4:aws-s3:0.3.2")
+                api(libs.kmm.viewmodel.core)
+                implementation(libs.aws.s3)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
             }
@@ -49,8 +60,21 @@ kotlin {
 
 android {
     namespace = "com.estivensh4.shared"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 26
+        minSdk = libs.versions.minSdk.get().toInt()
+    }
+}
+
+buildkonfig {
+
+    val localProperties = Properties()
+    localProperties.load(rootProject.file("local.properties").reader())
+
+    packageName = "com.estivensh4.shared"
+    exposeObjectWithName = "BuildPublicConfig"
+    defaultConfigs {
+        buildConfigField(STRING, "accessKey", localProperties.getProperty("AWS_ACCESS_KEY"))
+        buildConfigField(STRING, "secretKey", localProperties.getProperty("AWS_SECRET_KEY"))
     }
 }

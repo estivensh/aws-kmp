@@ -1,69 +1,152 @@
-/* While this template provides a good starting point for using Wear Compose, you can always
- * take a look at https://github.com/android/wear-os-samples/tree/main/ComposeStarter and
- * https://github.com/android/wear-os-samples/tree/main/ComposeAdvanced to find the most up to date
- * changes to the libraries and their usages.
- */
-
 package com.estivensh4.wearapp.presentation
 
 import android.os.Bundle
+import android.os.StrictMode
+import android.os.StrictMode.ThreadPolicy
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.wear.compose.material.Button
 import androidx.wear.compose.material.MaterialTheme
+import androidx.wear.compose.material.PositionIndicator
+import androidx.wear.compose.material.Scaffold
+import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.Text
-import com.estivensh4.wearapp.R
+import androidx.wear.compose.material.TimeText
+import androidx.wear.compose.material.rememberScalingLazyListState
+import com.estivensh4.aws_s3.ImageFile
+import com.estivensh4.shared.SampleViewModel
 import com.estivensh4.wearapp.presentation.theme.ExampleTheme
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.plus
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val gfgPolicy = ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(gfgPolicy)
         setContent {
-            WearApp("Android")
+            WearApp()
         }
     }
 }
 
 @Composable
-fun WearApp(greetingName: String) {
+fun WearApp() {
     ExampleTheme {
-        /* If you have enough items in your list, use [ScalingLazyColumn] which is an optimized
-         * version of LazyColumn for wear devices with some added features. For more information,
-         * see d.android.com/wear/compose.
-         */
-        Column(
+        val sampleViewModel = SampleViewModel()
+        var generateUrlResult by remember { mutableStateOf("") }
+        val bucketName = "test-bucket-wear-app"
+        val state = rememberScalingLazyListState()
+        val context = LocalContext.current
+        val key = "test (1).jpg"
+        val date = Clock.System.now().plus(15, DateTimeUnit.HOUR)
+        val photoPicker = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia()
+        ) {
+            if (it != null) {
+                sampleViewModel.putObject(
+                    bucketName = bucketName,
+                    key = key,
+                    imageFile = ImageFile(
+                        uri = it,
+                        contentResolver = context.contentResolver
+                    )
+                )
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
+        }
+
+        Scaffold(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background),
-            verticalArrangement = Arrangement.Center
+            timeText = {
+                TimeText()
+            },
+            positionIndicator = {
+                PositionIndicator(scalingLazyListState = state)
+            }
         ) {
-            Greeting(greetingName = greetingName)
+            ScalingLazyColumn(
+                state = state,
+            ) {
+                item {
+                    Button(
+                        onClick = {
+                            generateUrlResult =
+                                sampleViewModel.generatePresignedUrl(bucketName, key, date) ?: ""
+                            Log.d("GeneratPresignedUrlResult", generateUrlResult)
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Generate presigned url")
+                    }
+                }
+                item {
+                    Button(
+                        onClick = { sampleViewModel.createBucket(bucketName) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Create bucket")
+                    }
+                }
+                item {
+                    Button(
+                        onClick = { sampleViewModel.listBuckets() },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "List buckets")
+                    }
+                }
+                item {
+                    Button(
+                        onClick = { sampleViewModel.deleteBucket(bucketName) },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Delete bucket")
+                    }
+                }
+
+                item {
+                    Button(
+                        onClick = {
+                            photoPicker.launch(
+                                PickVisualMediaRequest(
+                                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                                )
+                            )
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Put object")
+                    }
+                }
+            }
         }
     }
-}
-
-@Composable
-fun Greeting(greetingName: String) {
-    Text(
-        modifier = Modifier.fillMaxWidth(),
-        textAlign = TextAlign.Center,
-        color = MaterialTheme.colors.primary,
-        text = stringResource(R.string.hello_world, greetingName)
-    )
 }
 
 @Preview(device = Devices.WEAR_OS_SMALL_ROUND, showSystemUi = true)
 @Composable
 fun DefaultPreview() {
-    WearApp("Preview Android")
+    WearApp()
 }

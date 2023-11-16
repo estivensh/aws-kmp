@@ -50,7 +50,8 @@ android {
 }
 
 dependencies {
-
+    implementation(libs.aws.s3)
+    implementation(projects.shared)
     implementation(libs.core.ktx)
     implementation(libs.play.services.wearable)
     implementation(libs.percentlayout)

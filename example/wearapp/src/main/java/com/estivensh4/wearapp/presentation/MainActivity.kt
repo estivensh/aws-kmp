@@ -1,22 +1,22 @@
-/* While this template provides a good starting point for using Wear Compose, you can always
- * take a look at https://github.com/android/wear-os-samples/tree/main/ComposeStarter and
- * https://github.com/android/wear-os-samples/tree/main/ComposeAdvanced to find the most up to date
- * changes to the libraries and their usages.
- */
-
 package com.estivensh4.wearapp.presentation
 
-import android.R
-import android.net.Uri
 import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.ThreadPolicy
+import android.util.Log
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Devices
@@ -32,7 +32,9 @@ import androidx.wear.compose.material.rememberScalingLazyListState
 import com.estivensh4.aws_s3.ImageFile
 import com.estivensh4.shared.SampleViewModel
 import com.estivensh4.wearapp.presentation.theme.ExampleTheme
-import java.net.URL
+import kotlinx.datetime.Clock
+import kotlinx.datetime.DateTimeUnit
+import kotlinx.datetime.plus
 
 
 class MainActivity : ComponentActivity() {
@@ -50,11 +52,28 @@ class MainActivity : ComponentActivity() {
 fun WearApp() {
     ExampleTheme {
         val sampleViewModel = SampleViewModel()
-        val createBucketResult = sampleViewModel.bucket
+        var generateUrlResult by remember { mutableStateOf("") }
         val bucketName = "test-bucket-wear-app"
         val state = rememberScalingLazyListState()
         val context = LocalContext.current
-        val uri = Uri.parse("android.resource://" + "com.estivensh4.wearapp" + "/" + com.estivensh4.wearapp.R.drawable.ic_android_black_24dp)
+        val key = "test (1).jpg"
+        val date = Clock.System.now().plus(15, DateTimeUnit.HOUR)
+        val photoPicker = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.PickVisualMedia()
+        ) {
+            if (it != null) {
+                sampleViewModel.putObject(
+                    bucketName = bucketName,
+                    key = key,
+                    imageFile = ImageFile(
+                        uri = it,
+                        contentResolver = context.contentResolver
+                    )
+                )
+            } else {
+                Log.d("PhotoPicker", "No media selected")
+            }
+        }
 
         Scaffold(
             modifier = Modifier
@@ -71,7 +90,16 @@ fun WearApp() {
                 state = state,
             ) {
                 item {
-                    Text(text = createBucketResult.toString())
+                    Button(
+                        onClick = {
+                            generateUrlResult =
+                                sampleViewModel.generatePresignedUrl(bucketName, key, date) ?: ""
+                            Log.d("GeneratPresignedUrlResult", generateUrlResult)
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Generate presigned url")
+                    }
                 }
                 item {
                     Button(
@@ -101,12 +129,9 @@ fun WearApp() {
                 item {
                     Button(
                         onClick = {
-                            sampleViewModel.putObject(
-                                bucketName,
-                                "test.jpg",
-                                ImageFile(
-                                    uri = uri,
-                                    contentResolver = context.contentResolver
+                            photoPicker.launch(
+                                PickVisualMediaRequest(
+                                    ActivityResultContracts.PickVisualMedia.ImageOnly
                                 )
                             )
                         },

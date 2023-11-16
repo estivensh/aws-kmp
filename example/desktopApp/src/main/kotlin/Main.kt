@@ -4,14 +4,15 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.estivensh4.shared.SampleViewModel
+import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.plus
@@ -22,6 +23,9 @@ fun App() {
     var generatePresignerUrlResult by remember { mutableStateOf("") }
     val sampleViewModel = SampleViewModel()
     val createBucketResult = sampleViewModel.bucket
+    val bucketName = "test-bucket-desktop-app"
+    val key = "test.jpg"
+    val scope = rememberCoroutineScope()
 
     MaterialTheme {
         Column {
@@ -31,13 +35,21 @@ fun App() {
 
             CButton(text = "generatePresignedUrl") {
                 generatePresignerUrlResult = sampleViewModel.generatePresignedUrl(
-                    bucketName = "bucket",
-                    key = "key",
+                    bucketName = bucketName,
+                    key = key,
                     expiration = Clock.System.now().plus(15, DateTimeUnit.HOUR)
                 ) ?: ""
             }
             CButton(text = "Create bucket") {
-                sampleViewModel.createBucket("test-bucket")
+                scope.launch {
+                    sampleViewModel.createBucket(bucketName)
+                }
+            }
+            CButton(text = "List buckets") {
+                sampleViewModel.listBuckets()
+            }
+            CButton(text = "Delete bucket") {
+                sampleViewModel.deleteBucket(bucketName)
             }
         }
     }

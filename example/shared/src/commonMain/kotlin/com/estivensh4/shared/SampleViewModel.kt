@@ -7,10 +7,11 @@ import com.rickclephas.kmm.viewmodel.KMMViewModel
 import com.rickclephas.kmm.viewmodel.coroutineScope
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 
-class SampleViewModel : KMMViewModel() {
+open class SampleViewModel : KMMViewModel() {
 
     private val scope = viewModelScope.coroutineScope
     private var _bucket = Bucket("", Clock.System.now())
@@ -38,10 +39,8 @@ class SampleViewModel : KMMViewModel() {
         )
     }
 
-    fun createBucket(bucketName: String) {
-        scope.launch {
-            _bucket = client.createBucket(bucketName)
-        }
+    fun createBucket(bucketName: String) = runBlocking {
+        client.createBucket(bucketName)
     }
 
     fun listBuckets() {
@@ -51,10 +50,8 @@ class SampleViewModel : KMMViewModel() {
         }
     }
 
-    fun deleteBucket(bucketName: String) {
-        scope.launch {
-            client.deleteBucket(bucketName)
-        }
+    fun deleteBucket(bucketName: String) = runBlocking {
+        client.deleteBucket(bucketName)
     }
 
     fun putObject(bucketName: String, key: String, imageFile: ImageFile) {

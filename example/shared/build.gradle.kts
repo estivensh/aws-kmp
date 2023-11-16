@@ -7,7 +7,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.native.coroutines)
     alias(libs.plugins.ksp)
-    id("com.codingfeline.buildkonfig") version "0.15.0"
+    alias(libs.plugins.buildKonfig)
 }
 
 kotlin {
@@ -37,19 +37,20 @@ kotlin {
         framework {
             baseName = "shared"
             export(libs.kotlinx.datetime)
+            linkerOpts.add("-lsqlite3")
         }
         pod("AWSS3", "~> 2.33.4")
     }
-    
+
     sourceSets {
-        val commonMain by getting {
+        commonMain {
             dependencies {
                 api(libs.kotlinx.datetime)
-                implementation("io.github.estivensh4:aws-s3:0.4.0")
                 api(libs.kmm.viewmodel.core)
+                implementation(libs.aws.s3)
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
             }
@@ -59,11 +60,10 @@ kotlin {
 
 android {
     namespace = "com.estivensh4.shared"
-    compileSdk = 34
+    compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = 26
+        minSdk = libs.versions.minSdk.get().toInt()
     }
-
 }
 
 buildkonfig {

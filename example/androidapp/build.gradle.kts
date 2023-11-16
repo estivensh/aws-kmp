@@ -52,6 +52,7 @@ android {
 
 dependencies {
     implementation(projects.shared)
+    implementation(libs.aws.s3)
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)

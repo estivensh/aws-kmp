@@ -4,5 +4,5 @@
 
 package com.estivensh4.aws_s3
 
-expect open class ImageFile
+expect class ImageFile
 expect fun ImageFile.toByteArray(): ByteArray

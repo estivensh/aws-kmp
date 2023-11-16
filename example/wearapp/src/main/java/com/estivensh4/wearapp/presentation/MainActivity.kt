@@ -91,9 +91,7 @@ fun WearApp() {
                 item {
                     Button(
                         onClick = {
-                            val result =
-                                sampleViewModel.generatePresignedUrl(bucketName, key) ?: ""
-                            Log.d("GeneratPresignedUrlResult", result)
+                            sampleViewModel.generatePresignedUrl(bucketName, key)
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {

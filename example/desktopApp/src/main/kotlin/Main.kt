@@ -1,11 +1,16 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,11 +31,13 @@ import java.io.File
 @Composable
 @Preview
 fun App() {
-    var generatePresignerUrlResult by remember { mutableStateOf("") }
     val sampleViewModel = SampleViewModel()
     val bucketName = "test-bucket-desktop-app"
     val key = "test.jpg"
     val scope = rememberCoroutineScope()
+    val bucketList by sampleViewModel.bucketList.collectAsState()
+    val bucket by sampleViewModel.bucket.collectAsState()
+    val generatePresignedUrl by sampleViewModel.generatePresignedUrl.collectAsState()
 
     MaterialTheme {
         Column(
@@ -56,11 +63,22 @@ fun App() {
                     }
                 )
             }
+            LazyColumn {
+                items(bucketList) { item ->
+                    Text("${item.name}")
+                }
+            }
+
+            Divider()
+            Text("Status bucket: $bucket")
+            Divider()
+            Text("Status generate presigned url: $generatePresignedUrl")
+
             CButton(text = "generatePresignedUrl") {
-                generatePresignerUrlResult = sampleViewModel.generatePresignedUrl(
+                sampleViewModel.generatePresignedUrl(
                     bucketName = bucketName,
                     key = key
-                ) ?: ""
+                )
             }
             CButton(text = "Create bucket") {
                 scope.launch {

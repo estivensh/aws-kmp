@@ -11,6 +11,7 @@ import cocoapods.AWSS3.AWSS3CreateBucketRequest
 import cocoapods.AWSS3.AWSS3DeleteBucketRequest
 import cocoapods.AWSS3.AWSS3DeleteObjectsRequest
 import cocoapods.AWSS3.AWSS3DeletedObject
+import cocoapods.AWSS3.AWSS3GetObjectRequest
 import cocoapods.AWSS3.AWSS3GetPreSignedURLRequest
 import cocoapods.AWSS3.AWSS3ListObjectsV2Output
 import cocoapods.AWSS3.AWSS3ListObjectsV2Request
@@ -97,9 +98,9 @@ actual class AWSS3 actual constructor(
         return try {
             val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
             preSignedURLRequest.apply {
-                bucket = bucketName
+                this.bucket = bucketName
                 this.key = key
-                expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
+                this.expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
             }
 
             val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
@@ -107,7 +108,7 @@ actual class AWSS3 actual constructor(
             val url = request.result() as NSURL
             url.absoluteString
         } catch (exception: Exception) {
-            throw AwsException("Exception is ${exception.message}", exception)
+            throw Exception("Exception is ${exception.message}", exception)
         }
     }
 
@@ -323,14 +324,16 @@ actual class AWSS3 actual constructor(
      * @throws AwsException If any errors are encountered in the client
      * while making the request or handling the response.
      */
-    @Suppress("CAST_NEVER_SUCCEEDS")
     actual suspend fun createBucket(bucketName: String): Bucket {
         val request = AWSS3CreateBucketRequest()
         request.bucket = bucketName
 
-        val result = awaitResult { client.createBucket(request, it) } as AWSS3Bucket
+        val result = awaitResult { client.createBucket(request, it) }
 
-        return result.toBucket()
+        return Bucket(
+            name = result.location,
+            creationDate = null
+        )
     }
 
     /**

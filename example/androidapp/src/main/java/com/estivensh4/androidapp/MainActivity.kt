@@ -51,7 +51,7 @@ fun Greeting() {
     var text by remember { mutableStateOf("") }
     val sampleViewModel = SampleViewModel()
     val bucketName = "test-bucket-android-app"
-    val key = "test.jpg"
+    val key = "test (1).jpg"
     val context = LocalContext.current
     val photoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
@@ -74,8 +74,7 @@ fun Greeting() {
         CButton(text = "GeneratePresignedURL") {
             text = sampleViewModel.generatePresignedUrl(
                 bucketName = bucketName,
-                key = key,
-                expiration = Clock.System.now().plus(15, DateTimeUnit.HOUR)
+                key = key
             ) ?: ""
             Log.d("ResultGeneratePresignedUrl", text)
         }

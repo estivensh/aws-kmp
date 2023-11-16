@@ -57,7 +57,6 @@ fun WearApp() {
         val state = rememberScalingLazyListState()
         val context = LocalContext.current
         val key = "test (1).jpg"
-        val date = Clock.System.now().plus(15, DateTimeUnit.HOUR)
         val photoPicker = rememberLauncherForActivityResult(
             contract = ActivityResultContracts.PickVisualMedia()
         ) {
@@ -92,9 +91,9 @@ fun WearApp() {
                 item {
                     Button(
                         onClick = {
-                            generateUrlResult =
-                                sampleViewModel.generatePresignedUrl(bucketName, key, date) ?: ""
-                            Log.d("GeneratPresignedUrlResult", generateUrlResult)
+                            val result =
+                                sampleViewModel.generatePresignedUrl(bucketName, key) ?: ""
+                            Log.d("GeneratPresignedUrlResult", result)
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {

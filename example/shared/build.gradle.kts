@@ -48,6 +48,10 @@ kotlin {
                 api(libs.kotlinx.datetime)
                 api(libs.kmm.viewmodel.core)
                 implementation(libs.aws.s3)
+                val coroutinesVersion = "1.5.2" // Reemplaza esto con la versión actualizada
+
+                //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
             }
         }
         commonTest {

@@ -52,7 +52,6 @@ class MainActivity : ComponentActivity() {
 fun WearApp() {
     ExampleTheme {
         val sampleViewModel = SampleViewModel()
-        var generateUrlResult by remember { mutableStateOf("") }
         val bucketName = "test-bucket-wear-app"
         val state = rememberScalingLazyListState()
         val context = LocalContext.current

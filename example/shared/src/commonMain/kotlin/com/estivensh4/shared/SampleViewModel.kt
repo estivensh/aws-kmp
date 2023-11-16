@@ -38,11 +38,13 @@ open class SampleViewModel : KMMViewModel() {
         bucketName: String,
         key: String,
     ) {
-        _generatePresignedUrl.value = client.generatePresignedUrl(
-            bucketName = bucketName,
-            key = key,
-            expirationInSeconds = 3600L
-        ) ?: ""
+        GlobalScope.launch {
+            _generatePresignedUrl.value = client.generatePresignedUrl(
+                bucketName = bucketName,
+                key = key,
+                expirationInSeconds = 3600L
+            ) ?: ""
+        }
     }
 
     fun createBucket(bucketName: String) {

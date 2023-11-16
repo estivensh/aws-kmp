@@ -61,7 +61,7 @@ expect class AWSS3 private constructor(
      * request for the specified S3 object.
      * @see AWSS3.generatePresignedUrl
      */
-    fun generatePresignedUrl(bucketName: String, key: String, expirationInSeconds: Long): String?
+    suspend fun generatePresignedUrl(bucketName: String, key: String, expirationInSeconds: Long): String?
 
     /**
      *
@@ -114,7 +114,7 @@ expect class AWSS3 private constructor(
      * @see AWSS3.generatePresignedUrl
      * @see AWSS3.generatePresignedUrl
      */
-    fun generatePresignedUrl(
+    suspend fun generatePresignedUrl(
         bucketName: String,
         key: String,
         expirationInSeconds: Long,
@@ -175,7 +175,7 @@ expect class AWSS3 private constructor(
      * @see AWSS3.generatePresignedUrl
      * @see AWSS3.generatePresignedUrl
      */
-    fun generatePresignedUrl(generatePresignedUrlRequest: GeneratePresignedUrlRequest): String?
+    suspend fun generatePresignedUrl(generatePresignedUrlRequest: GeneratePresignedUrlRequest): String?
 
     /**
      *

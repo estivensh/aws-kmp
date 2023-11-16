@@ -1,40 +1,41 @@
+/*
+ * Copyright 2023 estiven. Use of this source code is governed by the Apache 2.0 license.
+ */
+
 package com.estivensh4.aws_s3
 
-import cocoapods.AWSCore.AWSServiceConfiguration
-import cocoapods.AWSS3.AWSRequest
-import cocoapods.AWSS3.AWSS3
-import cocoapods.AWSS3.AWSS3Bucket
-import cocoapods.AWSS3.AWSS3CreateBucketRequest
-import cocoapods.AWSS3.AWSS3DeleteBucketRequest
-import cocoapods.AWSS3.AWSS3DeleteObjectsRequest
-import cocoapods.AWSS3.AWSS3DeletedObject
-import cocoapods.AWSS3.AWSS3GetPreSignedURLRequest
-import cocoapods.AWSS3.AWSS3PreSignedURLBuilder
-import cocoapods.AWSS3.AWSS3PutObjectRequest
-import cocoapods.AWSS3.AWSS3Remove
+import com.amazonaws.auth.AWSStaticCredentialsProvider
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.AmazonS3ClientBuilder
+import com.amazonaws.services.s3.model.AmazonS3Exception
+import com.amazonaws.services.s3.model.DeleteObjectsRequest
+import com.amazonaws.services.s3.model.ListObjectsV2Result
+import com.amazonaws.services.s3.model.ObjectMetadata
 import com.estivensh4.aws_kmp.AwsException
-import com.estivensh4.aws_s3.util.await
-import com.estivensh4.aws_s3.util.awaitResult
 import com.estivensh4.aws_s3.util.toAWSMethod
-import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.datetime.Instant
-import kotlinx.datetime.toInstant
-import platform.Foundation.NSDate
-import platform.Foundation.NSURL
-import platform.Foundation.dateByAddingTimeInterval
+import java.io.FileNotFoundException
+import java.util.Calendar
 
-@OptIn(ExperimentalForeignApi::class)
-actual class AwsS3 actual constructor(
+actual class AWSS3 actual constructor(
     private val accessKey: String,
     private val secretKey: String,
     private val endpoint: String
 ) {
-
-    actual val endpointAWS get() = ""
-    private var awsServiceConfiguration: AWSServiceConfiguration? = null
-
-    private val client: AWSS3
-        get() = AWSS3.defaultS3()
+    private val client: AmazonS3
+        get() {
+            val credentials = AWSStaticCredentialsProvider(
+                BasicAWSCredentials(accessKey, secretKey)
+            )
+            return AmazonS3ClientBuilder.standard()
+                .withRegion(Regions.US_EAST_1)
+                .withCredentials(credentials)
+                .enablePathStyleAccess()
+                .disableChunkedEncoding()
+                .build()
+        }
 
     /**
      *
@@ -76,36 +77,32 @@ actual class AwsS3 actual constructor(
      * @param bucketName The name of the bucket containing the desired object.
      * @param key The key in the specified bucket under which the desired object
      * is stored.
-     * @param expiration The time at which the returned pre-signed URL will
+     * @param expirationInSeconds The time at which the returned pre-signed URL will
      * expire.
      * @return A pre-signed URL which expires at the specified time, and can be
      * used to allow anyone to download the specified object from S3,
      * without exposing the owner's AWS secret access key.
-     * @throws AmazonClientException If there were any problems pre-signing the
+     * @throws Exception If there were any problems pre-signing the
      * request for the specified S3 object.
-     * @see AwsS3.generatePresignedUrl
+     * @see AWSS3.generatePresignedUrl
      */
-    @OptIn(ExperimentalForeignApi::class)
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,
         expirationInSeconds: Long
     ): String? {
-
         return try {
-            val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
-            preSignedURLRequest.apply {
-                bucket = bucketName
-                this.key = key
-                expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.SECOND, expirationInSeconds.toInt())
+            val result = client.generatePresignedUrl(bucketName, key, calendar.time)
+            result.toString()
+        } catch (exception: AmazonS3Exception) {
+            when (exception.statusCode) {
+                404 -> throw FileNotFoundException("this key $key does not exist")
+                else -> {
+                    throw Exception("Exception is ${exception.message}", exception)
+                }
             }
-
-            val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
-                .getPreSignedURL(preSignedURLRequest)
-            val url = request.result() as NSURL
-            url.absoluteString
-        } catch (exception: Exception) {
-            throw AwsException("Exception is ${exception.message}", exception)
         }
     }
 
@@ -149,18 +146,17 @@ actual class AwsS3 actual constructor(
      * @param bucketName The name of the bucket containing the desired object.
      * @param key The key in the specified bucket under which the desired object
      * is stored.
-     * @param expiration The time at which the returned pre-signed URL will
+     * @param expirationInSeconds The time at which the returned pre-signed URL will
      * expire.
      * @param method The HTTP method verb to use for this URL
      * @return A pre-signed URL which expires at the specified time, and can be
      * used to allow anyone to download the specified object from S3,
      * without exposing the owner's AWS secret access key.
-     * @throws AwsException If there were any problems pre-signing the
+     * @throws Exception If there were any problems pre-signing the
      * request for the specified S3 object.
-     * @see AwsS3.generatePresignedUrl
-     * @see AwsS3.generatePresignedUrl
+     * @see AWSS3.generatePresignedUrl
+     * @see AWSS3.generatePresignedUrl
      */
-    @OptIn(ExperimentalForeignApi::class)
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,
@@ -168,20 +164,23 @@ actual class AwsS3 actual constructor(
         method: HttpMethod
     ): String? {
         return try {
-            val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
-            preSignedURLRequest.apply {
-                this.bucket = bucketName
-                this.key = key
-                this.setHTTPMethod(method.toAWSMethod())
-                this.expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.SECOND, expirationInSeconds.toInt())
+            val result =
+                client.generatePresignedUrl(
+                    bucketName,
+                    key,
+                    calendar.time,
+                    method.toAWSMethod()
+                )
+            result.toString()
+        } catch (exception: AmazonS3Exception) {
+            when (exception.statusCode) {
+                404 -> throw FileNotFoundException("this key $key does not exist")
+                else -> {
+                    throw Exception("Exception is ${exception.message}", exception)
+                }
             }
-
-            val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
-                .getPreSignedURL(preSignedURLRequest)
-            val url = request.result() as NSURL
-            url.absoluteString
-        } catch (exception: Exception) {
-            throw AwsException("Exception is ${exception.message}", exception)
         }
     }
 
@@ -236,25 +235,25 @@ actual class AwsS3 actual constructor(
      * security credentials.
      * @throws AmazonS3Exception If there were any problems pre-signing the
      * request for the Amazon S3 resource.
-     * @see AwsS3.generatePresignedUrl
-     * @see AwsS3.generatePresignedUrl
+     * @see AWSS3.generatePresignedUrl
+     * @see AWSS3.generatePresignedUrl
      */
-    @OptIn(ExperimentalForeignApi::class)
-    actual fun generatePresignedUrl(
-        generatePresignedUrlRequest: GeneratePresignedUrlRequest
-    ): String? {
+    actual fun generatePresignedUrl(generatePresignedUrlRequest: GeneratePresignedUrlRequest): String? {
         return try {
-            val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
-            preSignedURLRequest.apply {
-                bucket = generatePresignedUrlRequest.bucketName
-                key = generatePresignedUrlRequest.key
+            val result = client.generatePresignedUrl(
+                com.amazonaws.services.s3.model.GeneratePresignedUrlRequest(
+                    generatePresignedUrlRequest.bucketName,
+                    generatePresignedUrlRequest.key
+                )
+            )
+            result.toString()
+        } catch (exception: AmazonS3Exception) {
+            when (exception.statusCode) {
+                404 -> throw FileNotFoundException("this key ${generatePresignedUrlRequest.key} does not exist")
+                else -> {
+                    throw Exception("Exception is ${exception.message}", exception)
+                }
             }
-            val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
-                .getPreSignedURL(preSignedURLRequest)
-            val url = request.result() as NSURL
-            url.absoluteString
-        } catch (exception: Exception) {
-            throw AwsException("Exception is ${exception.message}", exception)
         }
     }
 
@@ -278,8 +277,8 @@ actual class AwsS3 actual constructor(
             return this
         }
 
-        actual fun build(): AwsS3 {
-            return AwsS3(accessKey, secretKey, endpoint)
+        actual fun build(): AWSS3 {
+            return AWSS3(accessKey, secretKey, endpoint)
         }
     }
 
@@ -287,7 +286,7 @@ actual class AwsS3 actual constructor(
      *
      *
      * Creates a new Amazon S3 bucket with the specified name in the default
-     * (US) region, [Region.US_Standard].
+     * (US) region.
      *
      *
      *
@@ -348,78 +347,224 @@ actual class AwsS3 actual constructor(
      * @throws AwsException If any errors are encountered in the client
      * while making the request or handling the response.
      */
-    @Suppress("CAST_NEVER_SUCCEEDS")
     actual suspend fun createBucket(bucketName: String): Bucket {
-        val request = AWSS3CreateBucketRequest()
-        request.bucket = bucketName
-
-        val result = awaitResult { client.createBucket(request, it) } as AWSS3Bucket
-
+        val result = client.createBucket(bucketName)
         return result.toBucket()
     }
 
-    @Suppress("UNCHECKED_CAST")
+    /**
+     *
+     *
+     * Returns a list of all Amazon S3 buckets that the authenticated sender of
+     * the request owns.
+     *
+     *
+     *
+     * Users must authenticate with a valid AWS Access Key ID that is registered
+     * with Amazon S3. Anonymous requests cannot list buckets, and users cannot
+     * list buckets that they did not create.
+     *
+     *
+     * @return A list of all of the Amazon S3 buckets owned by the authenticated
+     * sender of the request.
+     * @throws AWSS3 If any errors are encountered in the client
+     * while making the request or handling the response.
+     * @see AWSS3.listBuckets
+     */
     actual suspend fun listBuckets(): List<Bucket> {
-        val request = AWSRequest()
-        val output = awaitResult { client.listBuckets(request, it) }
-        val result = output.buckets as List<AWSS3Bucket>
-        return result.map { it.toBucket() }
+        return client.listBuckets().map { it.toBucket() }
     }
 
+    /**
+     *
+     *
+     * Deletes the specified bucket. All objects (and all object versions, if
+     * versioning was ever enabled) in the bucket must be deleted before the
+     * bucket itself can be deleted.
+     *
+     *
+     *
+     * Only the owner of a bucket can delete it, regardless of the bucket's
+     * access control policy.
+     *
+     *
+     * @param bucketName The name of the bucket to delete.
+     * @throws AwsException If any errors are encountered in the client
+     * while making the request or handling the response.
+     * @see AWSS3.deleteBucket
+     */
     actual suspend fun deleteBucket(bucketName: String) {
-        val request = AWSS3DeleteBucketRequest()
-        request.bucket = bucketName
-        await { client.deleteBucket(request, it) }
+        client.deleteBucket(bucketName)
     }
 
-    @Suppress("UNCHECKED_CAST")
-    actual suspend fun deleteObjects(bucketName: String, vararg keys: String): DeleteObjectResult {
-        val deleteObjectsRequest = AWSS3DeleteObjectsRequest()
-        deleteObjectsRequest.bucket = bucketName
-        val s3Remove = AWSS3Remove()
-        s3Remove.setObjects(listOf(keys))
-        deleteObjectsRequest.setRemove(s3Remove)
-        val deleteObjectsOutput = awaitResult { client.deleteObjects(deleteObjectsRequest, it) }
-        val awsS3DeletedObjects = deleteObjectsOutput.deleted as List<AWSS3DeletedObject>
+    /**
+     * Deletes multiple objects in a single bucket from S3.
+     *
+     *
+     * In some cases, some objects will be successfully deleted, while some
+     * attempts will cause an error. If any object in the request cannot be
+     * deleted, this method throws a [AwsException] with
+     * details of the error.
+     *
+     * @param bucketName The name of an existing bucket, to which you have permission.
+     * @param keys The request object containing all options for
+     * deleting multiple objects.
+     * @throws AwsException If any errors occurred in Amazon S3 while
+     * processing the request.
+     */
+    actual suspend fun deleteObjects(
+        bucketName: String,
+        vararg keys: String
+    ): DeleteObjectResult {
+        val deleteObjectsRequest = DeleteObjectsRequest(bucketName)
+        deleteObjectsRequest.withKeys(*keys)
+
+        val result = client.deleteObjects(deleteObjectsRequest)
+
         return DeleteObjectResult(
-            isRequesterCharged = false,
-            deleted = awsS3DeletedObjects.map {
+            isRequesterCharged = result.isRequesterCharged,
+            deleted = result.deletedObjects.map {
                 DeleteObject(
                     key = it.key,
                     versionId = it.versionId,
-                    deleteMarker = it.deleteMarker?.boolValue,
+                    deleteMarker = it.isDeleteMarker,
                     deleteMarkerVersionId = it.deleteMarkerVersionId
                 )
             }
         )
     }
 
+    /**
+     *
+     *
+     * Uploads the specified file to Amazon S3 under the specified bucket and
+     * key name.
+     *
+     *
+     *
+     * Amazon S3 never stores partial objects; if during this call an exception
+     * wasn't thrown, the entire object was stored.
+     *
+     *
+     *
+     * If you are uploading or accessing [AWS KMS](http://aws.amazon.com/kms/)-encrypted objects, you need to
+     * specify the correct region of the bucket on your client and configure AWS
+     * Signature Version 4 for added security. For more information on how to do
+     * this, see
+     * http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingAWSSDK.html#
+     * specify-signature-version
+     *
+     *
+     *
+     * Using the file extension, Amazon S3 attempts to determine the correct
+     * content type and content disposition to use for the object.
+     *
+     *
+     *
+     * If versioning is enabled for the specified bucket, this operation will
+     * this operation will never overwrite an existing object with the same key,
+     * but will keep the existing object as an older version until that version
+     * is explicitly deleted.
+     *
+     *
+     *
+     * If versioning is not enabled, this operation will overwrite an existing
+     * object with the same key; Amazon S3 will store the last write request.
+     * Amazon S3 does not provide object locking. If Amazon S3 receives multiple
+     * write requests for the same object nearly simultaneously, all of the
+     * objects might be stored. However, a single object will be stored with the
+     * final write request.
+     *
+     *
+     *
+     * When specifying a location constraint when creating a bucket, all objects
+     * added to the bucket are stored in the bucket's region. For example, if
+     * specifying a Europe (EU) region constraint for a bucket, all of that
+     * bucket's objects are stored in EU region.
+     *
+     *
+     *
+     * The specified bucket must already exist and the caller must have
+     * permission to the bucket to upload an object.
+     *
+     *
+     * @param bucketName The name of an existing bucket, to which you have permission.
+     * @param key The key under which to store the specified file.
+     * @param imageFile The file containing the data to be uploaded to Amazon S3.
+     * @return A [PutObjectResult] object containing the information
+     * returned by Amazon S3 for the newly created object.
+     * @throws AwsException If any errors are encountered in the client
+     * while making the request or handling the response.
+     * @see AWSS3.putObject
+     */
     actual suspend fun putObject(
         bucketName: String,
         key: String,
         imageFile: ImageFile
     ): PutObjectResult {
-        val putObjectRequest = AWSS3PutObjectRequest().apply {
-            this.bucket = bucketName
-            this.key = key
-            this.body = imageFile.toByteArray()
-        }
-        val result = awaitResult { client.putObject(putObjectRequest, it) }
+        val result = client.putObject(
+            bucketName,
+            key,
+            imageFile.toByteArray().inputStream(),
+            ObjectMetadata()
+        )
         return PutObjectResult(
             versionId = result.versionId,
-            eTag = result.ETag,
-            expirationTime = result.expiration?.toInstant(),
-            contentMd5 = result.SSECustomerKeyMD5,
+            eTag = result.eTag,
+            expirationTime = result.expirationTime?.let { Instant.fromEpochMilliseconds(it.time) },
+            contentMd5 = result.contentMd5,
         )
+    }
+
+    /**
+     *
+     *
+     * Returns a list of summary information about the objects in the specified
+     * buckets. List results are *always* returned in lexicographic
+     * (alphabetical) order.
+     *
+     *
+     *
+     * Because buckets can contain a virtually unlimited number of keys, the
+     * complete results of a list query can be extremely large. To manage large
+     * result sets, Amazon S3 uses pagination to split them into multiple
+     * responses.
+     *
+     *
+     * The total number of keys in a bucket doesn't substantially affect list
+     * performance.
+     *
+     *
+     * @param bucketName The name of the Amazon S3 bucket to list.
+     * @return A listing of the objects in the specified bucket, along with any
+     * other associated information, such as common prefixes (if a
+     * delimiter was specified), the original request parameters, etc.
+     * @throws AwsException If any errors are encountered in the client
+     * while making the request or handling the response.
+     * @see AWSS3.listObjects
+     */
+    actual suspend fun listObjects(bucketName: String): ListObjectsResult {
+        val result = client.listObjectsV2(bucketName)
+        return result.toListObjectsResult()
     }
 }
 
-@OptIn(ExperimentalForeignApi::class)
-fun AWSS3Bucket.toBucket(): Bucket {
+fun com.amazonaws.services.s3.model.Bucket.toBucket(): Bucket {
     return Bucket(
         name = name,
-        creationDate = creationDate?.timeIntervalSinceReferenceDate?.toLong()?.let {
-            Instant.fromEpochMilliseconds(it)
-        }
+        creationDate = creationDate?.let { Instant.fromEpochMilliseconds(it.time) }
+    )
+}
+
+fun ListObjectsV2Result.toListObjectsResult(): ListObjectsResult {
+    return ListObjectsResult(
+        name = bucketName,
+        keyCount = keyCount,
+        commonPrefixes = commonPrefixes,
+        prefix = prefix,
+        maxKeys = maxKeys,
+        nextContinuationToken = nextContinuationToken,
+        delimiter = delimiter,
+        startAfter = startAfter
     )
 }

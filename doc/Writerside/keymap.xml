@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2023 estiven. Use of this source code is governed by the Apache 2.0 license.
+  -->
+
 <Keymap id="km">
    <Action id="GotoFile">
       <Description>Go to File...</Description>

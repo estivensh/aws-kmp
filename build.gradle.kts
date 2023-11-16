@@ -1,3 +1,7 @@
+/*
+ * Copyright 2023 estiven. Use of this source code is governed by the Apache 2.0 license.
+ */
+
 plugins {
     //trick: for the same plugin versions in all sub-modules
     alias(libs.plugins.androidLibrary).apply(false)

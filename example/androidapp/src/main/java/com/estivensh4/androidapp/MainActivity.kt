@@ -72,10 +72,10 @@ fun Greeting() {
 
     Column {
         CButton(text = "GeneratePresignedURL") {
-            text = sampleViewModel.generatePresignedUrl(
+            sampleViewModel.generatePresignedUrl(
                 bucketName = bucketName,
                 key = key
-            ) ?: ""
+            )
             Log.d("ResultGeneratePresignedUrl", text)
         }
         CButton(text = "Create bucket") {

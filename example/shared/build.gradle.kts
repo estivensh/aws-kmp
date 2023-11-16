@@ -11,12 +11,14 @@ plugins {
 }
 
 kotlin {
-    applyDefaultHierarchyTemplate()
+    //applyDefaultHierarchyTemplate()
+
+    jvmToolchain(11)
 
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -24,10 +26,6 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     jvm()
-
-    kotlin.sourceSets.all {
-        languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
-    }
 
     cocoapods {
         summary = "Some description for the Shared Module"
@@ -37,12 +35,16 @@ kotlin {
         framework {
             baseName = "shared"
             export(libs.kotlinx.datetime)
+            //export(libs.aws.s3)
             linkerOpts.add("-lsqlite3")
         }
         pod("AWSS3", "~> 2.33.4")
     }
 
     sourceSets {
+        all {
+            languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+        }
         commonMain {
             dependencies {
                 api(libs.kotlinx.datetime)
@@ -53,6 +55,11 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
+            }
+        }
+        jvmMain {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:1.7.3")
             }
         }
     }
@@ -77,4 +84,11 @@ buildkonfig {
         buildConfigField(STRING, "accessKey", localProperties.getProperty("AWS_ACCESS_KEY"))
         buildConfigField(STRING, "secretKey", localProperties.getProperty("AWS_SECRET_KEY"))
     }
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile>().configureEach {
+    compilerOptions.freeCompilerArgs.addAll(
+        "-opt-in=kotlinx.cinterop.ExperimentalForeignApi",
+        "-opt-in=kotlin.experimental.ExperimentalNativeApi"
+    )
 }

@@ -9,11 +9,9 @@ import com.amazonaws.services.s3.model.AmazonS3Exception
 import com.amazonaws.services.s3.model.DeleteObjectsRequest
 import com.amazonaws.services.s3.model.ObjectMetadata
 import com.estivensh4.aws_s3.util.toAWSMethod
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import java.io.FileNotFoundException
 import java.util.Calendar
-import java.util.Date
 
 actual class AwsS3 actual constructor(
     private val accessKey: String,
@@ -88,13 +86,12 @@ actual class AwsS3 actual constructor(
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,
-        expiration: Instant
+        expirationInSeconds: Long
     ): String? {
         return try {
-            val date = Calendar.getInstance()
-            date.add(Calendar.MINUTE, 15)
-            val result =
-                client.generatePresignedUrl(bucketName, key, Date(expiration.toEpochMilliseconds()))
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.SECOND, expirationInSeconds.toInt())
+            val result = client.generatePresignedUrl(bucketName, key, calendar.time)
             result.toString()
         } catch (exception: AmazonS3Exception) {
             when (exception.statusCode) {
@@ -160,17 +157,17 @@ actual class AwsS3 actual constructor(
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,
-        expiration: Instant,
+        expirationInSeconds: Long,
         method: HttpMethod
     ): String? {
         return try {
-            val date = Calendar.getInstance()
-            date.add(Calendar.MINUTE, 15)
+            val calendar = Calendar.getInstance()
+            calendar.add(Calendar.SECOND, expirationInSeconds.toInt())
             val result =
                 client.generatePresignedUrl(
                     bucketName,
                     key,
-                    Date(expiration.toEpochMilliseconds()),
+                    calendar.time,
                     method.toAWSMethod()
                 )
             result.toString()

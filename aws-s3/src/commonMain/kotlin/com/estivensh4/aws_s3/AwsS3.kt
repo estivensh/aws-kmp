@@ -1,7 +1,6 @@
 package com.estivensh4.aws_s3
 
 import com.estivensh4.aws_kmp.AwsException
-import kotlinx.datetime.Instant
 
 expect class AwsS3 private constructor(
     accessKey: String,
@@ -60,7 +59,7 @@ expect class AwsS3 private constructor(
      * request for the specified S3 object.
      * @see AwsS3.generatePresignedUrl
      */
-    fun generatePresignedUrl(bucketName: String, key: String, expiration: Instant): String?
+    fun generatePresignedUrl(bucketName: String, key: String, expirationInSeconds: Long): String?
 
     /**
      *
@@ -116,7 +115,7 @@ expect class AwsS3 private constructor(
     fun generatePresignedUrl(
         bucketName: String,
         key: String,
-        expiration: Instant,
+        expirationInSeconds: Long,
         method: HttpMethod
     ): String?
 

@@ -17,11 +17,11 @@ import com.estivensh4.aws_s3.util.await
 import com.estivensh4.aws_s3.util.awaitResult
 import com.estivensh4.aws_s3.util.toAWSMethod
 import kotlinx.cinterop.ExperimentalForeignApi
-import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 import platform.Foundation.NSDate
 import platform.Foundation.NSURL
+import platform.Foundation.dateByAddingTimeInterval
 
 @OptIn(ExperimentalForeignApi::class)
 actual class AwsS3 actual constructor(
@@ -89,7 +89,7 @@ actual class AwsS3 actual constructor(
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,
-        expiration: Instant
+        expirationInSeconds: Long
     ): String? {
 
         return try {
@@ -97,7 +97,7 @@ actual class AwsS3 actual constructor(
             preSignedURLRequest.apply {
                 bucket = bucketName
                 this.key = key
-                expires = NSDate(expiration.toEpochMilliseconds().toDouble())
+                expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
             }
 
             val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
@@ -164,16 +164,16 @@ actual class AwsS3 actual constructor(
     actual fun generatePresignedUrl(
         bucketName: String,
         key: String,
-        expiration: Instant,
+        expirationInSeconds: Long,
         method: HttpMethod
     ): String? {
         return try {
             val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
             preSignedURLRequest.apply {
-                bucket = bucketName
+                this.bucket = bucketName
                 this.key = key
-                setHTTPMethod(method.toAWSMethod())
-                expires = NSDate(expiration.toEpochMilliseconds().toDouble())
+                this.setHTTPMethod(method.toAWSMethod())
+                this.expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
             }
 
             val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()

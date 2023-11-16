@@ -4,16 +4,16 @@ import com.estivensh4.aws_s3.AwsS3
 import com.estivensh4.aws_s3.Bucket
 import com.estivensh4.aws_s3.ImageFile
 import com.rickclephas.kmm.viewmodel.KMMViewModel
-import com.rickclephas.kmm.viewmodel.coroutineScope
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 
+@OptIn(DelicateCoroutinesApi::class)
 open class SampleViewModel : KMMViewModel() {
 
-    private val scope = viewModelScope.coroutineScope
     private var _bucket = Bucket("", Clock.System.now())
     private val client: AwsS3
         get() {
@@ -27,15 +27,15 @@ open class SampleViewModel : KMMViewModel() {
     @NativeCoroutinesState
     val bucket get() = _bucket
 
+
     fun generatePresignedUrl(
         bucketName: String,
         key: String,
-        expiration: Instant
     ): String? {
         return client.generatePresignedUrl(
             bucketName = bucketName,
             key = key,
-            expiration = expiration
+            expirationInSeconds = 3600L
         )
     }
 
@@ -44,9 +44,9 @@ open class SampleViewModel : KMMViewModel() {
     }
 
     fun listBuckets() {
-        scope.launch {
+        GlobalScope.launch {
             val list = client.listBuckets()
-            print("Hola $list")
+            print("$list")
         }
     }
 
@@ -55,7 +55,7 @@ open class SampleViewModel : KMMViewModel() {
     }
 
     fun putObject(bucketName: String, key: String, imageFile: ImageFile) {
-        scope.launch {
+        GlobalScope.launch {
             client.putObject(bucketName, key, imageFile)
         }
     }

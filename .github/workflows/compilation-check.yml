@@ -1,0 +1,214 @@
+---
+name: AWS library compilation check
+on:
+  pull_request:
+    branches:
+      - master
+      - dev
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+  build-library:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/master' && github.ref !=
+            'refs/heads/develop' }}
+      - name: Cache .konan
+        uses: actions/cache@v2
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*', 'gradle/**/*') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Check
+        run: ./local-check.sh
+      - name: Library local publish
+        run: ./gradlew publishToMavenLocal
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: maven
+          path: ~/.m2/repository/com/estivensh4
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2
+        if: ${{ always() }}
+        with:
+          report_paths: "**/build/test-results/**/TEST-*.xml"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Archive reports
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: code-coverage-report-${{ github.job }}
+          path: "**/build/reports/**/*"
+  check-sample-android-app:
+    runs-on: macOS-latest
+    needs: build-library
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/master' && github.ref !=
+            'refs/heads/develop' }}
+      - name: Cache .konan
+        uses: actions/cache@v2
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*', 'gradle/**/*') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Download maven artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: maven
+          path: ~/.m2/repository/com/estivensh4
+      - name: Sample - android-app
+        run: cd samples/androidapp && ./local-check.sh
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2
+        if: ${{ always() }}
+        with:
+          report_paths: "**/build/test-results/**/TEST-*.xml"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Archive reports
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: code-coverage-report-${{ github.job }}
+          path: "**/build/reports/**/*"
+  check-sample-desktop-app:
+    runs-on: macOS-latest
+    needs: build-library
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/master' && github.ref !=
+            'refs/heads/develop' }}
+      - name: Cache .konan
+        uses: actions/cache@v2
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*', 'gradle/**/*') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Download maven artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: maven
+          path: ~/.m2/repository/com/estivensh4
+      - name: Sample - desktopApp
+        run: cd samples/desktopApp && ./local-check.sh
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2
+        if: ${{ always() }}
+        with:
+          report_paths: "**/build/test-results/**/TEST-*.xml"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Archive reports
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: code-coverage-report-${{ github.job }}
+          path: "**/build/reports/**/*"
+  check-sample-wear-app:
+    runs-on: macOS-latest
+    needs: build-library
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/master' && github.ref !=
+            'refs/heads/develop' }}
+      - name: Cache .konan
+        uses: actions/cache@v2
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*', 'gradle/**/*') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Download maven artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: maven
+          path: ~/.m2/repository/com/estivensh4
+      - name: Sample - wear-app
+        run: cd samples/wearapp && ./local-check.sh
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2
+        if: ${{ always() }}
+        with:
+          report_paths: "**/build/test-results/**/TEST-*.xml"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Archive reports
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: code-coverage-report-${{ github.job }}
+          path: "**/build/reports/**/*"
+  check-sample-web-app:
+    runs-on: macOS-latest
+    needs: build-library
+    steps:
+      - uses: actions/checkout@v1
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.ref != 'refs/heads/master' && github.ref !=
+            'refs/heads/develop' }}
+      - name: Cache .konan
+        uses: actions/cache@v2
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*', 'gradle/**/*') }}
+          restore-keys: |
+            ${{ runner.os }}-konan-
+      - name: Download maven artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: maven
+          path: ~/.m2/repository/com/estivensh4
+      - name: Sample - web-app
+        run: cd samples/webApp && ./local-check.sh
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v2
+        if: ${{ always() }}
+        with:
+          report_paths: "**/build/test-results/**/TEST-*.xml"
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Archive reports
+        uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: code-coverage-report-${{ github.job }}
+          path: "**/build/reports/**/*"

@@ -74,7 +74,6 @@ android {
 }
 
 buildkonfig {
-
     packageName = "com.estivensh4.shared"
     exposeObjectWithName = "BuildPublicConfig"
     defaultConfigs {

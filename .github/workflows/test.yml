@@ -33,4 +33,4 @@ jobs:
           cache-read-only: ${{ github.ref != 'refs/heads/master' && github.ref !=
             'refs/heads/develop' }}
       - name: Library local publish
-        run: cd samples ./gradlew webApp:build
+        run: cd samples/webApp && ./local-check.sh

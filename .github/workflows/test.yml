@@ -23,10 +23,11 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v1
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: 17
+          distribution: 'zulu'
+          java-version: 11
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         with:

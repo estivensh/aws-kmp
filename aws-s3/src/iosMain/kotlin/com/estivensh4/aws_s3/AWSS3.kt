@@ -4,6 +4,7 @@
 
 package com.estivensh4.aws_s3
 
+import cocoapods.AWSS3.AWSHTTPMethod
 import cocoapods.AWSS3.AWSRequest
 import cocoapods.AWSS3.AWSS3
 import cocoapods.AWSS3.AWSS3Bucket
@@ -11,7 +12,6 @@ import cocoapods.AWSS3.AWSS3CreateBucketRequest
 import cocoapods.AWSS3.AWSS3DeleteBucketRequest
 import cocoapods.AWSS3.AWSS3DeleteObjectsRequest
 import cocoapods.AWSS3.AWSS3DeletedObject
-import cocoapods.AWSS3.AWSS3GetObjectRequest
 import cocoapods.AWSS3.AWSS3GetPreSignedURLRequest
 import cocoapods.AWSS3.AWSS3ListObjectsV2Output
 import cocoapods.AWSS3.AWSS3ListObjectsV2Request
@@ -27,7 +27,6 @@ import kotlinx.datetime.Instant
 import kotlinx.datetime.toInstant
 import platform.Foundation.NSDate
 import platform.Foundation.NSURL
-import platform.Foundation.URLByAppendingPathComponent
 import platform.Foundation.dateByAddingTimeInterval
 
 @OptIn(ExperimentalForeignApi::class)
@@ -95,14 +94,18 @@ actual class AWSS3 actual constructor(
         key: String,
         expirationInSeconds: Long
     ): String? {
-
-        return try {
-            client.configuration.endpoint()?.URL()?.URLByAppendingPathComponent(
-                bucketName
-            )?.URLByAppendingPathComponent(key)?.absoluteString
-        } catch (exception: Exception) {
-            throw Exception("Exception is ${exception.message}", exception)
+        val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
+        preSignedURLRequest.apply {
+            this.bucket = bucketName
+            this.key = key
+            this.expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
+            this.setHTTPMethod(AWSHTTPMethod.AWSHTTPMethodGET)
         }
+
+        val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
+            .getPreSignedURL(preSignedURLRequest)
+        val url = request.result() as NSURL
+        return url.absoluteString
     }
 
     /**
@@ -162,22 +165,18 @@ actual class AWSS3 actual constructor(
         expirationInSeconds: Long,
         method: HttpMethod
     ): String? {
-        return try {
-            val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
-            preSignedURLRequest.apply {
-                this.bucket = bucketName
-                this.key = key
-                this.setHTTPMethod(method.toAWSMethod())
-                this.expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
-            }
-
-            val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
-                .getPreSignedURL(preSignedURLRequest)
-            val url = request.result() as NSURL
-            url.absoluteString
-        } catch (exception: Exception) {
-            throw AwsException("Exception is ${exception.message}", exception)
+        val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
+        preSignedURLRequest.apply {
+            this.bucket = bucketName
+            this.key = key
+            this.setHTTPMethod(method.toAWSMethod())
+            this.expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
         }
+
+        val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
+            .getPreSignedURL(preSignedURLRequest)
+        val url = request.result() as NSURL
+        return url.absoluteString
     }
 
     /**
@@ -237,19 +236,15 @@ actual class AWSS3 actual constructor(
     actual suspend fun generatePresignedUrl(
         generatePresignedUrlRequest: GeneratePresignedUrlRequest
     ): String? {
-        return try {
-            val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
-            preSignedURLRequest.apply {
-                bucket = generatePresignedUrlRequest.bucketName
-                key = generatePresignedUrlRequest.key
-            }
-            val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
-                .getPreSignedURL(preSignedURLRequest)
-            val url = request.result() as NSURL
-            url.absoluteString
-        } catch (exception: Exception) {
-            throw AwsException("Exception is ${exception.message}", exception)
+        val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
+        preSignedURLRequest.apply {
+            bucket = generatePresignedUrlRequest.bucketName
+            key = generatePresignedUrlRequest.key
         }
+        val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
+            .getPreSignedURL(preSignedURLRequest)
+        val url = request.result() as NSURL
+        return url.absoluteString
     }
 
     /**

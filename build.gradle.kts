@@ -36,3 +36,4 @@ allprojects {
 subprojects {
     apply(plugin = "io.kotest.multiplatform")
 }
+

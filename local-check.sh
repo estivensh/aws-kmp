@@ -18,5 +18,8 @@ log "runtime jvm success"
 ./gradlew compileKotlinIosX64
 log "runtime ios success"
 
-./gradlew build publishToMavenLocal
-log "runtime build and publish success"
+./gradlew build
+log "runtime build"
+
+./gradlew publishToMavenLocal
+log "publish success"

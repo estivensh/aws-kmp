@@ -1,5 +1,5 @@
 ---
-name: AWS library compilation check
+name: Test
 on:
   pull_request:
     branches:
@@ -32,5 +32,7 @@ jobs:
         with:
           cache-read-only: ${{ github.ref != 'refs/heads/master' && github.ref !=
             'refs/heads/develop' }}
+      - name: Library local publish
+        run: cd samples
       - name: Library local publish
         run: ./gradlew webApp:build

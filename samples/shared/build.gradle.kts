@@ -75,14 +75,11 @@ android {
 
 buildkonfig {
 
-    val localProperties = Properties()
-    localProperties.load(rootProject.file("local.properties").reader())
-
     packageName = "com.estivensh4.shared"
     exposeObjectWithName = "BuildPublicConfig"
     defaultConfigs {
-        buildConfigField(STRING, "accessKey", localProperties.getProperty("AWS_ACCESS_KEY"))
-        buildConfigField(STRING, "secretKey", localProperties.getProperty("AWS_SECRET_KEY"))
+        buildConfigField(STRING, "accessKey", System.getenv("AWS_ACCESS_KEY"))
+        buildConfigField(STRING, "secretKey", System.getenv("AWS_SECRET_KEY"))
     }
 }
 

@@ -10,6 +10,7 @@ on:
       prerelease:
         type: choice
         description: 'prelease'
+        default: false
         options:
           - false
           - true

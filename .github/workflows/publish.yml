@@ -9,10 +9,12 @@ on:
         required: true
 
 env:
-  ossrhUsername: ${{ secrets.OSSH_USERNAME }}
-  ossrhPassword: ${{ secrets.OSSH_PASSWORD }}
-  signingKey: ${{ secrets.SIGNING_KEY }}
-  signingPassword: ${{ secrets.SIGNING_PASS }}
+  OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}
+  OSSH_PASSWORD: ${{ secrets.OSSH_PASSWORD }}
+  SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+  SIGNING_PASSWORD: ${{ secrets.SIGNING_PASS }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
 jobs:
   build:
@@ -26,10 +28,10 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
           cache: gradle
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-      - name: Publish all modules
-        run: ./gradlew publish
+      - name: Prebuild library
+        run: ./gradlew publishToMavenLocal
+      - name: Publish library
+        run: ./gradlew publish --no-parallel
   release:
     name: Create release
     needs: build

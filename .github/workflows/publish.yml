@@ -98,7 +98,7 @@ jobs:
   test:
     # Requires build job results
     needs: build
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: Download artifacts
@@ -118,7 +118,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     # Requires the build job results
     needs: test
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3

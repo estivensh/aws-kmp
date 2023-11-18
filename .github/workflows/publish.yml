@@ -24,7 +24,7 @@ env:
 
 jobs:
   build-documentation:
-    runs-on: self-hosted
+    runs-on: macos-latest
 
     steps:
       - name: Checkout repository
@@ -55,7 +55,7 @@ jobs:
 
   test:
     needs: build-documentation
-    runs-on: self-hosted
+    runs-on: macos-latest
 
     steps:
       - name: Download artifacts
@@ -74,7 +74,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     needs: test
-    runs-on: self-hosted
+    runs-on: macos-latest
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v3
@@ -100,7 +100,7 @@ jobs:
   
   build:
     name: Publish library at mavenCentral
-    runs-on: self-hosted
+    runs-on: macos-latest
     needs: deploy-documentation
     steps:
       - uses: actions/checkout@v3
@@ -118,7 +118,7 @@ jobs:
   release:
     name: Create release
     needs: build
-    runs-on: self-hosted
+    runs-on: macos-latest
     steps:
       - name: Create Release
         id: create_release

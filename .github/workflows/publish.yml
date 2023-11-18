@@ -23,39 +23,7 @@ env:
   ALGOLIA_ARTIFACT: algolia-indexes-AKM.zip
 
 jobs:
-  build:
-    name: Publish library at mavenCentral
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v3
-      - name: set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'zulu'
-          cache: gradle
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-      - name: Publish all modules
-        run: ./gradlew :publish
-        
-  release:
-    name: Create release
-    needs: build
-    runs-on: self-hosted
-    steps:
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          commitish: ${{ github.ref }}
-          tag_name: release/${{ github.event.inputs.version }}
-          release_name: ${{ github.event.inputs.version }}
-          body: "Will be filled later"
-          draft: true
-  documentation:
+  build-documentation:
     runs-on: self-hosted
 
     steps:
@@ -86,7 +54,7 @@ jobs:
           retention-days: 7
 
   test:
-    needs: build
+    needs: build-documentation
     runs-on: self-hosted
 
     steps:
@@ -129,3 +97,36 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v1
+  
+  build:
+    name: Publish library at mavenCentral
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'zulu'
+          cache: gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Publish all modules
+        run: ./gradlew :publish
+        
+  release:
+    name: Create release
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          commitish: ${{ github.ref }}
+          tag_name: release/${{ github.event.inputs.version }}
+          release_name: ${{ github.event.inputs.version }}
+          body: "Will be filled later"
+          draft: true

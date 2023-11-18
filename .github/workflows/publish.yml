@@ -50,7 +50,7 @@ jobs:
         run: ./gradlew publish --no-parallel
   release:
     name: Create release v${{ github.event.inputs.version }}
-    needs: build
+    needs: publish
     runs-on: ubuntu-latest
     steps:
       - name: Create Release

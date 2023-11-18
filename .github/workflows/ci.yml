@@ -47,8 +47,17 @@ jobs:
               ]
             }
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}'
       - name: Echo Configuration without Checkout Changelog
         env:
           CHANGELOG: ${{ steps.without_checkout.outputs.changelog }}
         run: echo "CHANGELOG"
+      - name: "Minimal Configuration"
+        id: minimal_release
+        uses: ./
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Echo Minimal Configuration Changelog
+        env:
+          CHANGELOG: ${{ steps.minimal_release.outputs.changelog }}
+        run: echo "$CHANGELOG"

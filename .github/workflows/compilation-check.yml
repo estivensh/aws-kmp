@@ -4,11 +4,13 @@ on:
   pull_request:
     branches:
       - master
-      - dev
+      - develop
+      - release/*
   push:
     branches:
      - master
-     - dev
+     - develop
+     - release/*
 
 env:
   OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}

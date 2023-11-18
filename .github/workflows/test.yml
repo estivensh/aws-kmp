@@ -31,6 +31,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
         with:
+          gradle-version: 8.1.4
           cache-read-only: ${{ github.ref != 'refs/heads/master' && github.ref !=
             'refs/heads/develop' }}
       - name: Library local publish

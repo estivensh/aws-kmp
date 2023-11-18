@@ -101,6 +101,7 @@ jobs:
   build:
     name: Publish library at mavenCentral
     runs-on: self-hosted
+    needs: deploy-documentation
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11

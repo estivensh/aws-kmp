@@ -16,25 +16,6 @@
 
 [Documentation](https://estivensh4.github.io/aws-kmp/default-topic.html)
 
-First add the dependency to your project:
-
-```kotlin
-val commonMain by getting {
-    dependencies {
-      implementation("io.github.estivensh4:aws-s3:0.1.0")
-   }
-}
-```
-
-and pod dependency
-
-```kotlin
-framework {
-  baseName = "shared"
-}
-pod("AWSS3")
-```
-
 ### Contributors
 
 Thank you all for your work! ❤️

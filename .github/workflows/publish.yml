@@ -33,7 +33,7 @@ env:
   ALGOLIA_ARTIFACT: algolia-indexes-AKM.zip
 
 jobs:
-  build:
+  publish:
     name: Publish library at mavenCentral
     runs-on: macos-latest
     steps:
@@ -65,7 +65,7 @@ jobs:
           body: "Will be filled later"
           draft: false
           prerelease: ${{ github.event.inputs.prerelease }}
-  build-documentation:
+  build:
     runs-on: ubuntu-latest
     needs: release
     steps:
@@ -97,9 +97,9 @@ jobs:
           retention-days: 7
 
   # Add the job below and artifacts/report.json on Upload documentation step above if you want to fail the build when documentation contains errors
-  test-documentation:
+  test:
     # Requires build job results
-    needs: build-documentation
+    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -114,7 +114,7 @@ jobs:
         with:
           instance: ${{ env.INSTANCE }}
 
-  deploy-documentation:
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

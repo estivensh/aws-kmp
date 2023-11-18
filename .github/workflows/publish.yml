@@ -1,5 +1,3 @@
-name: Create release
-
 on:
   workflow_dispatch:
     inputs:
@@ -14,6 +12,7 @@ on:
         options:
           - false
           - true
+name: Create release v${{ github.event.inputs.version }}
 
 env:
   OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}
@@ -51,7 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           commitish: ${{ github.ref }}
-          tag_name: ${{ github.event.inputs.version }}
+          tag_name: release/${{ github.event.inputs.version }}
           release_name: v${{ github.event.inputs.version }}
           body: "Will be filled later"
           draft: false

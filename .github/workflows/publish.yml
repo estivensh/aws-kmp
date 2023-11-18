@@ -46,25 +46,25 @@ jobs:
 #        run: ./gradlew publishToMavenLocal
 #      - name: Publish library
 #        run: ./gradlew publish --no-parallel
-  release:
-    name: Create release v${{ github.event.inputs.version }}
-    #needs: publish
-    runs-on: self-hosted
-    steps:
-      - name: Create Release
-        id: create_release
-        uses: comnoco/create-release-action@v2.0.5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          commitish: ${{ github.ref }}
-          tag_name: release/${{ github.event.inputs.version }}
-          release_name: v${{ github.event.inputs.version }}
-          body: "Will be filled later"
-          draft: false
-          prerelease: ${{ github.event.inputs.prerelease }}
+  #release:
+  #  name: Create release v${{ github.event.inputs.version }}
+  #  #needs: publish
+  #  runs-on: self-hosted
+  #  steps:
+  #    - name: Create Release
+  #      id: create_release
+  #      uses: comnoco/create-release-action@v2.0.5
+  #      env:
+  #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #      with:
+  #        commitish: ${{ github.ref }}
+  #        tag_name: release/${{ github.event.inputs.version }}
+  #        release_name: v${{ github.event.inputs.version }}
+  #        body: "Will be filled later"
+  #        draft: false
+  #        prerelease: ${{ github.event.inputs.prerelease }}
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     needs: release
     steps:
       - name: Checkout repository

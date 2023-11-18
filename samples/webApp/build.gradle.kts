@@ -4,11 +4,11 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
 }
-/*
+
 repositories {
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-}*/
+}
 
 kotlin {
     js(IR) {
@@ -39,13 +39,6 @@ afterEvaluate {
         versions.webpackCli.version = "4.10.0"
     }
 }
-/*
-rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin::class.java) {
-    rootProject.the<YarnRootExtension>().yarnLockMismatchReport =
-        org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport.WARNING // NONE | FAIL
-    rootProject.the<YarnRootExtension>().reportNewYarnLock = false // true
-    rootProject.the<YarnRootExtension>().yarnLockAutoReplace = false // true
-}*/
 
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
     rootProject.the<YarnRootExtension>().version = "1.22.19"

@@ -15,6 +15,8 @@ plugins {
 kotlin {
     applyDefaultHierarchyTemplate()
 
+    jvmToolchain(11)
+
     androidTarget {
         publishAllLibraryVariants()
         compilations.all {

@@ -9,8 +9,8 @@ plugins {
 publishing {
     repositories.maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
         credentials {
-            username = System.getenv("OSSRH_USER")
-            password = System.getenv("OSSRH_KEY")
+            username = System.getenv("OSSH_USERNAME")
+            password = System.getenv("OSSH_PASSWORD")
         }
     }
 

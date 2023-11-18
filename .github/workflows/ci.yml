@@ -9,7 +9,6 @@ permissions:
   contents: read
   pull-requests: read
 
-
 jobs:
   release:
     if: github.event_name  == 'pull_request'
@@ -52,12 +51,10 @@ jobs:
         env:
           CHANGELOG: ${{ steps.without_checkout.outputs.changelog }}
         run: echo "CHANGELOG"
-      - name: "Minimal Configuration"
-        id: minimal_release
-        uses: ./
+      - name: Create Release
+        uses: mikepenz/action-gh-release@v1
+        with:
+          body: ${{steps.github_release.outputs.changelog}}
+          prerelease: ${{ contains(github.ref, '-rc') || contains(github.ref, '-b') || contains(github.ref, '-a') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Echo Minimal Configuration Changelog
-        env:
-          CHANGELOG: ${{ steps.minimal_release.outputs.changelog }}
-        run: echo "$CHANGELOG"

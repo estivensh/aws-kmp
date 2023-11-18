@@ -31,21 +31,21 @@ env:
   ALGOLIA_ARTIFACT: algolia-indexes-AKM.zip
 
 jobs:
-#  publish:
-#    name: Publish library at mavenCentral
-#    runs-on: macos-latest
-#    steps:
-#      - uses: actions/checkout@v3
-#      - name: set up JDK 11
-#        uses: actions/setup-java@v3
-#        with:
-#          java-version: '17'
-#          distribution: 'zulu'
-#          cache: gradle
-#      - name: Prebuild library
-#        run: ./gradlew publishToMavenLocal
-#      - name: Publish library
-#        run: ./gradlew publish --no-parallel
+  #  publish:
+  #    name: Publish library at mavenCentral
+  #    runs-on: macos-latest
+  #    steps:
+  #      - uses: actions/checkout@v3
+  #      - name: set up JDK 11
+  #        uses: actions/setup-java@v3
+  #        with:
+  #          java-version: '17'
+  #          distribution: 'zulu'
+  #          cache: gradle
+  #      - name: Prebuild library
+  #        run: ./gradlew publishToMavenLocal
+  #      - name: Publish library
+  #        run: ./gradlew publish --no-parallel
   #release:
   #  name: Create release v${{ github.event.inputs.version }}
   #  #needs: publish
@@ -65,7 +65,7 @@ jobs:
   #        prerelease: ${{ github.event.inputs.prerelease }}
   build:
     runs-on: ubuntu-latest
-    #needs: release
+    needs: release
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3

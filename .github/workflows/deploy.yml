@@ -1,10 +1,12 @@
 name: Build documentation
 
 on:
-  push:
-    branches: ["main"]
-  # Specify to run a workflow manually from the Actions tab on GitHub
   workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version'
+        default: '0.1.0'
+        required: true
 
 # Gives the workflow permissions to clone the repo and create a page deployment
 permissions:

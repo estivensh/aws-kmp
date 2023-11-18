@@ -1,5 +1,5 @@
----
 name: AWS library compilation check
+
 on:
   pull_request:
     branches:

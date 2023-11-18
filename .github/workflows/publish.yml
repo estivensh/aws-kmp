@@ -10,6 +10,7 @@ on:
       prerelease:
         type: choice
         description: 'prelease'
+        default: false
         options:
           - false
           - true
@@ -54,4 +55,4 @@ jobs:
           release_name: v${{ github.event.inputs.version }}
           body: "Will be filled later"
           draft: false
-          prelease: ${{ github.event.inputs.prerelease }}
+          prerelease: ${{ github.event.inputs.prerelease }}

@@ -2,7 +2,7 @@
 
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/estivensh4/aws-kmp/main/.github/images/aws.svg">
-    <img alt="Ktor logo" src="https://raw.githubusercontent.com/estivensh4/aws-kmp/main/.github/images/aws.svg">
+    <img alt="AWS logo" src="https://raw.githubusercontent.com/estivensh4/aws-kmp/main/.github/images/aws.svg">
   </picture>
 
 </div>
@@ -51,7 +51,7 @@ You can, of course, suggest any change by a pull request, but we suggest that yo
 
 ## License
 
-    Copyright 2019 estivensh4.
+    Copyright 2023 estivensh4.
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

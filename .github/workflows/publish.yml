@@ -55,7 +55,10 @@ jobs:
     runs-on: self-hosted
     steps:
       - name: Create Release
+        id: create_release
         uses: comnoco/create-release-action@v2.0.5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           commitish: ${{ github.ref }}
           tag_name: release/${{ github.event.inputs.version }}

@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Changelog
+        id: without_checkout
         uses: mikepenz/release-changelog-builder-action@v3
         with:
           configurationJson: |

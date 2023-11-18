@@ -4,11 +4,11 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
 }
-
+/*
 repositories {
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
-}
+}*/
 
 kotlin {
     js(IR) {
@@ -23,8 +23,6 @@ kotlin {
                 implementation(compose.runtime)
                 implementation(compose.ui)
                 implementation(compose.material3)
-                @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
-                implementation(compose.components.resources)
             }
         }
     }

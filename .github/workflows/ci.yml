@@ -12,7 +12,6 @@ jobs:
       - name: Build Changelog
         uses: mikepenz/release-changelog-builder-action@v3
         with:
-          prerelease: false
           configurationJson: |
             {
               "categories": [

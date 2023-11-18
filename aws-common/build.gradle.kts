@@ -8,17 +8,20 @@ plugins {
     alias(libs.plugins.androidLibrary)
     id("javadoc-stub-convention")
     id("publication-convention")
+    id("detekt-convention")
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     applyDefaultHierarchyTemplate()
 
+    jvmToolchain(11)
+
     androidTarget {
         publishAllLibraryVariants()
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }

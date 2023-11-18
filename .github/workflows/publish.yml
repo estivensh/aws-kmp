@@ -16,9 +16,7 @@ on:
           - true
 
 # Gives the workflow permissions to clone the repo and create a page deployment
-permissions:
-#  id-token: write
-  pages: write
+permissions: write-all
 
 env:
   OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}
@@ -31,7 +29,6 @@ env:
   ARTIFACT: webHelpAKM2-all.zip
   DOCKER_VERSION: 2.1.1479-p3869
   ALGOLIA_ARTIFACT: algolia-indexes-AKM.zip
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
 #  publish:

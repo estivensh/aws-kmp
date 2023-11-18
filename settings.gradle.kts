@@ -24,7 +24,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "aws-kmp"
+rootProject.name = "awsKmp"
 includeBuild("build-logic")
 include(":aws-common")
 include(":aws-s3")

@@ -1,3 +1,5 @@
+name: Create release
+
 on:
   workflow_dispatch:
     inputs:
@@ -12,7 +14,6 @@ on:
         options:
           - false
           - true
-name: Create release v${{ github.event.inputs.version }}
 
 env:
   OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}
@@ -39,7 +40,7 @@ jobs:
       - name: Publish library
         run: ./gradlew publish --no-parallel
   release:
-    name: Create release
+    name: Create release v${{ github.event.inputs.version }}
     needs: build
     runs-on: ubuntu-latest
     steps:

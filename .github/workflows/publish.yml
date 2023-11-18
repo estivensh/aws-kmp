@@ -16,9 +16,9 @@ on:
           - true
 
 # Gives the workflow permissions to clone the repo and create a page deployment
-permissions:
-  id-token: write-all
-  pages: write-all
+#permissions:
+#  id-token: write-all
+#  pages: write-all
 
 env:
   OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}

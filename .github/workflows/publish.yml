@@ -31,6 +31,7 @@ env:
   ARTIFACT: webHelpAKM2-all.zip
   DOCKER_VERSION: 2.1.1479-p3869
   ALGOLIA_ARTIFACT: algolia-indexes-AKM.zip
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
 #  publish:
@@ -55,8 +56,6 @@ jobs:
     steps:
       - name: Create Release
         uses: comnoco/create-release-action@v2.0.5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           commitish: ${{ github.ref }}
           tag_name: release/${{ github.event.inputs.version }}

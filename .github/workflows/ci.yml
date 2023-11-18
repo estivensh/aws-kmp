@@ -3,6 +3,7 @@ on:
   push:
     tags:
       - '*'
+  pull_request:
 
 permissions:
   contents: read
@@ -10,7 +11,7 @@ permissions:
 
 jobs:
   release:
-    if: startsWith(github.ref, 'refs/tags/')
+    if: github.event_name  == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Build Changelog
@@ -20,6 +21,18 @@ jobs:
             {
               "template": "#{{CHANGELOG}}\n\n<details>\n<summary>Uncategorized</summary>\n\n#{{UNCATEGORIZED}}\n</details>",
               "categories": [
+                {
+                    "title": "## 🚀 Features",
+                    "labels": ["feature"]
+                },
+                {
+                    "title": "## 🐛 Fixes",
+                    "labels": ["fix"]
+                },
+                {
+                    "title": "## 🧪 Tests",
+                    "labels": ["test"]
+                },
                 {
                     "title": "## 💬 Other",
                     "labels": ["other"]
@@ -32,3 +45,7 @@ jobs:
             }
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Echo Configuration without Checkout Changelog
+        env:
+          CHANGELOG: ${{ steps.without_checkout.outputs.changelog }}
+        run: echo "CHANGELOG"

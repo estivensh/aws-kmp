@@ -30,7 +30,7 @@ env:
   ALGOLIA_ARTIFACT: algolia-indexes-AKM.zip
 
 jobs:
-  publish:
+  pre-build:
     name: Publish library at mavenCentral
     runs-on: macos-latest
     steps:
@@ -47,7 +47,7 @@ jobs:
         run: ./gradlew publish --no-parallel
   release:
     name: Create release v${{ github.event.inputs.version }}
-    needs: publish
+    needs: pre-build
     runs-on: self-hosted
     steps:
       - name: Create Release
@@ -62,7 +62,7 @@ jobs:
           body: "Will be filled later"
           draft: false
           prerelease: ${{ github.event.inputs.prerelease }}
-  build:
+  build-documentation:
     runs-on: ubuntu-latest
     needs: release
     steps:
@@ -92,8 +92,8 @@ jobs:
           path: artifacts/${{ env.ALGOLIA_ARTIFACT }}
           retention-days: 7
 
-  test:
-    needs: build
+  test-documentation:
+    needs: build-documentation
     runs-on: ubuntu-latest
 
     steps:
@@ -108,11 +108,11 @@ jobs:
         with:
           instance: ${{ env.INSTANCE }}
 
-  deploy:
+  deploy-documentation:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    needs: test
+    needs: test-documentation
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact

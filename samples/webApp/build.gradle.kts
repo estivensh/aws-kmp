@@ -32,14 +32,14 @@ compose.experimental {
     web.application {}
 }
 
-/*
+
 afterEvaluate {
     rootProject.extensions.configure<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension> {
         versions.webpackDevServer.version = "4.0.0"
         versions.webpackCli.version = "4.10.0"
     }
 }
-
+/*
 rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin::class.java) {
     rootProject.the<YarnRootExtension>().yarnLockMismatchReport =
         org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport.WARNING // NONE | FAIL
@@ -49,6 +49,8 @@ rootProject.plugins.withType(org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlu
 
 rootProject.plugins.withType<org.jetbrains.kotlin.gradle.targets.js.yarn.YarnPlugin> {
     rootProject.the<YarnRootExtension>().version = "1.22.19"
+    rootProject.the<YarnRootExtension>().yarnLockMismatchReport =
+        org.jetbrains.kotlin.gradle.targets.js.yarn.YarnLockMismatchReport.WARNING // NONE | FAIL
     rootProject.the<YarnRootExtension>().reportNewYarnLock = false // true
     rootProject.the<YarnRootExtension>().yarnLockAutoReplace = false // true
 }

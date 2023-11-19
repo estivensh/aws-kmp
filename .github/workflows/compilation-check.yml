@@ -22,6 +22,7 @@ env:
 
 jobs:
   build-library:
+    if: github.ref != 'refs/heads/doc/*'
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
@@ -64,6 +65,7 @@ jobs:
           name: code-coverage-report-${{ github.job }}
           path: "**/build/reports/**/*"
   check-sample-android-app:
+    if: github.ref != 'refs/heads/doc/*'
     runs-on: self-hosted
     needs: build-library
     steps:
@@ -104,6 +106,7 @@ jobs:
           name: code-coverage-report-${{ github.job }}
           path: "**/build/reports/**/*"
   check-sample-desktop-app:
+    if: github.ref != 'refs/heads/doc/*'
     runs-on: self-hosted
     needs: build-library
     steps:
@@ -184,6 +187,7 @@ jobs:
           name: code-coverage-report-${{ github.job }}
           path: "**/build/reports/**/*"
   check-sample-web-app:
+    if: github.ref != 'refs/heads/doc/*'
     runs-on: self-hosted
     needs: build-library
     steps:

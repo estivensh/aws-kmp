@@ -8,4 +8,5 @@
 
     <toc-element topic="Default-topic.md"/>
     <toc-element topic="Generate-Presigned-Url.md"/>
+    <toc-element topic="Empty-XML-Topic.topic"/>
 </instance-profile>

@@ -1,4 +1,4 @@
-# Generate Presigned Url
+# S3
 
 The Amazon S3 Java SDK provides a simple interface that can be used to store
 and retrieve any amount of data, at any time, from anywhere on the web. It
@@ -10,16 +10,16 @@ pass those benefits on to developers.
 ## Configuration
 
 <list type="decimal">
-<li>Add dependency
+<li>Add dependency in module shared/build.gradle.kts
 <code-block lang="kotlin">
 val commonMain by getting {
     dependencies {
-      implementation("io.github.estivensh4:aws-s3:0.1.0")
+      implementation("io.github.estivensh4:aws-s3:$lastVersion")
    }
 }
 </code-block>
 </li>
-<li>Add pod
+<li>Add pod in module shared/build.gradle.kts
 <code-block lang="kotlin">
 cocoapods {
    summary = "Some description for the Shared Module"
@@ -29,58 +29,146 @@ cocoapods {
    framework {
       baseName = "shared"
    }
-   pod("AWSS3") // add this line depending on the module to be used
+   pod("AWSS3", "~> 2.33.4") // add this line
+}
+</code-block>
+</li>
+<li>Add pod in iosApp/Podfile
+<code-block>
+target 'iosApp' do
+  use_frameworks!
+  platform :ios, '14.1'
+  pod 'shared', :path => '../shared'
+  pod 'AWSS3', '~> 2.33.4' # add this line
+end
+</code-block>
+</li>
+<li>create your AppDelegate.swift
+<code-block lang="swift">
+import Foundation
+import UIKit
+import AWSS3
+import shared
+
+class AppDelegate: UIResponder, UIApplicationDelegate {
+
+    var window: UIWindow?
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        initializeS3()
+        return true
+    }
+
+}
+
+func initializeS3() {
+let credentialsProvider = AWSStaticCredentialsProvider(accessKey: "YOUR_ACCESS_KEY", secretKey: "YOUR_SECRET_KEY")
+let configuration = AWSServiceConfiguration.init(region: .USEast1, credentialsProvider: credentialsProvider)
+
+    AWSServiceManager.default().defaultServiceConfiguration = configuration
+
+}
+</code-block>
+</li>
+<li>and in your iOSApp.swift file
+<code-block lang="swift">
+import SwiftUI
+
+@main
+struct iOSApp: App {
+
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+	var body: some Scene {
+		WindowGroup {
+			ContentView()
+		}
+	}
+
 }
 </code-block>
 </li>
 </list>
 
-## Examples
+# Ex
+### HHSEHE
+### HHSEHE1
+### HHSEHE2
 
-with <code>bucketName</code> and <code>key</code>
+## Examples
+### Create client
 <code-block lang="kotlin">
-fun generatePresignedUrl(): String? {
-    val clientS3 = AwsS3.Builder()
-        .accessKey("YOUR ACCESS KEY")
-        .secretKey("YOUR SECRET KEY")
+private val client = AWSS3.Builder()
+        .accessKey(BuildPublicConfig.accessKey)
+        .secretKey(BuildPublicConfig.secretKey)
         .setEndpoint("s3.amazonaws.com")
         .build()
-    return clientS3.generatePresignedUrl(
-        bucketName = "bucketName",
-        key = "key",
-        expiration = Clock.System.now().plus(1, DateTimeUnit.HOUR)
-    )
+</code-block>
+
+### Generate Presigned URL
+<code-block lang="kotlin">
+fun generatePresignedUrl(
+    bucketName: String,
+    key: String,
+) {
+    GlobalScope.launch {
+        _generatePresignedUrl.value = client.generatePresignedUrl(
+            bucketName = bucketName,
+            key = key,
+            expirationInSeconds = 3600L
+        ) ?: ""
+    }
 }
 </code-block>
-with <code>bucketName</code>,<code>key</code>,<code>expiration</code> and <code>method</code>
+
 <code-block lang="kotlin">
-fun generatePresignedUrl(): String? {
-    val clientS3 = AwsS3.Builder()
-        .accessKey("YOUR ACCESS KEY")
-        .secretKey("YOUR SECRET KEY")
-        .setEndpoint("s3.amazonaws.com")
-        .build()
-    return clientS3.generatePresignedUrl(
-        bucketName = "bucketName",
-        key = "key",
-        expiration = Clock.System.now().plus(1, DateTimeUnit.HOUR),
-        method = HttpMethod.GET
-    )
+fun generatePresignedUrl(
+    bucketName: String,
+    key: String,
+) {
+    GlobalScope.launch {
+        _generatePresignedUrl.value = client.generatePresignedUrl(
+            bucketName = bucketName,
+            key = key,
+            expirationInSeconds = 3600L,
+            method: HttpMethod.GET
+        ) ?: ""
+    }
 }
 </code-block>
-with <code>data class</code> <code>generatePresignedUrl</code>
+
+### Create bucket
 <code-block lang="kotlin">
-fun generatePresignedUrl(): String? {
-    val clientS3 = AwsS3.Builder()
-        .accessKey("YOUR ACCESS KEY")
-        .secretKey("YOUR SECRET KEY")
-        .setEndpoint("s3.amazonaws.com")
-        .build()
-    return clientS3.generatePresignedUrl(
-        GeneratePresignedUrlRequest(
-            bucketName = "bucketName",
-            key = "key"
-        )
-    )
+fun createBucket(bucketName: String) {
+    GlobalScope.launch {
+        client.createBucket(bucketName)
+    }
+}
+</code-block>
+
+### List buckets
+<code-block lang="kotlin">
+fun listBuckets() {
+    GlobalScope.launch {
+        val list = client.listBuckets()
+    }
+}
+</code-block>
+
+### Delete bucket
+<code-block lang="kotlin">
+fun deleteBucket(bucketName: String) {
+    GlobalScope.launch {
+        client.deleteBucket(bucketName)
+    }
+}
+</code-block>
+
+### Put object
+<code-block lang="kotlin">
+fun putObject(bucketName: String, key: String, imageFile: ImageFile) {
+    GlobalScope.launch {
+        client.putObject(bucketName, key, imageFile)
+    }
 }
 </code-block>

@@ -9,12 +9,8 @@ plugins {
 publishing {
     repositories.maven("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/") {
         credentials {
-            username = project.findProperty("ossrhUsername") as String? ?: System.getenv(
-                "ossrhUsername"
-            )
-            password = project.findProperty("ossrhPassword") as String? ?: System.getenv(
-                "ossrhPassword"
-            )
+            username = System.getenv("OSSH_USERNAME")
+            password = System.getenv("OSSH_PASSWORD")
         }
     }
 
@@ -52,8 +48,8 @@ publishing {
 apply(plugin = "signing")
 
 configure<SigningExtension> {
-    val signingKey: String? by project
-    val signingPassword: String? by project
+    val signingKey: String? = System.getenv("SIGNING_KEY")
+    val signingPassword: String? = System.getenv("SIGNING_PASSWORD")
     useInMemoryPgpKeys(signingKey, signingPassword)
     sign(publishing.publications)
 }
@@ -62,3 +58,4 @@ val signingTasks = tasks.withType<Sign>()
 tasks.withType<AbstractPublishToMaven>().configureEach {
     dependsOn(signingTasks)
 }
+

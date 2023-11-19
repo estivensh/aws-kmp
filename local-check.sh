@@ -1,0 +1,25 @@
+set -e
+
+log() {
+  echo "\033[0;32m> $1\033[0m"
+}
+
+# run gradle tasks in faster order to receive faster feedback
+
+./gradlew detekt
+log "runtime detekt success"
+
+./gradlew assembleDebug
+log "runtime android success"
+
+./gradlew jvmJar
+log "runtime jvm success"
+
+./gradlew compileKotlinIosX64
+log "runtime ios success"
+
+./gradlew build
+log "runtime build"
+
+./gradlew publishToMavenLocal
+log "publish success"

@@ -1,23 +1,38 @@
-name: Create release
+name: Create release and documentation
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version'
-        default: '0.1.0'
+        description: 'version'
+        default: '0.0.0'
         required: true
+      prerelease:
+        type: choice
+        description: 'prelease'
+        default: false
+        options:
+          - false
+          - true
+
+permissions: write-all
 
 env:
-  ossrhUsername: ${{ secrets.OSSH_USERNAME }}
-  ossrhPassword: ${{ secrets.OSSH_PASSWORD }}
-  signingKey: ${{ secrets.SIGNING_KEY }}
-  signingPassword: ${{ secrets.SIGNING_PASS }}
+  OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}
+  OSSH_PASSWORD: ${{ secrets.OSSH_PASSWORD }}
+  SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+  SIGNING_PASSWORD: ${{ secrets.SIGNING_PASS }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+  INSTANCE: Writerside/akm
+  ARTIFACT: webHelpAKM2-all.zip
+  DOCKER_VERSION: 2.1.1479-p3869
+  ALGOLIA_ARTIFACT: algolia-indexes-AKM.zip
 
 jobs:
-  build:
+  pre-build:
     name: Publish library at mavenCentral
-    runs-on: macos-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
       - name: set up JDK 11
@@ -26,25 +41,98 @@ jobs:
           java-version: '17'
           distribution: 'zulu'
           cache: gradle
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-      - name: Publish Common
-        run: ./gradlew :aws-common:publish
-      - name: Publish Common
-        run: ./gradlew :aws-common:publish
+      - name: Prebuild library
+        run: ./gradlew publishToMavenLocal
+      - name: Publish library
+        run: ./gradlew publish --no-parallel
   release:
-    name: Create release
-    needs: build
-    runs-on: ubuntu-latest
+    name: Create release v${{ github.event.inputs.version }}
+    needs: pre-build
+    runs-on: self-hosted
     steps:
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: comnoco/create-release-action@v2.0.5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           commitish: ${{ github.ref }}
           tag_name: release/${{ github.event.inputs.version }}
-          release_name: ${{ github.event.inputs.version }}
+          release_name: v${{ github.event.inputs.version }}
           body: "Will be filled later"
-          draft: true
+          draft: false
+          prerelease: ${{ github.event.inputs.prerelease }}
+  build-documentation:
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Writerside docs using Docker
+        uses: JetBrains/writerside-github-action@v4
+        with:
+          instance: ${{ env.INSTANCE }}
+          artifact: ${{ env.ARTIFACT }}
+          docker-version: ${{ env.DOCKER_VERSION }}
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: |
+            artifacts/${{ env.ARTIFACT }}
+            artifacts/report.json
+          retention-days: 7
+
+      - name: Upload algolia-indexes
+        uses: actions/upload-artifact@v3
+        with:
+          name: algolia-indexes
+          path: artifacts/${{ env.ALGOLIA_ARTIFACT }}
+          retention-days: 7
+
+  test-documentation:
+    needs: build-documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: docs
+          path: artifacts
+
+      - name: Test documentation
+        uses: JetBrains/writerside-checker-action@v1
+        with:
+          instance: ${{ env.INSTANCE }}
+
+  deploy-documentation:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: test-documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: docs
+
+      - name: Unzip artifact
+        uses: montudor/action-zip@v1
+        with:
+          args: unzip -qq ${{ env.ARTIFACT }} -d dir
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: dir
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

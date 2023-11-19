@@ -7,13 +7,11 @@
                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
     <variables></variables>
-    <build-profile instance="hi">
+    <build-profile instance="akm">
         <variables>
-            <noindex-content>true</noindex-content>
+            <primary-color>halloween</primary-color>
+            <header-logo>aws.svg</header-logo>
+            <noindex-content>false</noindex-content>
         </variables>
     </build-profile>
-    <build-profile instance="si">
-        <variables></variables>
-    </build-profile>
-
 </buildprofiles>

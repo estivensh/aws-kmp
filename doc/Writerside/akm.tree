@@ -3,9 +3,10 @@
         SYSTEM "https://resources.jetbrains.com/writerside/1.0/product-profile.dtd">
 
 <instance-profile id="akm"
-                 name="AWS Kotlin Multiplatform"
-                 start-page="Default-topic.md">
+                  name="AWS Kotlin Multiplatform"
+                  status="eap"
+                  start-page="Default-topic.md">
 
     <toc-element topic="Default-topic.md"/>
-    <toc-element topic="Generate-Presigned-Url.md"/>
+    <toc-element topic="S3.md"/>
 </instance-profile>

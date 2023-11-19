@@ -45,4 +45,12 @@
         </description>
         <accepts>Quickly-add-images-links-and-tables.html</accepts>
     </rule>
+    <rule id="277627ee">
+        <description>Created after removal of "Empty XML Topic" from AWS Kotlin Multiplatform</description>
+        <accepts>Empty-XML-Topic.html</accepts>
+    </rule>
+    <rule id="620687d1">
+        <description>Created after removal of "Empty XML Topic" from AWS Kotlin Multiplatform</description>
+        <accepts>Empty-XML-Topic.html</accepts>
+    </rule>
 </rules>

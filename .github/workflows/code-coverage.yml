@@ -2,12 +2,12 @@ name: Build and publish snapshot
 
 on:
   push:
-    branches: [ "doc/*" ]
+    branches: [ "doc/*", "main" ]
     paths-ignore: [ '**.md', '**.MD', '!docs/**' ]
     tags-ignore:
       - '**'
   pull_request:
-    branches: [ "doc/*" ]
+    branches: [ "doc/*", "main" ]
     paths-ignore: [ '**.md', '**.MD', '!docs/**' ]
   workflow_dispatch:
 

@@ -21,7 +21,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ self-hosted ]
+        os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     steps:
@@ -69,8 +69,20 @@ jobs:
       #  uses: codecov/codecov-action@v3.1.4
       #  env:
       #    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          args: >
+            -Dsonar.organization=estivensh4-1
+            -Dsonar.projectKey=estivensh4_aws-kmp
+            -Dsonar.coverage.jacoco.xmlReportPaths=$GITHUB_WORKSPACE/build/reports/kover/report.xml
+            -Dsonar.c.file.suffixes=-
+            -Dsonar.cpp.file.suffixes=-
+            -Dsonar.objc.file.suffixes=-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   sonar:
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: SonarCloud Scan

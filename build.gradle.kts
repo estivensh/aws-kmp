@@ -30,7 +30,6 @@ buildscript {
     }
     dependencies {
         classpath(":build-logic")
-        classpath("org.jetbrains.kotlinx:kover-gradle-plugin:0.7.4")
     }
 }
 

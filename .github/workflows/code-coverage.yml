@@ -17,22 +17,23 @@ permissions:
   contents: read
 
 jobs:
-  build:
-
-    runs-on: self-hosted
-
+  #build:
+  #  runs-on: self-hosted
+  #  steps:
+  #  - uses: actions/checkout@v3
+  #  - name: Set up JDK
+  #    uses: actions/setup-java@v3
+  #    with:
+  #      java-version: '17'
+  #      distribution: 'zulu'
+  #  - name: Build with Gradle
+  #    uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+  #    with:
+  #      arguments: build
+  deploy:
+    runs-on: ubuntu-latest
+    #needs: build
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'zulu'
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: build
-
     - uses: actions/checkout@v3
       with:
         # Disabling shallow clone is recommended for improving relevancy of reporting
@@ -52,5 +53,6 @@ jobs:
           -Dsonar.test.exclusions=tests/**
           -Dsonar.tests=tests/
           -Dsonar.verbose=true
+
     
       

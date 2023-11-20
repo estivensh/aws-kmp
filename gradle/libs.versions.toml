@@ -76,3 +76,5 @@ org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org
 org-jetbrains-compose = { id = "org.jetbrains.compose", version="1.5.4" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 gradle-spotless = { id = "com.diffplug.gradle.spotless", version.ref = "spotless" }
+buildKonfig = { id = "com.codingfeline.buildkonfig", version = "0.15.0" }
+

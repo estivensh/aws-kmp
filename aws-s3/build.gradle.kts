@@ -106,15 +106,6 @@ android {
     defaultConfig {
         minSdk = 26
     }
-    tasks.withType<Test> {
-        useJUnitPlatform()
-    }
-    buildTypes {
-        getByName("debug") {
-            enableAndroidTestCoverage = true
-            enableUnitTestCoverage = true
-        }
-    }
 }
 
 tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {

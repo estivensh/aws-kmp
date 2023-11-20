@@ -48,8 +48,7 @@ jobs:
           -Dsonar.organization=estivensh4-1
           -Dsonar.projectKey=estivensh4_aws-kmp
           -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/kover/report.xml
-          -Dsonar.test.exclusions=tests/**
-          -Dsonar.tests=tests/
+          -Dsonar.exclusions=tests/**
           -Dsonar.verbose=true
 
     

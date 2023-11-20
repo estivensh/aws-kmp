@@ -8,6 +8,7 @@ import com.varabyte.truthish.assertThat
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertContains
 
 class AWSS3CommonTest {
 
@@ -32,9 +33,7 @@ class AWSS3CommonTest {
 
         val result = client.createBucket(bucketName)
 
-        assertThat(
-            client.listBuckets().map { it.name }
-        ).contains(result.name)
+        assertContains(client.listBuckets().map { it.name }, result.name)
     }
 
 }

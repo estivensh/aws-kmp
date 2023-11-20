@@ -41,13 +41,10 @@ allprojects {
 
 koverReport {
     filters {
-        excludes {
-            classes(
-                "kotlinx.kover.examples.merged.utils.*",
-                "kotlinx.kover.examples.merged.subproject.utils.*"
-            )
+        includes {
+            classes("com.estivensh4.aws_s3.*")
+            classes("com.estivensh4.aws_common.*")
         }
-
     }
 }
 

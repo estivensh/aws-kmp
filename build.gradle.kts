@@ -15,6 +15,7 @@ plugins {
     alias(libs.plugins.dokka)
     id("io.kotest.multiplatform") version "5.8.0" apply false
     id("org.jetbrains.kotlinx.kover") version "0.7.4"
+    id("org.sonarqube") version "3.5.0.2730"
 }
 
 val ktlintVersion = libs.versions.ktlint.version.get()
@@ -88,3 +89,12 @@ allprojects {
         parent?.subprojects?.forEach { dependsOn(it.tasks.withType(taskClass)) }
     }
 }
+
+sonar {
+    properties {
+        property("sonar.projectKey", "estivensh4_aws-kmp")
+        property("sonar.organization", "estivensh4-1")
+        property("sonar.host.url", "https://sonarcloud.io")
+    }
+}
+tasks.sonar.dependsOn(":koverXmlReport")

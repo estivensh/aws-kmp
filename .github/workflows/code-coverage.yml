@@ -62,9 +62,6 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Build
-        run: ./gradlew build --stacktrace
-
       - name: Kover Xml Report
         run: ./gradlew :koverXmlReport
 
@@ -72,6 +69,11 @@ jobs:
         uses: codecov/codecov-action@v3.1.4
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - name: Upload Code Anaylysis To SonarCloud
+        run: ./gradlew build sonar --info
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
       - name: Upload test report artifact
         if: ${{ failure() }}

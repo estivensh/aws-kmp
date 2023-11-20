@@ -77,7 +77,7 @@ jobs:
           args: >
             -Dsonar.organization=estivensh4-1
             -Dsonar.projectKey=estivensh4_aws-kmp
-            -Dsonar.coverage.jacoco.xmlReportPaths=$GITHUB_WORKSPACE/build/reports/kover/report.xml
+            -Dsonar.coverage.jacoco.xmlReportPaths=/home/runner/work/aws-kmp/aws-kmp/build/reports/kover/report.xml
             -Dsonar.c.file.suffixes=-
             -Dsonar.cpp.file.suffixes=-
             -Dsonar.objc.file.suffixes=-

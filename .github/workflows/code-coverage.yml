@@ -70,6 +70,7 @@ jobs:
       #  env:
       #    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
   sonar:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: SonarCloud Scan

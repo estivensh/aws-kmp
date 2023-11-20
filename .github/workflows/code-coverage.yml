@@ -21,7 +21,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ self-hosted ]
+        os: [ ubuntu-latest ]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     steps:

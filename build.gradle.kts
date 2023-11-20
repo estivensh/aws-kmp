@@ -1,4 +1,5 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 
 /*
  * Copyright 2023 estiven. Use of this source code is governed by the Apache 2.0 license.
@@ -11,10 +12,12 @@ plugins {
     alias(libs.plugins.kotlinCocoapods).apply(false)
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.kotlinAndroid) apply false
+    alias(libs.plugins.dokka)
     id("io.kotest.multiplatform") version "5.8.0" apply false
     id("org.jetbrains.kotlinx.kover") version "0.7.4"
-    id("org.sonarqube") version "4.2.1.3168"
 }
+
+val ktlintVersion = libs.versions.ktlint.version.get()
 
 buildscript {
     repositories {
@@ -27,7 +30,6 @@ buildscript {
     }
     dependencies {
         classpath(":build-logic")
-        classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.2.1.3168")
         classpath("org.jetbrains.kotlinx:kover-gradle-plugin:0.7.4")
     }
 }
@@ -39,18 +41,17 @@ allprojects {
     }
 }
 
-koverReport {
-    filters {
-        includes {
-            classes("com.estivensh4.aws_s3.*")
-            classes("com.estivensh4.aws_common.*")
-        }
-    }
-}
-
 subprojects {
     apply(plugin = "io.kotest.multiplatform")
     apply(plugin = "org.jetbrains.kotlinx.kover")
+    apply(plugin = "org.jetbrains.dokka")
+    apply<io.gitlab.arturbosch.detekt.DetektPlugin>()
+    configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
+        source.from(files("src/"))
+        config.from(files("${project.rootDir}/detekt.yml"))
+        buildUponDefaultConfig = true
+        allRules = true
+    }
 }
 
 dependencies {
@@ -58,17 +59,33 @@ dependencies {
     kover(projects.awsS3)
 }
 
-sonar {
-    val excludes = listOf(
-        "kotlinx.kover.examples.merged.utils.*"
-    )
-    properties {
-        property("sonar.projectName", "AWS Kotlin Multiplatform")
-        property("sonar.projectKey", "estivensh4_aws-kmp")
-        property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.exclusions", excludes)
+allprojects {
+
+    tasks.withType<AbstractTestTask> {
+        testLogging {
+            showExceptions = true
+            showCauses = true
+            showStackTraces = true
+            showStandardStreams = true
+            events = setOf(
+                TestLogEvent.PASSED,
+                TestLogEvent.FAILED,
+                TestLogEvent.SKIPPED,
+                TestLogEvent.STANDARD_OUT,
+                TestLogEvent.STANDARD_ERROR,
+            )
+            exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        }
+    }
+
+
+    tasks.withType<org.jetbrains.dokka.gradle.AbstractDokkaTask> {
+        val className =
+            "org.jetbrains.kotlin.gradle.targets.native.internal.CInteropMetadataDependencyTransformationTask"
+
+        @Suppress("UNCHECKED_CAST")
+        val taskClass = Class.forName(className) as Class<Task>
+
+        parent?.subprojects?.forEach { dependsOn(it.tasks.withType(taskClass)) }
     }
 }
-
-tasks.sonar.dependsOn("koverXmlReport")

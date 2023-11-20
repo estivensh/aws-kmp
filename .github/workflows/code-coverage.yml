@@ -21,7 +21,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
+        os: [ self-hosted ]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 45
     steps:
@@ -62,20 +62,23 @@ jobs:
       #- name: Make gradlew executable
       #  run: chmod +x ./gradlew
 #
-      #- name: Kover Xml Report
-      #  run: ./gradlew :koverXmlReport
+      - name: Kover Xml Report
+        run: ./gradlew :koverXmlReport
 #
       #- name: Upload Test Report
       #  uses: codecov/codecov-action@v3.1.4
       #  env:
       #    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+  sonar:
+    runs-on: ubuntu-latest
+    steps:
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
             -Dsonar.organization=estivensh4-1
             -Dsonar.projectKey=estivensh4_aws-kmp
-            -Dsonar.coverage.jacoco.xmlReportPaths=/home/runner/work/aws-kmp/aws-kmp/build/reports/kover/report.xml
+            -Dsonar.coverage.jacoco.xmlReportPaths=$GITHUB_WORKSPACE/build/reports/kover/report.xml
             -Dsonar.c.file.suffixes=-
             -Dsonar.cpp.file.suffixes=-
             -Dsonar.objc.file.suffixes=-

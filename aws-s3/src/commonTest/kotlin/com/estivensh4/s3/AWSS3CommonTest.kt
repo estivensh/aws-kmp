@@ -8,18 +8,23 @@ import com.varabyte.truthish.assertThat
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
+import kotlin.test.assertContains
 
-class AWSS3Test {
+class AWSS3CommonTest {
 
     private lateinit var client: AWSS3
 
     @BeforeTest
-    fun before() {
-        client = AWSS3.Builder()
-            .accessKey(System.getenv("AWS_ACCESS_KEY") ?: "")
-            .secretKey(System.getenv("AWS_SECRET_KEY") ?: "")
+    fun setUp() {
+
+        val accessKey = "AKIA2D36JC4724G565BB"
+        val secretKey = "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"
+        client = AWSS3.builder()
+            .accessKey(accessKey)
+            .secretKey(secretKey)
             .setEndpoint("s3.amazonaws.com")
             .build()
+
     }
 
     @Test
@@ -28,8 +33,7 @@ class AWSS3Test {
 
         val result = client.createBucket(bucketName)
 
-        assertThat(
-            client.listBuckets().map { it.name }
-        ).contains(result.name)
+        assertContains(client.listBuckets().map { it.name }, result.name)
     }
+
 }

@@ -552,8 +552,9 @@ actual class AWSS3 actual constructor(
         }
     }
 
-    companion object {
+    actual companion object {
         const val statusCodeNotFound = 404
+        actual fun builder() = Builder()
     }
 }
 

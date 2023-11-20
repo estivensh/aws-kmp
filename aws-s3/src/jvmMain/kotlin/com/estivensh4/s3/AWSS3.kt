@@ -547,6 +547,10 @@ actual class AWSS3 actual constructor(
         val result = client.listObjectsV2(bucketName)
         return result.toListObjectsResult()
     }
+
+    actual companion object {
+        actual fun builder() = Builder()
+    }
 }
 
 fun com.amazonaws.services.s3.model.Bucket.toBucket(): Bucket {

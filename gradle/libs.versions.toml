@@ -24,6 +24,10 @@ org-jetbrains-kotlin-jvm = "1.9.10"
 detektVersion = "1.22.0"
 ktlint-version = "3.15.0"
 truthish = "0.6.5"
+dokka = "1.9.10"
+spotless = "6.22.0"
+ktlint = "1.0.1"
+
 
 [libraries]
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
@@ -70,4 +74,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 org-jetbrains-compose = { id = "org.jetbrains.compose", version="1.5.4" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+gradle-spotless = { id = "com.diffplug.gradle.spotless", version.ref = "spotless" }
+buildKonfig = { id = "com.codingfeline.buildkonfig", version = "0.15.0" }
 

@@ -4,6 +4,12 @@
 
 package com.estivensh4.s3
 
+import cocoapods.AWSCore.AWSEndpoint
+import cocoapods.AWSCore.AWSRegionType
+import cocoapods.AWSCore.AWSServiceConfiguration
+import cocoapods.AWSCore.AWSServiceManager
+import cocoapods.AWSCore.AWSServiceType
+import cocoapods.AWSCore.AWSStaticCredentialsProvider
 import cocoapods.AWSS3.AWSHTTPMethod
 import cocoapods.AWSS3.AWSRequest
 import cocoapods.AWSS3.AWSS3
@@ -321,7 +327,7 @@ actual class AWSS3 actual constructor(
         val result = awaitResult { client.createBucket(request, it) }
 
         return Bucket(
-            name = result.location,
+            name = result.location?.substringAfter("/"),
             creationDate = null
         )
     }
@@ -552,8 +558,25 @@ actual class AWSS3 actual constructor(
         }
 
         actual fun build(): com.estivensh4.s3.AWSS3 {
+            val credentials = AWSStaticCredentialsProvider(accessKey, secretKey)
+            val configuration = AWSServiceConfiguration(
+                region = AWSRegionType.AWSRegionUSEast1,
+                credentialsProvider = credentials,
+                localTestingEnabled = false,
+                endpoint = AWSEndpoint(
+                    useUnsafeURL = true,
+                    region = AWSRegionType.AWSRegionUSEast1,
+                    service = AWSServiceType.AWSServiceS3
+                )
+            )
+
+            AWSServiceManager.defaultServiceManager()?.setDefaultServiceConfiguration(configuration)
             return AWSS3(accessKey, secretKey, endpoint)
         }
+    }
+
+    actual companion object {
+        actual fun builder() = Builder()
     }
 }
 

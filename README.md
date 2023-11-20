@@ -13,6 +13,7 @@
 ![badge][badge-android]
 ![badge][badge-ios]
 ![badge][badge-jvm]
+[![codecov](https://codecov.io/gh/estivensh4/aws-kmp/graph/badge.svg?token=VA1HHXDC5H)](https://codecov.io/gh/estivensh4/aws-kmp)
 
 [Documentation](https://estivensh4.github.io/aws-kmp/default-topic.html)
 

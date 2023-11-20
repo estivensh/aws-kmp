@@ -76,6 +76,9 @@ jobs:
             -Dsonar.organization=estivensh4-1
             -Dsonar.projectKey=estivensh4_aws-kmp
             -Dsonar.coverage.jacoco.xmlReportPaths=report.xml
+            -Dsonar.c.file.suffixes=-
+            -Dsonar.cpp.file.suffixes=-
+            -Dsonar.objc.file.suffixes=-
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

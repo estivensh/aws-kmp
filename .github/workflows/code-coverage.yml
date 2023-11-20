@@ -27,6 +27,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Imprimir Ruta del Informe de Cobertura
+        run: echo "La ruta es $GITHUB_WORKSPACE/tu/ruta/a/jacocoTestReport.xml"
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:

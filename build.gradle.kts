@@ -95,6 +95,7 @@ sonar {
         property("sonar.projectKey", "estivensh4_aws-kmp")
         property("sonar.organization", "estivensh4-1")
         property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.token", "659d9cc8cefc49c208d3683d9ab036eecf0d0ec8")
         property(
             "sonar.coverage.jacoco.xmlReportPaths",
             "$buildDir/reports/kover/report.xml"

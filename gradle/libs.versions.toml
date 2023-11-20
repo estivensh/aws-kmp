@@ -1,5 +1,7 @@
 [versions]
 agp = "8.1.4"
+awsAndroidSdkS3 = "2.73.0"
+core = "1.5.0"
 kotestVersion = "5.8.0"
 kotlin = "1.9.20"
 compose = "1.5.4"
@@ -14,11 +16,18 @@ androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.5.1"
 lifecycle-runtime-ktx = "2.6.2"
 compose-bom = "2023.03.00"
+mockative = "2.0.1"
+mockitoCore = "5.7.0"
+mockitoKotlin = "3.2.0"
+mockk = "1.13.8"
 org-jetbrains-kotlin-jvm = "1.9.10"
 detektVersion = "1.22.0"
 ktlint-version = "3.15.0"
+truthish = "0.6.5"
 
 [libraries]
+androidx-core = { module = "androidx.test:core", version.ref = "core" }
+aws-android-sdk-s3 = { module = "com.amazonaws:aws-android-sdk-s3", version.ref = "awsAndroidSdkS3" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestVersion" }
 kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotestVersion" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotestVersion" }
@@ -41,6 +50,11 @@ androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
+mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+truthish = { module = "com.varabyte.truthish:truthish", version.ref = "truthish" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }

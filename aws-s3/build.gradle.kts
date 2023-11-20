@@ -46,8 +46,13 @@ kotlin {
         androidNativeTest {
             dependencies {
                 implementation(libs.kotest.runner)
-                implementation("io.mockk:mockk:1.13.8")
                 implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.junit)
+                implementation(libs.androidx.core)
+                implementation(libs.mockito.core)
+                implementation(libs.mockito.kotlin)
+                implementation(libs.mockk)
+                implementation(kotlin("test-junit"))
             }
         }
         commonTest {
@@ -56,18 +61,23 @@ kotlin {
                 implementation(libs.kotest.assertions)
                 implementation(libs.kotest.engine)
                 implementation(libs.kotest.property)
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.mockative)
+                implementation(libs.truthish)
             }
         }
         commonMain {
             dependencies {
                 implementation(projects.awsCommon)
                 implementation(libs.kotlinx.datetime)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
         androidMain {
             dependencies {
-                implementation("com.amazonaws:aws-android-sdk-s3:2.73.0")
+                implementation(libs.aws.android.sdk.s3)
             }
         }
         jvmMain {
@@ -78,6 +88,14 @@ kotlin {
             }
         }
     }
+}
+
+dependencies {
+    configurations
+        .filter { it.name.startsWith("ksp") && it.name.contains("Test") }
+        .forEach {
+            add(it.name, "io.mockative:mockative-processor:2.0.1")
+        }
 }
 
 android {

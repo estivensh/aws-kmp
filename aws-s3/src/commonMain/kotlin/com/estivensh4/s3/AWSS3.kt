@@ -6,7 +6,7 @@ package com.estivensh4.s3
 
 import com.estivensh4.common.AwsException
 
-expect class AWSS3 private constructor(
+expect class AWSS3 constructor(
     accessKey: String,
     secretKey: String,
     endpoint: String
@@ -411,5 +411,9 @@ expect class AWSS3 private constructor(
         fun secretKey(secretKey: String): Builder
         fun setEndpoint(endpoint: String): Builder
         fun build(): AWSS3
+    }
+
+    companion object {
+        fun builder(): Builder
     }
 }

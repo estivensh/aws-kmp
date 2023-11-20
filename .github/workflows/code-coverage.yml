@@ -19,31 +19,60 @@ permissions:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ ubuntu-latest ]
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 45
+    name: Build and analyze
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
-
-      - name: Imprimir Ruta del Informe de Cobertura
-        run: echo "La ruta es $GITHUB_WORKSPACE/tu/ruta/a/jacocoTestReport.xml"
-      - name: Set up JDK
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Cache gradle, wrapper and buildSrc
+          java-version: 17
+          distribution: 'zulu' # Alternative distribution options are available
+      - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ matrix.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
-          restore-keys: |
-            ${{ matrix.os }}-gradle-
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Gradle packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: ./gradlew build sonar
+#  build:
+#    strategy:
+#      matrix:
+#        os: [ ubuntu-latest ]
+#    runs-on: ${{ matrix.os }}
+#    timeout-minutes: 45
+#    steps:
+#      - uses: actions/checkout@v3
+#
+#      - name: Imprimir Ruta del Informe de Cobertura
+#        run: echo "La ruta es $GITHUB_WORKSPACE/tu/ruta/a/jacocoTestReport.xml"
+#      - name: Set up JDK
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: 'zulu'
+#          java-version: '17'
+#
+#      - name: Cache gradle, wrapper and buildSrc
+#        uses: actions/cache@v3
+#        with:
+#          path: |
+#            ~/.gradle/caches
+#            ~/.gradle/wrapper
+#          key: ${{ matrix.os }}-gradle-${{ hashFiles('**/*.gradle*') }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}-${{ hashFiles('**/buildSrc/**/*.kt') }}
+#          restore-keys: |
+#            ${{ matrix.os }}-gradle-
       #- name: Cache konan
       #  uses: actions/cache@v3
       #  with:
@@ -64,10 +93,10 @@ jobs:
       #- name: Make gradlew executable
       #  run: chmod +x ./gradlew
 #
-      - name: Build with Gradle
-        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-        with:
-            arguments: koverXmlReport
+#      - name: Build with Gradle
+#        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+#        with:
+#            arguments: koverXmlReport
 #
       #- name: Upload Test Report
       #  uses: codecov/codecov-action@v3.1.4

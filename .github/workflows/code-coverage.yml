@@ -50,6 +50,6 @@ jobs:
           -Dsonar.coverage.jacoco.xmlReportPaths=build/reports/kover/report.xml
           -Dsonar.exclusions=tests/**
           -Dsonar.verbose=true
-
-    
-      
+          -Dsonar.c.file.suffixes=-
+          -Dsonar.cpp.file.suffixes=-
+          -Dsonar.objc.file.suffixes=-

@@ -4,15 +4,16 @@
 
 package com.estivensh4.s3
 
-import com.varabyte.truthish.assertThat
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertContains
+import kotlin.test.assertNotNull
 
 class AWSS3CommonTest {
 
     private lateinit var client: AWSS3
+    private val bucketName = "bucket-unit-testing"
 
     @BeforeTest
     fun setUp() {
@@ -29,11 +30,24 @@ class AWSS3CommonTest {
 
     @Test
     fun `verify that the bucket was created correctly`() = runTest {
-        val bucketName = "bucket-android-test1"
 
         val result = client.createBucket(bucketName)
 
         assertContains(client.listBuckets().map { it.name }, result.name)
+    }
+
+    @Test
+    fun `get image url with bucketName key and expirationInSeconds`() = runTest {
+
+        val key = "pexels-pixabay-415829.jpg"
+
+        val result = client.generatePresignedUrl(
+            bucketName = bucketName,
+            key = key,
+            expirationInSeconds = 3600L
+        )
+
+        assertNotNull(result)
     }
 
 }

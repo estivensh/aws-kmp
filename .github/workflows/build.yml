@@ -19,7 +19,7 @@ env:
   AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
 jobs:
-  if: ${{ github.github.event.pull_request.base.ref == 'main' || startsWith(github.head_ref, 'release/') }}
+  if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/')
   build-library:
     if: github.ref != 'refs/heads/doc/*'
     runs-on: self-hosted

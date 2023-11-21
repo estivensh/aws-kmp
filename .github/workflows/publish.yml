@@ -24,10 +24,6 @@ env:
   SIGNING_PASSWORD: ${{ secrets.SIGNING_PASS }}
   AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
   AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
-  INSTANCE: Writerside/akm
-  ARTIFACT: webHelpAKM2-all.zip
-  DOCKER_VERSION: 2.1.1479-p3869
-  ALGOLIA_ARTIFACT: algolia-indexes-AKM.zip
 
 jobs:
   pre-build:

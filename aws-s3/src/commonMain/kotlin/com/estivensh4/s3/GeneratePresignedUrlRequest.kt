@@ -5,6 +5,6 @@
 package com.estivensh4.s3
 
 data class GeneratePresignedUrlRequest(
-    val bucketName: String,
+    val bucketName: String?,
     val key: String
 )

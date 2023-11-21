@@ -4,6 +4,10 @@
 
 package com.estivensh4.s3
 
+import com.estivensh4.common.AwsException
+import com.varabyte.truthish.assertThat
+import com.varabyte.truthish.assertThrows
+import io.kotest.common.platform
 import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -14,6 +18,7 @@ class AWSS3CommonTest {
 
     private lateinit var client: AWSS3
     private val bucketName = "bucket-unit-testing"
+    private val key = "pexels-pixabay-415829.jpg"
 
     @BeforeTest
     fun setUp() {
@@ -37,9 +42,7 @@ class AWSS3CommonTest {
     }
 
     @Test
-    fun `get image url with bucketName key and expirationInSeconds`() = runTest {
-
-        val key = "pexels-pixabay-415829.jpg"
+    fun `get url of the image with generatePresignedUrl with three input parameters`() = runTest {
 
         val result = client.generatePresignedUrl(
             bucketName = bucketName,
@@ -50,4 +53,133 @@ class AWSS3CommonTest {
         assertNotNull(result)
     }
 
+    @Test
+    fun `generate an error in generatePresignedUrl when receiving the bucketName in null`() =
+        runTest {
+            assertThrows<IllegalStateException> {
+                client.generatePresignedUrl(
+                    bucketName = null,
+                    key = key,
+                    expirationInSeconds = 0
+                )
+            }
+        }
+
+    @Test
+    fun `get url of the image with generatePresignedUrl with all input parameters`() = runTest {
+
+        val result = client.generatePresignedUrl(
+            bucketName = bucketName,
+            key = key,
+            expirationInSeconds = 3600L,
+            method = HttpMethod.GET
+        )
+
+        assertNotNull(result)
+    }
+
+    @Test
+    fun `generate an error in generatePresignedUrl when receiving the method in null`() =
+        runTest {
+            assertThrows<IllegalStateException> {
+                client.generatePresignedUrl(
+                    bucketName = bucketName,
+                    key = key,
+                    expirationInSeconds = 0,
+                    method = null
+                )
+            }
+        }
+
+
+    @Test
+    fun `get url of the image with generatePresignedUrl with request`() = runTest {
+
+        val result = client.generatePresignedUrl(
+            generatePresignedUrlRequest = GeneratePresignedUrlRequest(
+                bucketName = bucketName,
+                key = key,
+            )
+        )
+
+        assertNotNull(result)
+    }
+
+    @Test
+    fun `generate error in generatePresignedUrl when receiving null method with request parameter`() =
+        runTest {
+            assertThrows<IllegalStateException> {
+                client.generatePresignedUrl(
+                    generatePresignedUrlRequest = GeneratePresignedUrlRequest(
+                        bucketName = null,
+                        key = key,
+                    )
+                )
+            }
+        }
+
+    @Test
+    fun `validate error with deleteBucket if bucketName parameter is null`() = runTest {
+        assertThrows<IllegalStateException> {
+            client.deleteBucket(null)
+        }
+    }
+
+    @Test
+    fun `delete bucket with invalid bucketName`() = runTest {
+        when (platform.name) {
+            "JVM" -> {
+                assertThrows<IllegalStateException> {
+                    client.deleteBucket("")
+                }
+            }
+
+            else -> {
+                assertThrows<AwsException> {
+                    client.deleteBucket("")
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `validate error with listObjects if bucketName parameter is null`() = runTest {
+        when (platform.name) {
+            "JVM" -> {
+                assertThrows<IllegalArgumentException> {
+                    client.listObjects(null)
+                }
+            }
+
+            else -> {
+                assertThrows<IllegalStateException> {
+                    client.listObjects(null)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `validate error with listObjects if bucketName parameter is valid`() = runTest {
+        val result = client.listObjects(bucketName)
+
+        assertNotNull(result.name)
+    }
+
+    @Test
+    fun `validate error with deleteObjects if bucketName parameter is null`() = runTest {
+        assertThrows<IllegalStateException> {
+            client.deleteObjects(null)
+        }
+    }
+
+    @Test
+    fun `x`() = runTest {
+        val x = client.putObject(
+            bucketName = bucketName,
+            key = key,
+            imageFile = ImageFile()
+        )
+        val y = x
+    }
 }

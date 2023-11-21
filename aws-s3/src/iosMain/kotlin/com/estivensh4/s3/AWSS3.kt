@@ -96,22 +96,33 @@ actual class AWSS3 actual constructor(
      */
     @OptIn(ExperimentalForeignApi::class)
     actual suspend fun generatePresignedUrl(
-        bucketName: String,
+        bucketName: String?,
         key: String,
         expirationInSeconds: Long
     ): String? {
-        val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
-        preSignedURLRequest.apply {
-            this.bucket = bucketName
-            this.key = key
-            this.expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
-            this.setHTTPMethod(AWSHTTPMethod.AWSHTTPMethodGET)
+
+        checkNotNull(bucketName) {
+            IllegalArgumentException(
+                "The bucket name parameter must be specified when generating a pre-signed URL"
+            )
         }
 
-        val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
-            .getPreSignedURL(preSignedURLRequest)
-        val url = request.result() as NSURL
-        return url.absoluteString
+        return try {
+            val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
+            preSignedURLRequest.apply {
+                this.bucket = bucketName
+                this.key = key
+                this.expires = NSDate().dateByAddingTimeInterval(expirationInSeconds.toDouble())
+                this.setHTTPMethod(AWSHTTPMethod.AWSHTTPMethodGET)
+            }
+
+            val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
+                .getPreSignedURL(preSignedURLRequest)
+            val url = request.result() as NSURL
+            url.absoluteString
+        } catch (exception: IllegalArgumentException) {
+            error("Exception is ${exception.message}")
+        }
     }
 
     /**
@@ -166,11 +177,24 @@ actual class AWSS3 actual constructor(
      */
     @OptIn(ExperimentalForeignApi::class)
     actual suspend fun generatePresignedUrl(
-        bucketName: String,
+        bucketName: String?,
         key: String,
         expirationInSeconds: Long,
-        method: HttpMethod
+        method: HttpMethod?
     ): String? {
+
+        checkNotNull(method) {
+            IllegalArgumentException(
+                "The HTTP method request parameter must be specified when generating a pre-signed URL"
+            )
+        }
+
+        checkNotNull(bucketName) {
+            IllegalArgumentException(
+                "The bucket name parameter must be specified when generating a pre-signed URL"
+            )
+        }
+
         val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
         preSignedURLRequest.apply {
             this.bucket = bucketName
@@ -244,10 +268,21 @@ actual class AWSS3 actual constructor(
     actual suspend fun generatePresignedUrl(
         generatePresignedUrlRequest: GeneratePresignedUrlRequest
     ): String? {
+
+        val bucketName = generatePresignedUrlRequest.bucketName
+
+        checkNotNull(bucketName) {
+            IllegalArgumentException(
+                "The bucket name parameter must be specified when generating a pre-signed URL"
+            )
+        }
+
         val preSignedURLRequest = AWSS3GetPreSignedURLRequest()
         preSignedURLRequest.apply {
-            bucket = generatePresignedUrlRequest.bucketName
-            key = generatePresignedUrlRequest.key
+            this.bucket = bucketName
+            this.key = generatePresignedUrlRequest.key
+            this.expires = NSDate().dateByAddingTimeInterval(defaultTime.toDouble())
+            this.setHTTPMethod(AWSHTTPMethod.AWSHTTPMethodGET)
         }
         val request = AWSS3PreSignedURLBuilder.defaultS3PreSignedURLBuilder()
             .getPreSignedURL(preSignedURLRequest)
@@ -377,7 +412,14 @@ actual class AWSS3 actual constructor(
      * while making the request or handling the response.
      * @see AWSS3.deleteBucket
      */
-    actual suspend fun deleteBucket(bucketName: String) {
+    actual suspend fun deleteBucket(bucketName: String?) {
+
+        checkNotNull(bucketName) {
+            IllegalArgumentException(
+                "The bucket name parameter must be specified when generating a pre-signed URL"
+            )
+        }
+
         val request = AWSS3DeleteBucketRequest()
         request.bucket = bucketName
         await { client.deleteBucket(request, it) }
@@ -399,12 +441,21 @@ actual class AWSS3 actual constructor(
      * processing the request.
      */
     @Suppress("UNCHECKED_CAST")
-    actual suspend fun deleteObjects(bucketName: String, vararg keys: String): DeleteObjectResult {
+    actual suspend fun deleteObjects(bucketName: String?, vararg keys: String): DeleteObjectResult {
+
+        checkNotNull(bucketName) {
+            IllegalArgumentException(
+                "The bucket name parameter must be specified when generating a pre-signed URL"
+            )
+        }
+
         val deleteObjectsRequest = AWSS3DeleteObjectsRequest()
         deleteObjectsRequest.bucket = bucketName
         val s3Remove = AWSS3Remove()
-        s3Remove.setObjects(listOf(keys))
+        s3Remove.objects = keys.toList()
         deleteObjectsRequest.setRemove(s3Remove)
+
+
         val deleteObjectsOutput = awaitResult { client.deleteObjects(deleteObjectsRequest, it) }
         val awsS3DeletedObjects = deleteObjectsOutput.deleted as List<AWSS3DeletedObject>
         return DeleteObjectResult(
@@ -529,7 +580,13 @@ actual class AWSS3 actual constructor(
      * while making the request or handling the response.
      * @see AWSS3.listObjects
      */
-    actual suspend fun listObjects(bucketName: String): ListObjectsResult {
+    actual suspend fun listObjects(bucketName: String?): ListObjectsResult {
+        checkNotNull(bucketName) {
+            IllegalArgumentException(
+                "The bucket name parameter must be specified when generating a pre-signed URL"
+            )
+        }
+
         val request = AWSS3ListObjectsV2Request()
         request.bucket = bucketName
 
@@ -577,6 +634,7 @@ actual class AWSS3 actual constructor(
 
     actual companion object {
         actual fun builder() = Builder()
+        const val defaultTime = 3600L
     }
 }
 
@@ -596,7 +654,7 @@ fun AWSS3ListObjectsV2Output.toListObjectResult(): ListObjectsResult {
     return ListObjectsResult(
         name = name,
         keyCount = keyCount?.intValue,
-        commonPrefixes = commonPrefixes as List<String>,
+        commonPrefixes = commonPrefixes as List<String>?,
         maxKeys = maxKeys?.intValue,
         prefix = prefix,
         nextContinuationToken = nextContinuationToken,

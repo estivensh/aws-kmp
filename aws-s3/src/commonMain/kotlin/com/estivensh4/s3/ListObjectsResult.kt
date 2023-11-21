@@ -7,7 +7,7 @@ package com.estivensh4.s3
 data class ListObjectsResult(
     val name: String?,
     val keyCount: Int?,
-    val commonPrefixes: List<String>,
+    val commonPrefixes: List<String>?,
     val maxKeys: Int?,
     val prefix: String?,
     val nextContinuationToken: String?,

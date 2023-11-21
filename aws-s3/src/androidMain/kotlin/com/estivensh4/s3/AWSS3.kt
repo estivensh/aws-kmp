@@ -16,7 +16,6 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import com.estivensh4.common.AwsException
 import com.estivensh4.s3.util.toAWSMethod
 import kotlinx.datetime.Instant
-import java.io.FileNotFoundException
 import java.util.Calendar
 
 actual class AWSS3 actual constructor(
@@ -89,7 +88,7 @@ actual class AWSS3 actual constructor(
      * @see AWSS3.generatePresignedUrl
      */
     actual suspend fun generatePresignedUrl(
-        bucketName: String,
+        bucketName: String?,
         key: String,
         expirationInSeconds: Long
     ): String? {
@@ -98,13 +97,8 @@ actual class AWSS3 actual constructor(
             calendar.add(Calendar.SECOND, expirationInSeconds.toInt())
             val result = client.generatePresignedUrl(bucketName, key, calendar.time)
             result.toString()
-        } catch (exception: AmazonS3Exception) {
-            when (exception.statusCode) {
-                statusCodeNotFound -> throw FileNotFoundException("this key $key does not exist")
-                else -> {
-                    throw AwsException("Exception is ${exception.message}", exception)
-                }
-            }
+        } catch (exception: IllegalArgumentException) {
+            error("Exception is ${exception.message}")
         }
     }
 
@@ -159,10 +153,10 @@ actual class AWSS3 actual constructor(
      * @see AWSS3.generatePresignedUrl
      */
     actual suspend fun generatePresignedUrl(
-        bucketName: String,
+        bucketName: String?,
         key: String,
         expirationInSeconds: Long,
-        method: HttpMethod
+        method: HttpMethod?
     ): String? {
         return try {
             val calendar = Calendar.getInstance()
@@ -171,16 +165,11 @@ actual class AWSS3 actual constructor(
                 bucketName,
                 key,
                 calendar.time,
-                method.toAWSMethod()
+                method?.toAWSMethod()
             )
             result.toString()
-        } catch (exception: AmazonS3Exception) {
-            when (exception.statusCode) {
-                statusCodeNotFound -> throw FileNotFoundException("this key $key does not exist")
-                else -> {
-                    throw AwsException("Exception is ${exception.message}", exception)
-                }
-            }
+        } catch (exception: IllegalArgumentException) {
+            error("Exception is ${exception.message}")
         }
     }
 
@@ -251,16 +240,8 @@ actual class AWSS3 actual constructor(
                 )
             )
             result.toString()
-        } catch (exception: AmazonS3Exception) {
-            when (exception.statusCode) {
-                statusCodeNotFound -> {
-                    throw FileNotFoundException("this key ${generatePresignedUrlRequest.key} does not exist")
-                }
-
-                else -> {
-                    throw AwsException("Exception is ${exception.message}", exception)
-                }
-            }
+        } catch (exception: IllegalArgumentException) {
+            error("Exception is ${exception.message}")
         }
     }
 
@@ -375,8 +356,14 @@ actual class AWSS3 actual constructor(
      * while making the request or handling the response.
      * @see AWSS3.deleteBucket
      */
-    actual suspend fun deleteBucket(bucketName: String) {
-        client.deleteBucket(bucketName)
+    actual suspend fun deleteBucket(bucketName: String?) {
+        try {
+            client.deleteBucket(bucketName)
+        } catch (exception: AmazonS3Exception) {
+            error("Error is ${exception.message}")
+        } catch (exception: IllegalArgumentException) {
+            error("Invalid argument: ${exception.message}")
+        }
     }
 
     /**
@@ -394,23 +381,27 @@ actual class AWSS3 actual constructor(
      * @throws AwsException If any errors occurred in Amazon S3 while
      * processing the request.
      */
-    actual suspend fun deleteObjects(bucketName: String, vararg keys: String): DeleteObjectResult {
-        val deleteObjectsRequest = DeleteObjectsRequest(bucketName)
-        deleteObjectsRequest.withKeys(*keys)
+    actual suspend fun deleteObjects(bucketName: String?, vararg keys: String): DeleteObjectResult {
+        return try {
+            val deleteObjectsRequest = DeleteObjectsRequest(bucketName)
+            deleteObjectsRequest.withKeys(*keys)
 
-        val result = client.deleteObjects(deleteObjectsRequest)
+            val result = client.deleteObjects(deleteObjectsRequest)
 
-        return DeleteObjectResult(
-            isRequesterCharged = result.isRequesterCharged,
-            deleted = result.deletedObjects.map {
-                DeleteObject(
-                    key = it.key,
-                    versionId = it.versionId,
-                    deleteMarker = it.isDeleteMarker,
-                    deleteMarkerVersionId = it.deleteMarkerVersionId
-                )
-            }
-        )
+            DeleteObjectResult(
+                isRequesterCharged = result.isRequesterCharged,
+                deleted = result.deletedObjects.map {
+                    DeleteObject(
+                        key = it.key,
+                        versionId = it.versionId,
+                        deleteMarker = it.isDeleteMarker,
+                        deleteMarkerVersionId = it.deleteMarkerVersionId
+                    )
+                }
+            )
+        } catch (exception: AmazonS3Exception){
+            error("Error is ${exception.message}")
+        }
     }
 
     /**
@@ -522,7 +513,7 @@ actual class AWSS3 actual constructor(
      * while making the request or handling the response.
      * @see AWSS3.listObjects
      */
-    actual suspend fun listObjects(bucketName: String): ListObjectsResult {
+    actual suspend fun listObjects(bucketName: String?): ListObjectsResult {
         val result = client.listObjectsV2(bucketName)
         return result.toListObjectsResult()
     }

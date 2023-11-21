@@ -6,3 +6,4 @@ package com.estivensh4.s3
 
 expect class ImageFile
 expect fun ImageFile.toByteArray(): ByteArray
+

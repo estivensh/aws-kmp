@@ -62,7 +62,7 @@ expect class AWSS3 constructor(
      * @see AWSS3.generatePresignedUrl
      */
     suspend fun generatePresignedUrl(
-        bucketName: String,
+        bucketName: String?,
         key: String,
         expirationInSeconds: Long
     ): String?
@@ -119,10 +119,10 @@ expect class AWSS3 constructor(
      * @see AWSS3.generatePresignedUrl
      */
     suspend fun generatePresignedUrl(
-        bucketName: String,
+        bucketName: String?,
         key: String,
         expirationInSeconds: Long,
-        method: HttpMethod
+        method: HttpMethod?
     ): String?
 
     /**
@@ -289,7 +289,7 @@ expect class AWSS3 constructor(
      * while making the request or handling the response.
      * @see AWSS3.deleteBucket
      */
-    suspend fun deleteBucket(bucketName: String)
+    suspend fun deleteBucket(bucketName: String?)
 
     /**
      * Deletes multiple objects in a single bucket from S3.
@@ -306,7 +306,7 @@ expect class AWSS3 constructor(
      * @throws AwsException If any errors occurred in Amazon S3 while
      * processing the request.
      */
-    suspend fun deleteObjects(bucketName: String, vararg keys: String): DeleteObjectResult
+    suspend fun deleteObjects(bucketName: String?, vararg keys: String): DeleteObjectResult
 
     /**
      *
@@ -404,7 +404,7 @@ expect class AWSS3 constructor(
      * while making the request or handling the response.
      * @see AWSS3.listObjects
      */
-    suspend fun listObjects(bucketName: String): ListObjectsResult
+    suspend fun listObjects(bucketName: String?): ListObjectsResult
 
     class Builder {
         fun accessKey(accessKey: String): Builder

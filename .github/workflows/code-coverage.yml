@@ -1,15 +1,15 @@
-name: Build and publish snapshot
+name: SonarCloud
 
 on:
   push:
-    branches: [ "doc/*", "main" ]
+    branches: [ "main", "develop", "release/*" ]
     paths-ignore: [ '**.md', '**.MD', '!docs/**' ]
     tags-ignore:
       - '**'
   pull_request:
-    branches: [ "doc/*", "main" ]
+    branches: [ "main", "develop", "release/*" ]
+    types: ["opened", "synchronize", "reopened"]
     paths-ignore: [ '**.md', '**.MD', '!docs/**' ]
-  workflow_dispatch:
 
 env:
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

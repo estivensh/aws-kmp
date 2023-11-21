@@ -7,13 +7,16 @@ package com.estivensh4.s3
 import android.content.ContentResolver
 import android.net.Uri
 
-actual typealias ImageFile = ImageUri
-
-actual fun ImageFile.toByteArray() = contentResolver.openInputStream(uri)?.use {
-    it.readBytes()
-} ?: error("Couldn't open inputStream $uri")
-
-class ImageUri(val uri: Uri, val contentResolver: ContentResolver)
+actual class ImageFile constructor(
+    private val uri: Uri,
+    private val contentResolver: ContentResolver,
+) {
+    actual fun toByteArray(): ByteArray {
+        return contentResolver.openInputStream(uri)?.use {
+            it.readBytes()
+        } ?: error("Couldn't open inputStream $uri")
+    }
+}
 
 fun Uri.toImageFile(contentResolver: ContentResolver): ImageFile {
     return ImageFile(this, contentResolver)

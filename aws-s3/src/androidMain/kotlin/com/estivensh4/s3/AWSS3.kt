@@ -399,7 +399,7 @@ actual class AWSS3 actual constructor(
                     )
                 }
             )
-        } catch (exception: AmazonS3Exception){
+        } catch (exception: AmazonS3Exception) {
             error("Error is ${exception.message}")
         }
     }

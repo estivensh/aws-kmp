@@ -8,8 +8,6 @@ import cocoapods.AWSS3.AWSS3ErrorDomain
 import com.estivensh4.common.AwsException
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.CompletableDeferred
-import platform.CallKit.CXErrorCodeInvalidArgument
-import platform.Foundation.NSArgumentDomain
 import platform.Foundation.NSError
 
 suspend inline fun <reified T> awaitResult(function: (callback: (T?, NSError?) -> Unit) -> Unit): T {

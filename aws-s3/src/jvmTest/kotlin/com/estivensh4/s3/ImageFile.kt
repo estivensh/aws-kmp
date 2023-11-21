@@ -4,6 +4,8 @@
 
 package com.estivensh4.s3
 
-expect class ImageFile {
-    fun toByteArray(): ByteArray
+import io.mockk.mockk
+
+actual fun createImageFileForTest(): ImageFile {
+    return mockk(relaxed = true)
 }

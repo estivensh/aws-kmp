@@ -12,14 +12,17 @@ import platform.UIKit.UIImage
 import platform.UIKit.UIImagePNGRepresentation
 import platform.posix.memcpy
 
-actual typealias ImageFile = UIImage
+actual class ImageFile constructor(
+    private val uiImage: UIImage
+) {
+    actual fun toByteArray(): ByteArray {
+        return UIImagePNGRepresentation(uiImage)?.toByteArray() ?: emptyArray<Byte>().toByteArray()
+    }
 
-actual fun ImageFile.toByteArray() =
-    UIImagePNGRepresentation(this)?.toByteArray() ?: emptyArray<Byte>().toByteArray()
-
-@OptIn(ExperimentalForeignApi::class)
-private fun NSData.toByteArray(): ByteArray = ByteArray(length.toInt()).apply {
-    usePinned {
-        memcpy(it.addressOf(0), bytes, length)
+    @OptIn(ExperimentalForeignApi::class)
+    private fun NSData.toByteArray(): ByteArray = ByteArray(length.toInt()).apply {
+        usePinned {
+            memcpy(it.addressOf(0), bytes, length)
+        }
     }
 }

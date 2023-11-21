@@ -58,6 +58,7 @@ mockative = { module = "io.mockative:mockative", version.ref = "mockative" }
 mockito-core = { module = "org.mockito:mockito-core", version.ref = "mockitoCore" }
 mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockitoKotlin" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 truthish = { module = "com.varabyte.truthish:truthish", version.ref = "truthish" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
@@ -77,4 +78,6 @@ org-jetbrains-compose = { id = "org.jetbrains.compose", version="1.5.4" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 gradle-spotless = { id = "com.diffplug.gradle.spotless", version.ref = "spotless" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version = "0.15.0" }
+sonarqube = { id = "org.sonarqube", version = "3.5.0.2730" }
+kover = { id = "org.jetbrains.kotlinx.kover", version = "0.7.4" }
 

@@ -49,7 +49,7 @@ kotlin {
     }
     
     sourceSets {
-        /*androidNativeTest {
+        androidNativeTest {
             dependencies {
                 implementation(libs.kotest.runner)
                 implementation(libs.kotlinx.coroutines.test)
@@ -58,9 +58,10 @@ kotlin {
                 implementation(libs.mockito.core)
                 implementation(libs.mockito.kotlin)
                 implementation(libs.mockk)
+                implementation(libs.mockk.android)
                 implementation(kotlin("test-junit"))
             }
-        }*/
+        }
         commonTest {
             dependencies {
                 implementation(libs.kotlin.test)
@@ -93,6 +94,11 @@ kotlin {
                 implementation("com.amazonaws:aws-java-sdk-s3")
             }
         }
+        jvmTest {
+            dependencies {
+                implementation(libs.mockk)
+            }
+        }
     }
 }
 
@@ -109,6 +115,10 @@ android {
     compileSdk = 34
     defaultConfig {
         minSdk = 26
+    }
+
+    dependencies {
+        testImplementation(libs.mockk)
     }
 }
 

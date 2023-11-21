@@ -1,16 +1,14 @@
-name: AWS library compilation check
+name: Pull request
 
 on:
   pull_request:
     branches:
-      - master
-      - develop
+      - main
       - release/*
   push:
     branches:
-     - master
-     - develop
-     - release/*
+      - main
+      - release/*
 
 env:
   OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}
@@ -21,6 +19,7 @@ env:
   AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
 jobs:
+  if: ${{ github.github.event.pull_request.base.ref == 'main' || startsWith(github.head_ref, 'release/') }}
   build-library:
     if: github.ref != 'refs/heads/doc/*'
     runs-on: self-hosted

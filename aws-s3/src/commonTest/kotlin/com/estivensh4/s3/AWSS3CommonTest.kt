@@ -30,7 +30,6 @@ class AWSS3CommonTest {
             .secretKey(secretKey)
             .setEndpoint("s3.amazonaws.com")
             .build()
-
     }
 
     @Test
@@ -77,6 +76,50 @@ class AWSS3CommonTest {
 
         assertNotNull(result)
     }
+
+    @Test
+    fun `get url of the image with generatePresignedUrl with all input parameters and PUT method`() =
+        runTest {
+
+            val result = client.generatePresignedUrl(
+                bucketName = bucketName,
+                key = key,
+                expirationInSeconds = 3600L,
+                method = HttpMethod.PUT
+            )
+
+            assertNotNull(result)
+        }
+
+
+    @Test
+    fun `get url of the image with generatePresignedUrl with all input parameters and DELETE method`() =
+        runTest {
+
+            val result = client.generatePresignedUrl(
+                bucketName = bucketName,
+                key = key,
+                expirationInSeconds = 3600L,
+                method = HttpMethod.DELETE
+            )
+
+            assertNotNull(result)
+        }
+
+    @Test
+    fun `get url of the image with generatePresignedUrl with all input parameters and HEAD method`() =
+        runTest {
+
+            val result = client.generatePresignedUrl(
+                bucketName = bucketName,
+                key = key,
+                expirationInSeconds = 3600L,
+                method = HttpMethod.HEAD
+            )
+
+            assertNotNull(result)
+        }
+
 
     @Test
     fun `generate an error in generatePresignedUrl when receiving the method in null`() =
@@ -174,12 +217,25 @@ class AWSS3CommonTest {
     }
 
     @Test
-    fun `x`() = runTest {
-        val x = client.putObject(
+    fun `delete objects`() = runTest {
+        if (platform.name == "JVM") {
+            val result = client.deleteObjects(
+                bucketName,
+                key
+            )
+
+            assertThat(result.deleted).isNotEmpty()
+        }
+    }
+
+    @Test
+    fun `put object success`() = runTest {
+        val result = client.putObject(
             bucketName = bucketName,
             key = key,
-            imageFile = ImageFile()
+            imageFile = createImageFileForTest()
         )
-        val y = x
+
+        assertNotNull(result.eTag)
     }
 }

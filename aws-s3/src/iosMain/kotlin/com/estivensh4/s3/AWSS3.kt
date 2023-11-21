@@ -100,7 +100,6 @@ actual class AWSS3 actual constructor(
         key: String,
         expirationInSeconds: Long
     ): String? {
-
         checkNotNull(bucketName) {
             IllegalArgumentException(
                 "The bucket name parameter must be specified when generating a pre-signed URL"
@@ -182,7 +181,6 @@ actual class AWSS3 actual constructor(
         expirationInSeconds: Long,
         method: HttpMethod?
     ): String? {
-
         checkNotNull(method) {
             IllegalArgumentException(
                 "The HTTP method request parameter must be specified when generating a pre-signed URL"
@@ -268,7 +266,6 @@ actual class AWSS3 actual constructor(
     actual suspend fun generatePresignedUrl(
         generatePresignedUrlRequest: GeneratePresignedUrlRequest
     ): String? {
-
         val bucketName = generatePresignedUrlRequest.bucketName
 
         checkNotNull(bucketName) {
@@ -413,7 +410,6 @@ actual class AWSS3 actual constructor(
      * @see AWSS3.deleteBucket
      */
     actual suspend fun deleteBucket(bucketName: String?) {
-
         checkNotNull(bucketName) {
             IllegalArgumentException(
                 "The bucket name parameter must be specified when generating a pre-signed URL"
@@ -442,7 +438,6 @@ actual class AWSS3 actual constructor(
      */
     @Suppress("UNCHECKED_CAST")
     actual suspend fun deleteObjects(bucketName: String?, vararg keys: String): DeleteObjectResult {
-
         checkNotNull(bucketName) {
             IllegalArgumentException(
                 "The bucket name parameter must be specified when generating a pre-signed URL"
@@ -454,7 +449,6 @@ actual class AWSS3 actual constructor(
         val s3Remove = AWSS3Remove()
         s3Remove.objects = keys.toList()
         deleteObjectsRequest.setRemove(s3Remove)
-
 
         val deleteObjectsOutput = awaitResult { client.deleteObjects(deleteObjectsRequest, it) }
         val awsS3DeletedObjects = deleteObjectsOutput.deleted as List<AWSS3DeletedObject>

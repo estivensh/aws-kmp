@@ -41,6 +41,16 @@ allprojects {
     }
 }
 
+koverReport {
+    verify {
+        rule {
+            bound {
+                minValue = 80
+            }
+        }
+    }
+}
+
 subprojects {
     apply(plugin = "io.kotest.multiplatform")
     apply(plugin = "org.jetbrains.kotlinx.kover")
@@ -100,7 +110,7 @@ sonar {
         property("sonar.test", ".")
         property("sonar.exclusions", "")
         property("sonar.test.exclusions", "")
-        property("sonar.inclusions", "**/src/*Main/**/*,**/src/main/**/*,**/*.swift")
+        property("sonar.inclusions", "**/src/commonMain/**/*,**/src/jvmMain/**/*,**/src/main/**/*,**/*.swift")
         property("sonar.test.inclusions", "**/src/*Test/**/*")
         property("sonar.c.file.suffixes", "-")
         property("sonar.cpp.file.suffixes", "-")

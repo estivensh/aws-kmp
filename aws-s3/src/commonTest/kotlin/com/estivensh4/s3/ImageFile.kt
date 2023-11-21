@@ -4,6 +4,4 @@
 
 package com.estivensh4.s3
 
-expect class ImageFile {
-    fun toByteArray(): ByteArray
-}
+expect fun createImageFileForTest(): ImageFile

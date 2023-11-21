@@ -31,7 +31,11 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    jvm()
+    jvm {
+        testRuns["test"].executionTask.configure {
+            useJUnitPlatform()
+        }
+    }
 
     cocoapods {
         ios.deploymentTarget = "11.0"
@@ -45,7 +49,7 @@ kotlin {
     }
     
     sourceSets {
-        androidNativeTest {
+        /*androidNativeTest {
             dependencies {
                 implementation(libs.kotest.runner)
                 implementation(libs.kotlinx.coroutines.test)
@@ -56,7 +60,7 @@ kotlin {
                 implementation(libs.mockk)
                 implementation(kotlin("test-junit"))
             }
-        }
+        }*/
         commonTest {
             dependencies {
                 implementation(libs.kotlin.test)

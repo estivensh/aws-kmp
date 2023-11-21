@@ -28,6 +28,7 @@ jobs:
         uses: ./.github/template/deploy
         with:
           target: desktopApp
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
   build-library:
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.ref != 'refs/heads/doc/*'
     runs-on: self-hosted

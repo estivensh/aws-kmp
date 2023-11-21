@@ -2,7 +2,13 @@ name: TemplateBuild
 
 inputs:
   target:
+    description: "Source target task"
     required: true
+  githubToken:
+    description: "Github token"
+    required: true
+
+description: Template build
 
 runs:
   using: "composite"
@@ -36,7 +42,7 @@ runs:
       if: ${{ always() }}
       with:
         report_paths: "**/build/test-results/**/TEST-*.xml"
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ inputs.githubToken }}
     - name: Archive reports
       uses: actions/upload-artifact@v2
       if: ${{ always() }}

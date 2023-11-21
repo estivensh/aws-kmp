@@ -20,7 +20,10 @@ env:
 
 jobs:
   check-sample-android-app1:
+    runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Ejecutar Plantilla con Parámetros
         uses: ./.github/workflows/template-build
         with:

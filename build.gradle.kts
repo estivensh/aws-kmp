@@ -95,7 +95,17 @@ sonar {
         property("sonar.projectKey", "estivensh4_aws-kmp")
         property("sonar.organization", "estivensh4-1")
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.token", "b276a8afbe80ef45ae374104d897cf32eb1846a0")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.sources", "aws-s3, aws-common")
+        property("sonar.test", ".")
+        property("sonar.exclusions", "")
+        property("sonar.test.exclusions", "")
+        property("sonar.inclusions", "**/src/*Main/**/*,**/src/main/**/*,**/*.swift")
+        property("sonar.test.inclusions", "**/src/*Test/**/*")
+        property("sonar.c.file.suffixes", "-")
+        property("sonar.cpp.file.suffixes", "-")
+        property("sonar.objc.file.suffixes", "-")
+        property("sonar.token", System.getenv("SONAR_TOKEN"))
         property(
             "sonar.coverage.jacoco.xmlReportPaths",
             "$buildDir/reports/kover/report.xml"

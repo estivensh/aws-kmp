@@ -13,7 +13,7 @@
 ![badge][badge-android]
 ![badge][badge-ios]
 ![badge][badge-jvm]
-[![codecov](https://codecov.io/gh/estivensh4/aws-kmp/graph/badge.svg?token=VA1HHXDC5H)](https://codecov.io/gh/estivensh4/aws-kmp)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=estivensh4_aws-kmp&metric=coverage)](https://sonarcloud.io/summary/new_code?id=estivensh4_aws-kmp)
 
 [Documentation](https://estivensh4.github.io/aws-kmp/default-topic.html)
 

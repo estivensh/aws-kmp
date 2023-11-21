@@ -20,12 +20,11 @@ env:
 
 jobs:
   check-sample-android-app1:
-    env:
-      TARGET: "desktopApp"
-
     steps:
       - name: Ejecutar Plantilla con Parámetros
-        uses: ./.github/workflows/template-build.yml
+        uses: ./.github/workflows/template-build
+        with:
+          target: desktopApp
   build-library:
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.ref != 'refs/heads/doc/*'
     runs-on: self-hosted

@@ -1,21 +1,13 @@
 name: TemplateBuild
 
-on:
-  pull_request:
-    branches:
-      - main
-      - release/*
-  push:
-    branches:
-      - main
-      - release/*
+inputs:
+  target:
+    required: true
+
 
 jobs:
   konan:
     runs-on: ubuntu-latest
-
-    env:
-      TARGET: ${{ env.TARGET }}
 
     steps:
       - uses: actions/checkout@v1
@@ -43,8 +35,8 @@ jobs:
         with:
           name: maven
           path: ~/.m2/repository/io/github/estivensh4
-      - name: Sample - ${{ env.TARGET }}
-        run: cd samples/${{ env.TARGET }} && ./local-check.sh
+      - name: Sample - ${{ inputs.target }}
+        run: cd samples/${{ inputs.target }} && ./local-check.sh
       - name: Publish Test Report
         uses: mikepenz/action-junit-report@v2
         if: ${{ always() }}

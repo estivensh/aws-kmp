@@ -1,0 +1,101 @@
+name: Create release and documentation
+
+on:
+  pull_request:
+    branches:
+      - main
+      - docs/*
+  push:
+    branches:
+      - main
+      - docs/*
+
+permissions: write-all
+
+env:
+  OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}
+  OSSH_PASSWORD: ${{ secrets.OSSH_PASSWORD }}
+  SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+  SIGNING_PASSWORD: ${{ secrets.SIGNING_PASS }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+  INSTANCE: Writerside/akm
+  ARTIFACT: webHelpAKM2-all.zip
+  DOCKER_VERSION: 2.1.1479-p3869
+  ALGOLIA_ARTIFACT: algolia-indexes-AKM.zip
+
+jobs:
+  build-documentation:
+    runs-on: ubuntu-latest
+    needs: release
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Writerside docs using Docker
+        uses: JetBrains/writerside-github-action@v4
+        with:
+          instance: ${{ env.INSTANCE }}
+          artifact: ${{ env.ARTIFACT }}
+          docker-version: ${{ env.DOCKER_VERSION }}
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: docs
+          path: |
+            artifacts/${{ env.ARTIFACT }}
+            artifacts/report.json
+          retention-days: 7
+
+      - name: Upload algolia-indexes
+        uses: actions/upload-artifact@v3
+        with:
+          name: algolia-indexes
+          path: artifacts/${{ env.ALGOLIA_ARTIFACT }}
+          retention-days: 7
+
+  test-documentation:
+    needs: build-documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v1
+        with:
+          name: docs
+          path: artifacts
+
+      - name: Test documentation
+        uses: JetBrains/writerside-checker-action@v1
+        with:
+          instance: ${{ env.INSTANCE }}
+
+  deploy-documentation:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: test-documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: docs
+
+      - name: Unzip artifact
+        uses: montudor/action-zip@v1
+        with:
+          args: unzip -qq ${{ env.ARTIFACT }} -d dir
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: dir
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1

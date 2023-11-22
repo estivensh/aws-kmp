@@ -21,9 +21,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Configurar variables de entorno desde secrets
+        run: |
+          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> $GITHUB_ENV
+          echo "AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}" >> $GITHUB_ENV
+        shell: bash
       - name: Obtener valores de las variables de entorno
         run: |
-          AWS_ACCESS_KEY=${{ env.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY=${{ env.VAR1 }}
           AWS_SECRET_KEY=${{ env.AWS_SECRET_KEY }}
       - name: Reemplazar constantes en archivo Kotlin
         run: |

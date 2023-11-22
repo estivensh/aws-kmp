@@ -19,7 +19,7 @@ env:
 jobs:
   build-library:
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.ref != 'refs/heads/doc/*'
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
       - name: Perform a Pester test from the Tests.ps1 file

@@ -21,26 +21,6 @@ jobs:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
-      - name: Cambiar permisos del archivo
-        run: chmod +rw aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
-        working-directory: ${{ github.workspace }}
-      - name: Set up JDK
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: 17
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          cache-read-only: ${{ github.ref != 'refs/heads/master' && github.ref !=
-            'refs/heads/develop' }}
-      - name: Cache .konan
-        uses: actions/cache@v2
-        with:
-          path: ~/.konan
-          key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*', 'gradle/**/*') }}
-          restore-keys: |
-            ${{ runner.os }}-konan-
       - name: Reemplazar constantes en archivo Kotlin
         run: |
           sed -i -e 's/private val accessKey = .*/private val accessKey = \"$AWS_ACCESS_KEY\"/' -e 's/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY\"/' aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt

@@ -70,7 +70,7 @@ struct ContentView: View {
 
                 if let selectedImageData,
                    let uiImage = UIImage(data: selectedImageData) {
-                    sampleViewModel.putObject(bucketName: bucketName, key: key, imageFile: uiImage)
+                    sampleViewModel.putObject(bucketName: bucketName, key: key, imageFile: .init(uiImage: uiImage))
                 }
             
                 

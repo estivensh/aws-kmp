@@ -18,6 +18,7 @@ env:
 
 jobs:
   build-documentation:
+    if: github.ref != 'refs/heads/samples/*'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -47,6 +48,7 @@ jobs:
           retention-days: 7
 
   test-documentation:
+    if: github.ref != 'refs/heads/samples/*'
     needs: build-documentation
     runs-on: ubuntu-latest
 
@@ -63,6 +65,7 @@ jobs:
           instance: ${{ env.INSTANCE }}
 
   deploy-documentation:
+    if: github.ref != 'refs/heads/samples/*'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

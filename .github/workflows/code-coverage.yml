@@ -21,6 +21,7 @@ permissions:
 
 jobs:
   build:
+    if: github.ref != 'refs/heads/samples/*'
     name: Build and analyze
     runs-on: self-hosted
     steps:

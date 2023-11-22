@@ -44,11 +44,13 @@ Before [creating an issue](https://github.com/estivensh4/aws-kmp/issues/new), pl
 
 Branching Model
 ---------------
-Development is done with feature branches like `feature/xxx`. Any bug fixes for a particular release should be directed to a release branch such as `release/1.2.x` and from release will be pushed to main. If you want to update the documentation create a branch like docs/xxx.
+Development is done with feature branches like `feature/xxx`. Any bug fixes for a particular release should be directed to a release branch like `release/1.2.x` and from the release will be pushed to the main branch. If you want to update the documentation create a branch like `docs/xxx`.
 
-Project members push directly to branches in the main repository. External contributors work on the corresponding branch in their own clone and issue a pull request.
+If you want to update only the sample project do it from a branch like `samples/xxx`.
 
-You can, of course, suggest any changes via a pull request, but we suggest that you first create an issue. Creating an issue helps to avoid wasting time.
+Project members submit directly to the main repository branches. External contributors work on the corresponding branch in their own clone and issue a pull request.
+
+You can, of course, suggest any changes through a pull request, but we suggest that you first create an issue. Creating an issue helps to avoid wasting time
 
 ## License
 

@@ -3,10 +3,10 @@ name: Publish documentation
 on:
   pull_request:
     branches:
-      - main
+      #- main
   push:
     branches:
-      - main
+      #- main
 
 permissions: write-all
 

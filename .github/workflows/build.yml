@@ -43,8 +43,9 @@ jobs:
             ${{ runner.os }}-konan-
       - name: Replace keys
         run: |
-          sed -i "s/private val accessKey = .*/private val accessKey = \"${{secrets.AWS_ACCESS_KEY}}\"/g" -e "s/private val secretKey = .*/private val secretKey = \"${{secrets.AWS_SECRET_KEY}}\"/g" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
-          cat aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+          sed -i -e 's/private val accessKey = .*/private val accessKey = \"$AWS_ACCESS_KEY\"/' -e 's/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY\"/' aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
         working-directory: ${{ github.workspace }}/
       - name: Check
         run: ./local-check.sh

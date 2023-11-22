@@ -21,5 +21,7 @@ jobs:
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.ref != 'refs/heads/doc/*'
     runs-on: self-hosted
     steps:
+      - name: Give execute permission to the script
+        run: chmod +x replace.sh
       - name: Check
         run: ./replace.sh

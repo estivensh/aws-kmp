@@ -21,8 +21,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Obtener valores de las variables de entorno
+        run: |
+          AWS_ACCESS_KEY=${{ env.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY=${{ env.AWS_SECRET_KEY }}
       - name: Reemplazar constantes en archivo Kotlin
         run: |
-          sed -i -e 's/private val accessKey = .*/private val accessKey = \"$AWS_ACCESS_KEY\"/' -e 's/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY\"/' aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          sed -i -e 's/private val accessKey = .*/private val accessKey = \"${AWS_SECRET_KEY}\"/' -e 's/private val secretKey = .*/private val secretKey = \"${AWS_SECRET_KEY}\"/' aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
           cat aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
         working-directory: ${{ github.workspace }}/

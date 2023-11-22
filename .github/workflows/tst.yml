@@ -13,8 +13,6 @@ env:
   OSSH_PASSWORD: ${{ secrets.OSSH_PASSWORD }}
   SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
   SIGNING_PASSWORD: ${{ secrets.SIGNING_PASS }}
-  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
-  AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
 jobs:
   build-library:

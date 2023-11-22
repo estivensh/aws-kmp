@@ -20,7 +20,7 @@ env:
 
 jobs:
   build-library:
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.ref != 'refs/heads/doc/*' || github.head_ref != 'refs/heads/samples/*'
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.ref != 'refs/heads/doc/*' || github.head_ref != 'samples/*'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -73,7 +73,7 @@ jobs:
           name: code-coverage-report-${{ github.job }}
           path: "**/build/reports/**/*"
   check-sample-android-app:
-    if: github.head_ref != 'refs/heads/samples/*'
+    if: github.head_ref != 'samples/*'
     needs: build-library
     runs-on: ubuntu-latest
     steps:
@@ -109,7 +109,7 @@ jobs:
           target: wearapp
           githubToken: ${{ secrets.GITHUB_TOKEN }}
   check-sample-web-app:
-    if: github.head_ref != 'refs/heads/samples/*'
+    if: github.head_ref != 'samples/*'
     needs: build-library
     runs-on: ubuntu-latest
     steps:

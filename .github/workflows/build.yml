@@ -71,7 +71,7 @@ jobs:
       - name: androidApp
         uses: ./.github/template/deploy
         with:
-          target: androidApp
+          target: androidapp
           githubToken: ${{ secrets.GITHUB_TOKEN }}
   check-sample-desktop-app:
     needs: build-library
@@ -93,7 +93,7 @@ jobs:
       - name: wearApp
         uses: ./.github/template/deploy
         with:
-          target: wearApp
+          target: wearapp
           githubToken: ${{ secrets.GITHUB_TOKEN }}
   check-sample-web-app:
     needs: build-library

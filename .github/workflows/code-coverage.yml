@@ -1,11 +1,11 @@
 name: SonarCloud verify and publish code coverage
 
 on:
-#  push:
-#    branches: [ "main" ]
-#    paths-ignore: [ '**.md', '**.MD', '!docs/**' ]
-#    tags-ignore:
-#      - '**'
+  push:
+    branches: [ "main" ]
+    paths-ignore: [ '**.md', '**.MD', '!docs/**' ]
+    tags-ignore:
+      - '**'
   pull_request:
     branches: [ "main" ]
     types: ["opened", "synchronize", "reopened"]

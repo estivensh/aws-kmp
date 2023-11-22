@@ -41,6 +41,16 @@ jobs:
           key: ${{ runner.os }}-konan-${{ hashFiles('**/*.gradle*', 'gradle/**/*') }}
           restore-keys: |
             ${{ runner.os }}-konan-
+      - name: Replace keys
+        run: |
+          AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+          AWS_ACCESS_KEY_SCAPE=$(echo "$AWS_ACCESS_KEY" | sed 's/[\&/]/\\&/g')
+          AWS_SECRET_KEY_SCAPE=$(echo "$AWS_SECRET_KEY" | sed 's/[\&/]/\\&/g')
+          
+          sed -i -e "s/private val accessKey = .*/private val accessKey = \"$AWS_ACCESS_KEY_SCAPE\"/" -e "s/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY_SCAPE\"/" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          cat aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+        working-directory: ${{ github.workspace }}/
       - name: Check
         run: ./local-check.sh
       - name: Library local publish

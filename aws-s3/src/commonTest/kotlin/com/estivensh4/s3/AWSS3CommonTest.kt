@@ -19,12 +19,11 @@ class AWSS3CommonTest {
     private lateinit var client: AWSS3
     private val bucketName = "bucket-unit-testing"
     private val key = "pexels-pixabay-415829.jpg"
+    private val accessKey = "accessKey"
+    private val secretKey = "secretKey"
 
     @BeforeTest
     fun setUp() {
-
-        val accessKey = "AKIA2D36JC4724G565BB"
-        val secretKey = "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"
         client = AWSS3.builder()
             .accessKey(accessKey)
             .secretKey(secretKey)

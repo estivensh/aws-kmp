@@ -24,11 +24,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Perform a Pester test from the Tests.ps1
-        shell: pwsh
-        run: |
-          $file = "${{ github.workspace }}/aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt"
-          (Get-Content -path $file -Raw) -replace 'accessKey = "accessKey"','accessKey = "${{ env.AWS_ACCESS_KEY }}"' -replace 'secretKey = "secretKey"','secretKey = "${{ env.AWS_SECRET_KEY }}"' | Set-Content -Path $file
+      - name: Give execute permission to the script
+        run: chmod +x replace.sh
+      - name: Check
+        run: ./replace.sh
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:

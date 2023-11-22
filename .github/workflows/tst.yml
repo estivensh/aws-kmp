@@ -3,7 +3,7 @@ name: Test
 on:
   pull_request:
     branches:
-      - docs/*
+     # - docs/*
   push:
     branches:
      # - docs/*
@@ -23,6 +23,6 @@ jobs:
       - uses: actions/checkout@v3
       - name: Reemplazar constantes en archivo Kotlin
         run: |
-          sed -i -e 's/private val accessKey = .*/private val accessKey = \"${{secrets.AWS_ACCESS_KEY}}\"/' -e 's/private val secretKey = .*/private val secretKey = \"${{secrets.SECRET_KEY}}\"/' aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          sed -i -e 's/private val accessKey = .*/private val accessKey = \"${{secrets.AWS_ACCESS_KEY}}\"/' -e 's/private val secretKey = .*/private val secretKey = \"${{secrets.AWS_SECRET_KEY}}\"/' aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
           cat aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
         working-directory: ${{ github.workspace }}/

@@ -34,6 +34,6 @@ jobs:
         run: |
           MI_SECRETO=${{ secrets.AWS_ACCESS_KEY }}
           echo "$AWS_ACCESS_KEY"
-          sed -i -e 's/private val accessKey = .*/private val accessKey = \"$${{secrets.AWS_ACCESS_KEY}}\"/' -e 's/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY\"/' aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          sed -i -e 's/private val accessKey = .*/private val accessKey = \"${{secrets.AWS_ACCESS_KEY}}\"/' -e 's/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY\"/' aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
           cat aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
         working-directory: ${{ github.workspace }}/

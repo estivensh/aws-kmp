@@ -20,7 +20,7 @@ class AWSS3CommonTest {
     private val bucketName = "bucket-unit-testing"
     private val key = "pexels-pixabay-415829.jpg"
     private val accessKey = "accessKey"
-    private val secretKey = "secretKey/TvMORKV/EpexdHNK380"
+    private val secretKey = "secretKey"
 
     @BeforeTest
     fun setUp() {

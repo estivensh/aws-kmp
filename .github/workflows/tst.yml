@@ -21,6 +21,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - name: Cambiar permisos del archivo
+        run: chmod +rw aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+        working-directory: ${{ github.workspace }}
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
@@ -40,6 +43,6 @@ jobs:
             ${{ runner.os }}-konan-
       - name: Reemplazar constantes en archivo Kotlin
         run: |
-          sed -i "s/private val accessKey = .*/private val accessKey = \"$AWS_ACCESS_KEY\"/g" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
-          sed -i "s/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY\"/g" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          sed -i '' "s|private val accessKey = .*|private val accessKey = \"$AWS_ACCESS_KEY\"|g" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          sed -i '' "s|private val secretKey = .*|private val secretKey = \"$AWS_SECRET_KEY\"|g" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
         working-directory: ${{ github.workspace }}/

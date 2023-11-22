@@ -13,6 +13,8 @@ on:
 
 env:
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
 
 permissions:
   contents: write
@@ -42,6 +44,16 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
+      - name: Replace keys
+        run: |
+          AWS_ACCESS_KEY=${{ secrets.AWS_ACCESS_KEY }}
+          AWS_SECRET_KEY=${{ secrets.AWS_SECRET_KEY }}
+          AWS_ACCESS_KEY_SCAPE=$(echo "$AWS_ACCESS_KEY" | sed 's/[\&/]/\\&/g')
+          AWS_SECRET_KEY_SCAPE=$(echo "$AWS_SECRET_KEY" | sed 's/[\&/]/\\&/g')
+
+          sed -i -e "s/private val accessKey = .*/private val accessKey = \"$AWS_ACCESS_KEY_SCAPE\"/" -e "s/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY_SCAPE\"/" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          cat aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+        working-directory: ${{ github.workspace }}/
       - name: Kover verify
         run: ./gradlew koverVerify
       - name: Build and analyze

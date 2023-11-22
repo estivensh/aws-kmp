@@ -46,6 +46,7 @@ jobs:
 
           sed -i -e "s/private val accessKey = .*/private val accessKey = \"$AWS_ACCESS_KEY_SCAPE\"/" -e "s/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY_SCAPE\"/" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
           cat aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+        working-directory: ${{ github.workspace }}/
       - name: Prebuild library
         run: ./gradlew publishToMavenLocal
       - name: Publish library

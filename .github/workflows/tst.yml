@@ -1,0 +1,35 @@
+name: Pull request
+
+on:
+  pull_request:
+    branches:
+      - docs/*
+  push:
+    branches:
+      - main
+      - docs/*
+
+env:
+  OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}
+  OSSH_PASSWORD: ${{ secrets.OSSH_PASSWORD }}
+  SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+  SIGNING_PASSWORD: ${{ secrets.SIGNING_PASS }}
+  AWS_ACCESS_KEY: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_KEY: ${{ secrets.AWS_SECRET_KEY }}
+
+jobs:
+  build-library:
+    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.ref != 'refs/heads/doc/*'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Perform a Pester test from the Tests.ps1 file
+        shell: pwsh
+        run: |
+          $file = "${{ github.workspace }}/aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt"
+          (Get-Content -path $file -Raw) -replace 'accessKey = accessKey','accessKey = "${{ env.AWS_ACCESS_KEY }}"' -replace 'secretKey = secretKey','secretKey = "${{ env.AWS_SECRET_KEY }}"' | Set-Content -Path $file
+      - name: publish files to artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{github.run_number}}
+          path: upload/**

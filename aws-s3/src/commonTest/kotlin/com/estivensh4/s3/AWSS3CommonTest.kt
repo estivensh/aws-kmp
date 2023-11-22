@@ -23,8 +23,8 @@ class AWSS3CommonTest {
     @BeforeTest
     fun setUp() {
 
-        val accessKey = "AKIA2D36JC4724G565BB"
-        val secretKey = "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"
+        val accessKey = "accessKey"
+        val secretKey = "secretKey"
         client = AWSS3.builder()
             .accessKey(accessKey)
             .secretKey(secretKey)

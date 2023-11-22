@@ -21,14 +21,5 @@ jobs:
     if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.ref != 'refs/heads/doc/*'
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v3
-      - name: Perform a Pester test from the Tests.ps1 file
-        shell: pwsh
-        run: |
-          $file = "${{ github.workspace }}/aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt"
-          (Get-Content -path $file -Raw) -replace 'accessKey = accessKey','accessKey = "${{ env.AWS_ACCESS_KEY }}"' -replace 'secretKey = secretKey','secretKey = "${{ env.AWS_SECRET_KEY }}"' | Set-Content -Path $file
-      - name: publish files to artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: ${{github.run_number}}
-          path: upload/**
+      - name: Check
+        run: ./replace.sh

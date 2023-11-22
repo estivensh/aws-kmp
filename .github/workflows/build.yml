@@ -20,7 +20,7 @@ env:
 
 jobs:
   build-library:
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.ref != 'refs/heads/doc/*' || github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

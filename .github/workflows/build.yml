@@ -20,7 +20,7 @@ env:
 
 jobs:
   build-library:
-    if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') || github.ref != 'refs/heads/doc/*'
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -73,6 +73,7 @@ jobs:
           name: code-coverage-report-${{ github.job }}
           path: "**/build/reports/**/*"
   check-sample-android-app:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     needs: build-library
     runs-on: ubuntu-latest
     steps:
@@ -84,6 +85,7 @@ jobs:
           target: androidapp
           githubToken: ${{ secrets.GITHUB_TOKEN }}
   check-sample-desktop-app:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     needs: build-library
     runs-on: ubuntu-latest
     steps:
@@ -95,6 +97,7 @@ jobs:
           target: desktopApp
           githubToken: ${{ secrets.GITHUB_TOKEN }}
   check-sample-wear-app:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     needs: build-library
     runs-on: ubuntu-latest
     steps:
@@ -106,6 +109,7 @@ jobs:
           target: wearapp
           githubToken: ${{ secrets.GITHUB_TOKEN }}
   check-sample-web-app:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     needs: build-library
     runs-on: ubuntu-latest
     steps:

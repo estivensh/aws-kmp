@@ -1,8 +1,8 @@
 package com.estivensh4.shared
 
-import com.estivensh4.aws_s3.AWSS3
-import com.estivensh4.aws_s3.Bucket
-import com.estivensh4.aws_s3.ImageFile
+import com.estivensh4.s3.AWSS3
+import com.estivensh4.s3.Bucket
+import com.estivensh4.s3.ImageFile
 import com.rickclephas.kmm.viewmodel.KMMViewModel
 import com.rickclephas.kmm.viewmodel.MutableStateFlow
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
@@ -28,7 +28,7 @@ open class SampleViewModel : KMMViewModel() {
     @NativeCoroutinesState
     val generatePresignedUrl get() = _generatePresignedUrl.asStateFlow()
 
-    private val client = AWSS3.Builder()
+    private val client = AWSS3.builder()
         .accessKey(BuildPublicConfig.accessKey)
         .secretKey(BuildPublicConfig.secretKey)
         .setEndpoint("s3.amazonaws.com")

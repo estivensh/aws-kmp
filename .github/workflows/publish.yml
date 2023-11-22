@@ -27,6 +27,7 @@ env:
 
 jobs:
   pre-build:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     name: Publish library at mavenCentral
     runs-on: self-hosted
     steps:
@@ -53,6 +54,7 @@ jobs:
       - name: Publish library
         run: ./gradlew publish --no-parallel
   release:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     name: Create release v${{ github.event.inputs.version }}
     needs: pre-build
     runs-on: self-hosted

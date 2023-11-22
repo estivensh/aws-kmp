@@ -21,6 +21,7 @@ permissions:
 
 jobs:
   build:
+    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     name: Build and analyze
     runs-on: self-hosted
     steps:

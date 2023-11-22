@@ -4,11 +4,9 @@ on:
   pull_request:
     branches:
       - main
-      - docs/*
   push:
     branches:
       - main
-      - docs/*
 
 permissions: write-all
 

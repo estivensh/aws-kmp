@@ -27,7 +27,7 @@ env:
 
 jobs:
   pre-build:
-    if: github.ref != 'refs/heads/samples/*'
+    if: github.head_ref != 'refs/heads/samples/*'
     name: Publish library at mavenCentral
     runs-on: self-hosted
     steps:
@@ -54,7 +54,7 @@ jobs:
       - name: Publish library
         run: ./gradlew publish --no-parallel
   release:
-    if: github.ref != 'refs/heads/samples/*'
+    if: github.head_ref != 'refs/heads/samples/*'
     name: Create release v${{ github.event.inputs.version }}
     needs: pre-build
     runs-on: self-hosted

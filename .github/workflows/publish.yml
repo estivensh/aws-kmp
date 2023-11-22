@@ -1,4 +1,4 @@
-name: Create release and documentation
+name: Create release
 
 on:
   workflow_dispatch:

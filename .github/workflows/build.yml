@@ -3,11 +3,11 @@ name: Pull request
 on:
   pull_request:
     branches:
-      #- main
+      - main
       - release/*
   push:
     branches:
-      #- main
+      - main
       - release/*
 
 env:

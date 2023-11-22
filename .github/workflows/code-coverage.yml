@@ -19,7 +19,6 @@ permissions:
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/main'
     name: Build and analyze
     runs-on: self-hosted
     steps:

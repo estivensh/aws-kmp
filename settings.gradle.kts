@@ -30,3 +30,4 @@ rootProject.name = "aws-kmp"
 includeBuild("build-logic")
 include(":aws-common")
 include(":aws-s3")
+include(":aws-dynamo")

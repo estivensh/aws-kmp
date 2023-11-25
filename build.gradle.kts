@@ -67,6 +67,7 @@ subprojects {
 dependencies {
     kover(projects.awsCommon)
     kover(projects.awsS3)
+    kover(projects.awsDynamo)
 }
 
 allprojects {
@@ -106,7 +107,7 @@ sonar {
         property("sonar.organization", "estivensh4-1")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.sources", "aws-s3, aws-common")
+        property("sonar.sources", "aws-s3, aws-common, aws-dynamo")
         property("sonar.test", ".")
         property("sonar.exclusions", "")
         property("sonar.test.exclusions", "")

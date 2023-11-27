@@ -1,7 +1,9 @@
 [versions]
 agp = "8.1.4"
 awsAndroidSdkS3 = "2.73.0"
+cognitoidentityprovider = "0.33.1-beta"
 core = "1.5.0"
+dynamodb = "0.33.0-beta"
 kotestVersion = "5.8.0"
 kotlin = "1.9.20"
 compose = "1.5.4"
@@ -32,6 +34,10 @@ ktlint = "1.0.1"
 [libraries]
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
 aws-android-sdk-s3 = { module = "com.amazonaws:aws-android-sdk-s3", version.ref = "awsAndroidSdkS3" }
+aws-android-sdk-ddb = { module = "com.amazonaws:aws-android-sdk-ddb", version.ref = "awsAndroidSdkS3" }
+cognitoidentity = { module = "aws.sdk.kotlin:cognitoidentity", version.ref = "cognitoidentityprovider" }
+cognitoidentityprovider = { module = "aws.sdk.kotlin:cognitoidentityprovider", version.ref = "cognitoidentityprovider" }
+dynamodb = { module = "aws.sdk.kotlin:dynamodb", version.ref = "dynamodb" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestVersion" }
 kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotestVersion" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotestVersion" }

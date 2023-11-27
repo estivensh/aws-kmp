@@ -2,38 +2,25 @@
  * Copyright 2023 estiven. Use of this source code is governed by the Apache 2.0 license.
  */
 
-package com.estivensh4.s3.util
+package com.estivensh4.common.util
 
-import cocoapods.AWSS3.AWSS3ErrorDomain
 import com.estivensh4.common.AwsException
-import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.CompletableDeferred
 import platform.Foundation.NSError
 
-suspend inline fun <reified T> awaitResult(function: (callback: (T?, NSError?) -> Unit) -> Unit): T {
+suspend inline fun <reified T> awaitResult(
+    crossinline exception: (domain: NSError) -> Throwable = { Throwable("Default error") },
+    function: (callback: (T?, NSError?) -> Unit) -> Unit,
+): T {
     val job = CompletableDeferred<T?>()
     function { result, error ->
         if (error == null) {
             job.complete(result)
         } else {
-            job.completeExceptionally(error.toException())
+            job.completeExceptionally(exception(error))
         }
     }
     return job.await() as T
-}
-
-@OptIn(ExperimentalForeignApi::class)
-fun NSError.toException() = when (domain) {
-    AWSS3ErrorDomain -> when (code) {
-        else -> AWSS3ExceptionCode.UNKNOWN
-    }
-
-    else -> AWSS3ExceptionCode.UNKNOWN
-}.let { AwsException(description) }
-
-enum class AWSS3ExceptionCode {
-    ARGUMENT,
-    UNKNOWN
 }
 
 suspend inline fun <T> await(function: (callback: (NSError?) -> Unit) -> T): T {
@@ -42,7 +29,7 @@ suspend inline fun <T> await(function: (callback: (NSError?) -> Unit) -> T): T {
         if (error == null) {
             job.complete(Unit)
         } else {
-            job.completeExceptionally(error.toException())
+            job.completeExceptionally(AwsException(error.domain()))
         }
     }
     job.await()

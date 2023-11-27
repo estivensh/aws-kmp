@@ -25,8 +25,8 @@ import cocoapods.AWSS3.AWSS3PreSignedURLBuilder
 import cocoapods.AWSS3.AWSS3PutObjectRequest
 import cocoapods.AWSS3.AWSS3Remove
 import com.estivensh4.common.AwsException
-import com.estivensh4.s3.util.await
-import com.estivensh4.s3.util.awaitResult
+import com.estivensh4.common.util.await
+import com.estivensh4.common.util.awaitResult
 import com.estivensh4.s3.util.toAWSMethod
 import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.datetime.Instant

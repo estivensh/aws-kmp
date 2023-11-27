@@ -1,11 +1,6 @@
 name: SonarCloud verify and publish code coverage
 
 on:
-  push:
-    branches: [ "main" ]
-    paths-ignore: [ '**.md', '**.MD', '!docs/**' ]
-    tags-ignore:
-      - '**'
   pull_request:
     branches: [ "main" ]
     types: ["opened", "synchronize", "reopened"]
@@ -21,7 +16,7 @@ permissions:
 
 jobs:
   build:
-    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
+    #if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     name: Build and analyze
     runs-on: self-hosted
     steps:
@@ -54,7 +49,9 @@ jobs:
 
           sed -i '' "s|private val accessKey = .*|private val accessKey = \"$AWS_ACCESS_KEY\"|g" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
           sed -i '' "s|private val secretKey = .*|private val secretKey = \"$AWS_SECRET_KEY\"|g" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
-          cat aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          
+          sed -i '' "s|private val accessKey = .*|private val accessKey = \"$AWS_ACCESS_KEY\"|g" aws-dynamo/src/commonTest/kotlin/com/estivensh4/dynamo/AWSDynamoTest.kt
+          sed -i '' "s|private val secretKey = .*|private val secretKey = \"$AWS_SECRET_KEY\"|g" aws-dynamo/src/commonTest/kotlin/com/estivensh4/dynamo/AWSDynamoTest.kt
         working-directory: ${{ github.workspace }}/
       - name: Kover verify
         run: ./gradlew koverVerify

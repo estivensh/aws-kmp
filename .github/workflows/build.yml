@@ -5,11 +5,6 @@ on:
     branches:
       - main
       - release/*
-  push:
-    branches:
-      - main
-      - release/*
-
 env:
   OSSH_USERNAME: ${{ secrets.OSSH_USERNAME }}
   OSSH_PASSWORD: ${{ secrets.OSSH_PASSWORD }}
@@ -20,7 +15,7 @@ env:
 
 jobs:
   build-library:
-    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
+    #if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -49,6 +44,7 @@ jobs:
           AWS_SECRET_KEY_SCAPE=$(echo "$AWS_SECRET_KEY" | sed 's/[\&/]/\\&/g')
           
           sed -i -e "s/private val accessKey = .*/private val accessKey = \"$AWS_ACCESS_KEY_SCAPE\"/" -e "s/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY_SCAPE\"/" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          sed -i -e "s/private val accessKey = .*/private val accessKey = \"$AWS_ACCESS_KEY_SCAPE\"/" -e "s/private val secretKey = .*/private val secretKey = \"$AWS_SECRET_KEY_SCAPE\"/" aws-dynamo/src/commonTest/kotlin/com/estivensh4/dynamo/AWSDynamoTest.kt
           cat aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
         working-directory: ${{ github.workspace }}/
       - name: Check
@@ -73,7 +69,7 @@ jobs:
           name: code-coverage-report-${{ github.job }}
           path: "**/build/reports/**/*"
   check-sample-android-app:
-    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
+    #if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     needs: build-library
     runs-on: ubuntu-latest
     steps:
@@ -85,7 +81,7 @@ jobs:
           target: androidapp
           githubToken: ${{ secrets.GITHUB_TOKEN }}
   check-sample-desktop-app:
-    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
+    #if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     needs: build-library
     runs-on: ubuntu-latest
     steps:
@@ -97,7 +93,7 @@ jobs:
           target: desktopApp
           githubToken: ${{ secrets.GITHUB_TOKEN }}
   check-sample-wear-app:
-    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
+    #if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     needs: build-library
     runs-on: ubuntu-latest
     steps:
@@ -109,7 +105,7 @@ jobs:
           target: wearapp
           githubToken: ${{ secrets.GITHUB_TOKEN }}
   check-sample-web-app:
-    if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
+   # if: github.event_name == 'pull_request' && github.event.action == 'opened' && startsWith(github.event.pull_request.head.ref, 'samples/')
     needs: build-library
     runs-on: ubuntu-latest
     steps:

@@ -34,7 +34,6 @@ fun AttributeDefinition.toAttribute(): AWSDynamoDBAttributeDefinition {
             setAttributeType(this@toAttribute.attributeType.toType())
             setAttributeName(this@toAttribute.attributeName)
         }
-
 }
 
 @OptIn(ExperimentalForeignApi::class)

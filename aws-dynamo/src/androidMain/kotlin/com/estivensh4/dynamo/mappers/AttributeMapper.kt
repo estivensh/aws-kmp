@@ -35,7 +35,6 @@ fun com.amazonaws.services.dynamodbv2.model.AttributeValue.toAttributeValue(): A
         .build()
 }
 
-
 fun AttributeValue.toAttributeValue(): com.amazonaws.services.dynamodbv2.model.AttributeValue {
     val builder = com.amazonaws.services.dynamodbv2.model.AttributeValue()
     s?.let { builder.withS(it) }

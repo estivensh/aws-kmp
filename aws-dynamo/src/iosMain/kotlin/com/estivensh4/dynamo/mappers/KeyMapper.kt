@@ -17,7 +17,6 @@ fun KeySchemaElement.toAttribute(): AWSDynamoDBKeySchemaElement {
             setKeyType(this@toAttribute.keyType.toType())
             setAttributeName(this@toAttribute.attributeName)
         }
-
 }
 
 @OptIn(ExperimentalForeignApi::class)

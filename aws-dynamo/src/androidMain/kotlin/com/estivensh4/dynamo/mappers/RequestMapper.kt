@@ -9,7 +9,6 @@ import com.estivensh4.dynamo.QueryResult
 import com.estivensh4.dynamo.ScanRequest
 import com.estivensh4.dynamo.ScanResult
 
-
 fun ScanRequest.toRequest(): com.amazonaws.services.dynamodbv2.model.ScanRequest {
     val builder = com.amazonaws.services.dynamodbv2.model.ScanRequest()
     tableName?.let { builder.withTableName(it) }
@@ -46,6 +45,7 @@ fun QueryRequest.toRequest(): com.amazonaws.services.dynamodbv2.model.QueryReque
     keyConditionExpression?.let { builder.withKeyConditionExpression(it) }
     expressionAttributeNames?.let { builder.withExpressionAttributeNames(it) }
     expressionAttributeValues?.let { value ->
-        builder.withExpressionAttributeValues(value.mapValues { it.value.toAttributeValue() }) }
+        builder.withExpressionAttributeValues(value.mapValues { it.value.toAttributeValue() })
+    }
     return builder
 }

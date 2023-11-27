@@ -49,7 +49,9 @@ jobs:
 
           sed -i '' "s|private val accessKey = .*|private val accessKey = \"$AWS_ACCESS_KEY\"|g" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
           sed -i '' "s|private val secretKey = .*|private val secretKey = \"$AWS_SECRET_KEY\"|g" aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
-          cat aws-s3/src/commonTest/kotlin/com/estivensh4/s3/AWSS3CommonTest.kt
+          
+          sed -i '' "s|private val accessKey = .*|private val accessKey = \"$AWS_ACCESS_KEY\"|g" aws-dynamo/src/commonTest/kotlin/com/estivensh4/dynamo/AWSDynamoTest.kt
+          sed -i '' "s|private val secretKey = .*|private val secretKey = \"$AWS_SECRET_KEY\"|g" aws-dynamo/src/commonTest/kotlin/com/estivensh4/dynamo/AWSDynamoTest.kt
         working-directory: ${{ github.workspace }}/
       - name: Kover verify
         run: ./gradlew koverVerify

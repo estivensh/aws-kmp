@@ -58,7 +58,7 @@ client = builder.buildDynamo()
 </code-block>
 
 ### Create table
-<code-block lang="kotlin">
+```Kotlin
 val request = CreateTableRequest(
     tableName = tableName,
     keySchemaList = listOf(
@@ -84,7 +84,7 @@ val request = CreateTableRequest(
 )
 
 val result = client.createTable(request)
-</code-block>
+```
 
 ### Put item
 <code-block lang="kotlin">

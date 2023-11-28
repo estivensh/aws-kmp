@@ -2,7 +2,6 @@
  * Copyright 2023 estiven. Use of this source code is governed by the Apache 2.0 license.
  */
 
-
 package com.estivensh4.dynamo
 
 import cocoapods.AWSCore.AWSEndpoint
@@ -228,7 +227,6 @@ fun AWSDynamoDBGetItemOutput?.toResult(): GetItemResult {
         item = this?.item as Map<String, AttributeValue>? ?: mapOf(),
     )
 }
-
 
 @Suppress("UNCHECKED_CAST")
 @OptIn(ExperimentalForeignApi::class)

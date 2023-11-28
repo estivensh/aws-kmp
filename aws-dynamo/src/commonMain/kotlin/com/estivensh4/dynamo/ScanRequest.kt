@@ -6,7 +6,7 @@ package com.estivensh4.dynamo
 
 data class ScanRequest(
     val tableName: String?,
-    val indexName:String?,
+    val indexName: String?,
     val select: String?,
     val attributesToGet: List<String>?,
     val limit: Int?,
@@ -23,15 +23,18 @@ data class ScanRequest(
         fun withTableName(tableName: String?) = apply { this.tableName = tableName }
         fun withIndexName(indexName: String?) = apply { this.indexName = indexName }
         fun withSelect(select: String?) = apply { this.select = select }
-        fun withAttributesToGet(attributesToGet: List<String>?) = apply { this.attributesToGet = attributesToGet }
-        fun withLimit(limit: Int?) = apply { this.limit = limit }
-        fun withConsistenRead(consistentRead: Boolean?) = apply { this.consistentRead = consistentRead }
+        fun withAttributesToGet(attributesToGet: List<String>?) =
+            apply { this.attributesToGet = attributesToGet }
 
-        fun build() = ScanRequest(tableName, indexName, select, attributesToGet, limit, consistentRead)
+        fun withLimit(limit: Int?) = apply { this.limit = limit }
+        fun withConsistenRead(consistentRead: Boolean?) =
+            apply { this.consistentRead = consistentRead }
+
+        fun build() =
+            ScanRequest(tableName, indexName, select, attributesToGet, limit, consistentRead)
     }
 }
 
 data class ScanResult(
     val items: List<Map<String, AttributeValue>>?
 )
-

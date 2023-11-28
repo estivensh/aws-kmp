@@ -8,5 +8,6 @@
                   start-page="Default-topic.md">
 
     <toc-element topic="Default-topic.md"/>
+    <toc-element topic="DynamoDB.md"/>
     <toc-element topic="S3.md"/>
 </instance-profile>

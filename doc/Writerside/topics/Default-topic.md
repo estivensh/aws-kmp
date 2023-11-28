@@ -8,4 +8,5 @@ If you want to re-add it for your experiments, click + to create a new topic, ch
 
 <list type="none">
 <li><a href="S3.md">S3</a></li>
+<li><a href="DynamoDB.md">DynamoDB</a></li>
 </list>

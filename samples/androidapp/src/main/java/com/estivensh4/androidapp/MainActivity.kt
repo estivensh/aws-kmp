@@ -21,7 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.estivensh4.androidapp.ui.theme.AwskmpTheme
-import com.estivensh4.s3.ImageFile
+import com.estivensh4.s3.UploadFile
 import com.estivensh4.shared.SampleViewModel
 import kotlinx.datetime.Clock
 import kotlinx.datetime.DateTimeUnit
@@ -60,7 +60,7 @@ fun Greeting() {
             sampleViewModel.putObject(
                 bucketName,
                 key,
-                ImageFile(
+                UploadFile(
                     uri = it,
                     contentResolver = context.contentResolver
                 )

@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.AwtWindow
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import com.estivensh4.s3.ImageFile
+import com.estivensh4.s3.UploadFile
 import com.estivensh4.shared.SampleViewModel
 import kotlinx.coroutines.launch
 import java.awt.FileDialog
@@ -54,7 +54,7 @@ fun App() {
                             sampleViewModel.putObject(
                                 bucketName = bucketName,
                                 key = it.name,
-                                imageFile = ImageFile(
+                                uploadFile = UploadFile(
                                     uri = it.toURI()
                                 )
                             )

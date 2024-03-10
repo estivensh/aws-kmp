@@ -29,7 +29,7 @@ import androidx.wear.compose.material.ScalingLazyColumn
 import androidx.wear.compose.material.Text
 import androidx.wear.compose.material.TimeText
 import androidx.wear.compose.material.rememberScalingLazyListState
-import com.estivensh4.s3.ImageFile
+import com.estivensh4.s3.UploadFile
 import com.estivensh4.shared.SampleViewModel
 import com.estivensh4.wearapp.presentation.theme.ExampleTheme
 import kotlinx.datetime.Clock
@@ -63,7 +63,7 @@ fun WearApp() {
                 sampleViewModel.putObject(
                     bucketName = bucketName,
                     key = key,
-                    imageFile = ImageFile(
+                    uploadFile = UploadFile(
                         uri = it,
                         contentResolver = context.contentResolver
                     )

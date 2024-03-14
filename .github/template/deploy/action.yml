@@ -37,7 +37,7 @@ runs:
         path: ~/.m2/repository/io/github/estivensh4
     - name: Sample - ${{ inputs.target }}
       shell: bash
-      run: cd samples/${{ inputs.target }} && ./local-check.sh
+      run: cd sample/${{ inputs.target }} && ./local-check.sh
     - name: Publish Test Report
       uses: mikepenz/action-junit-report@v2
       if: ${{ always() }}

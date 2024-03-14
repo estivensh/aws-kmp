@@ -7,7 +7,7 @@ dynamodb = "0.33.0-beta"
 kotestVersion = "5.8.0"
 kotlin = "1.9.22"
 compose = "1.6.3"
-compose-compiler = "1.5.4"
+compose-compiler = "1.5.10"
 compose-material3 = "1.2.1"
 androidx-activityCompose = "1.8.2"
 kotlinxCoroutinesCore = "1.7.3"
@@ -23,13 +23,23 @@ mockitoCore = "5.7.0"
 mockitoKotlin = "3.2.0"
 mockk = "1.13.10"
 org-jetbrains-kotlin-jvm = "1.9.22"
-detektVersion = "1.22.0"
+detektVersion = "1.23.5"
 ktlint-version = "3.15.0"
 truthish = "0.6.5"
 dokka = "1.9.10"
 spotless = "6.22.0"
 ktlint = "1.0.1"
-
+native-coroutines = "1.0.0-ALPHA-20"
+ksp = "1.9.22-1.0.17"
+kmmViewModelVersion = "1.0.0-ALPHA-15"
+compileSdk = "34"
+minSdk = "26"
+play-services-wearable = "18.1.0"
+percentlayout = "1.0.0"
+legacy-support-v4 = "1.0.0"
+recyclerview = "1.3.2"
+compose-material = "1.3.0"
+compose-foundation = "1.3.0"
 
 [libraries]
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
@@ -72,6 +82,13 @@ ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 androidGradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 detektGradlePlugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "detektVersion" }
+kmm-viewmodel-core = { module = "com.rickclephas.kmm:kmm-viewmodel-core", version.ref = "kmmViewModelVersion" }
+play-services-wearable = { group = "com.google.android.gms", name = "play-services-wearable", version.ref = "play-services-wearable" }
+percentlayout = { group = "androidx.percentlayout", name = "percentlayout", version.ref = "percentlayout" }
+legacy-support-v4 = { group = "androidx.legacy", name = "legacy-support-v4", version.ref = "legacy-support-v4" }
+recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
+compose-material = { group = "androidx.wear.compose", name = "compose-material", version.ref = "compose-material" }
+androidx-wear-compose-compose-foundation = { group = "androidx.wear.compose", name = "compose-foundation", version.ref = "compose-foundation" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
@@ -86,4 +103,6 @@ gradle-spotless = { id = "com.diffplug.gradle.spotless", version.ref = "spotless
 buildKonfig = { id = "com.codingfeline.buildkonfig", version = "0.15.0" }
 sonarqube = { id = "org.sonarqube", version = "3.5.0.2730" }
 kover = { id = "org.jetbrains.kotlinx.kover", version = "0.7.4" }
-
+composePlugin = { id = "org.jetbrains.compose", version = "1.6.0" }
+native-coroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "native-coroutines" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

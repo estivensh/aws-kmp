@@ -6,7 +6,7 @@ package com.estivensh4.s3
 
 import java.net.URI
 
-actual class ImageFile constructor(
+actual class UploadFile constructor(
     private val uri: URI
 ) {
     actual fun toByteArray(): ByteArray {
@@ -17,6 +17,6 @@ actual class ImageFile constructor(
     }
 }
 
-fun URI.toImageFile(): ImageFile {
-    return ImageFile(this)
+fun URI.toUploadFile(): UploadFile {
+    return UploadFile(this)
 }

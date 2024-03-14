@@ -232,7 +232,7 @@ class AWSS3CommonTest {
         val result = client.putObject(
             bucketName = bucketName,
             key = key,
-            imageFile = createImageFileForTest()
+            uploadFile = createUploadFileForTest()
         )
 
         assertNotNull(result.eTag)

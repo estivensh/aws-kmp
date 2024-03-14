@@ -7,7 +7,7 @@ package com.estivensh4.s3
 import android.content.ContentResolver
 import android.net.Uri
 
-actual class ImageFile constructor(
+actual class UploadFile constructor(
     private val uri: Uri,
     private val contentResolver: ContentResolver,
 ) {
@@ -18,6 +18,6 @@ actual class ImageFile constructor(
     }
 }
 
-fun Uri.toImageFile(contentResolver: ContentResolver): ImageFile {
-    return ImageFile(this, contentResolver)
+fun Uri.toUploadFile(contentResolver: ContentResolver): UploadFile {
+    return UploadFile(this, contentResolver)
 }

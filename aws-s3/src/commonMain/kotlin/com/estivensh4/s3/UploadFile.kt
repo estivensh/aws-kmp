@@ -4,4 +4,6 @@
 
 package com.estivensh4.s3
 
-expect fun createImageFileForTest(): ImageFile
+expect class UploadFile {
+    fun toByteArray(): ByteArray
+}

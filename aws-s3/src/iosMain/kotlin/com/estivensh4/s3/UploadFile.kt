@@ -9,14 +9,15 @@ import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
 import platform.Foundation.NSData
 import platform.UIKit.UIImage
+import platform.UIKit.UIImageJPEGRepresentation
 import platform.UIKit.UIImagePNGRepresentation
 import platform.posix.memcpy
 
-actual class ImageFile constructor(
-    private val uiImage: UIImage
+actual class UploadFile constructor(
+    private val data: NSData
 ) {
     actual fun toByteArray(): ByteArray {
-        return UIImagePNGRepresentation(uiImage)?.toByteArray() ?: emptyArray<Byte>().toByteArray()
+        return data.toByteArray()
     }
 
     @OptIn(ExperimentalForeignApi::class)
@@ -25,4 +26,9 @@ actual class ImageFile constructor(
             memcpy(it.addressOf(0), bytes, length)
         }
     }
+}
+
+fun UIImage.toPNGUploadFile() : UploadFile {
+    val data = UIImagePNGRepresentation(this) ?: throw Exception("Could not convert uiImage")
+    return UploadFile(data)
 }

@@ -2,7 +2,7 @@ package com.estivensh4.shared
 
 import com.estivensh4.s3.AWSS3
 import com.estivensh4.s3.Bucket
-import com.estivensh4.s3.ImageFile
+import com.estivensh4.s3.UploadFile
 import com.rickclephas.kmm.viewmodel.KMMViewModel
 import com.rickclephas.kmm.viewmodel.MutableStateFlow
 import com.rickclephas.kmp.nativecoroutines.NativeCoroutinesState
@@ -66,9 +66,9 @@ open class SampleViewModel : KMMViewModel() {
         }
     }
 
-    fun putObject(bucketName: String, key: String, imageFile: ImageFile) {
+    fun putObject(bucketName: String, key: String, uploadFile: UploadFile) {
         GlobalScope.launch {
-            client.putObject(bucketName, key, imageFile)
+            client.putObject(bucketName, key, uploadFile)
         }
     }
 }

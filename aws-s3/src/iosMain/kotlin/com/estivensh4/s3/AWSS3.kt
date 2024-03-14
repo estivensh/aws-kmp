@@ -521,7 +521,7 @@ actual class AWSS3 actual constructor(
      *
      * @param bucketName The name of an existing bucket, to which you have permission.
      * @param key The key under which to store the specified file.
-     * @param imageFile The file containing the data to be uploaded to Amazon S3.
+     * @param uploadFile The file containing the data to be uploaded to Amazon S3.
      * @return A [PutObjectResult] object containing the information
      * returned by Amazon S3 for the newly created object.
      * @throws AwsException If any errors are encountered in the client
@@ -531,12 +531,12 @@ actual class AWSS3 actual constructor(
     actual suspend fun putObject(
         bucketName: String,
         key: String,
-        imageFile: ImageFile
+        uploadFile: UploadFile
     ): PutObjectResult {
         val putObjectRequest = AWSS3PutObjectRequest().apply {
             this.bucket = bucketName
             this.key = key
-            this.body = imageFile.toByteArray()
+            this.body = uploadFile.toByteArray()
         }
         val result = awaitResult { client.putObject(putObjectRequest, it) }
         return PutObjectResult(

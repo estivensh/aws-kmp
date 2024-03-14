@@ -6,6 +6,6 @@ package com.estivensh4.s3
 
 import io.mockk.mockk
 
-actual fun createUploadFileForTest(): UploadFile {
+actual fun createUploadFileForTest(): UploadFile? {
     return mockk(relaxed = true)
 }

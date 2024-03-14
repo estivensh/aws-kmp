@@ -15,7 +15,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Samples"
+rootProject.name = "samples"
 
 include(":androidapp")
 include(":desktopApp")

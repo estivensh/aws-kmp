@@ -9,11 +9,10 @@ import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.usePinned
 import platform.Foundation.NSData
 import platform.UIKit.UIImage
-import platform.UIKit.UIImageJPEGRepresentation
 import platform.UIKit.UIImagePNGRepresentation
 import platform.posix.memcpy
 
-actual class UploadFile constructor(
+actual class UploadFile(
     private val data: NSData
 ) {
     actual fun toByteArray(): ByteArray {
@@ -28,7 +27,7 @@ actual class UploadFile constructor(
     }
 }
 
-fun UIImage.toPNGUploadFile() : UploadFile {
-    val data = UIImagePNGRepresentation(this) ?: throw Exception("Could not convert uiImage")
-    return UploadFile(data)
+fun UIImage.toPNGUploadFile(): UploadFile? {
+    val data = UIImagePNGRepresentation(this)
+    return data?.let { UploadFile(it) }
 }

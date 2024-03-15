@@ -14,8 +14,8 @@ plugins {
     alias(libs.plugins.kotlinAndroid) apply false
     alias(libs.plugins.dokka)
     id("io.kotest.multiplatform") version "5.8.0" apply false
-    id("org.jetbrains.kotlinx.kover") version "0.7.4"
-    id("org.sonarqube") version "3.5.0.2730"
+    id("org.jetbrains.kotlinx.kover") version "0.7.6"
+    id("org.sonarqube") version "4.4.1.3373"
 }
 
 val ktlintVersion = libs.versions.ktlint.version.get()
@@ -107,7 +107,7 @@ sonar {
         property("sonar.organization", "estivensh4-1")
         property("sonar.host.url", "https://sonarcloud.io")
         property("sonar.sourceEncoding", "UTF-8")
-        property("sonar.sources", "aws-s3, aws-common, aws-dynamo")
+        //property("sonar.sources", "aws-s3, aws-common, aws-dynamo")
         property("sonar.test", ".")
         property("sonar.exclusions", "")
         property("sonar.test.exclusions", "")

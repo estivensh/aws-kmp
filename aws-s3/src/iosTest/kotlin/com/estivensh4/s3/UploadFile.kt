@@ -6,6 +6,6 @@ package com.estivensh4.s3
 
 import platform.UIKit.UIImage
 
-actual fun createUploadFileForTest(): UploadFile {
+actual fun createUploadFileForTest(): UploadFile? {
     return UIImage().toPNGUploadFile()
 }

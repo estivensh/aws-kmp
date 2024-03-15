@@ -19,6 +19,10 @@ kotlin {
 
     jvmToolchain(11)
 
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     androidTarget {
         publishAllLibraryVariants()
         compilations.all {

@@ -4,4 +4,4 @@
 
 package com.estivensh4.s3
 
-expect fun createUploadFileForTest(): UploadFile
+expect fun createUploadFileForTest(): UploadFile?

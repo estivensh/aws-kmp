@@ -8,5 +8,5 @@ log() {
   echo "\033[0;32m> $1\033[0m"
 }
 
-../gradlew clean build
-log "desktop-app success"
+../../gradlew clean build
+log "android-app success"

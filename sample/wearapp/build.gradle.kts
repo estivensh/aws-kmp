@@ -5,20 +5,19 @@ plugins {
 }
 
 android {
-    namespace = "com.estivensh4.androidapp"
+    namespace = "com.estivensh4.wearapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.estivensh4.androidapp"
-        minSdk = 26
+        applicationId = "com.estivensh4.wearapp"
+        minSdk = 30
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
+
     }
 
     buildTypes {
@@ -51,19 +50,20 @@ android {
 }
 
 dependencies {
-    implementation(projects.shared)
-    implementation(libs.aws.s3)
+    implementation(projects.sample.shared)
+    implementation(projects.awsS3)
     implementation(libs.core.ktx)
-    implementation(libs.lifecycle.runtime.ktx)
-    implementation(libs.androidx.activity.compose)
+    implementation(libs.play.services.wearable)
+    implementation(libs.percentlayout)
+    implementation(libs.legacy.support.v4)
+    implementation(libs.recyclerview)
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)
-    implementation(libs.ui.graphics)
     implementation(libs.compose.ui.tooling.preview)
-    implementation(libs.compose.material3)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(libs.compose.material)
+    implementation(libs.androidx.wear.compose.compose.foundation)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.androidx.activity.compose)
     androidTestImplementation(platform(libs.compose.bom))
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.compose.ui.tooling)

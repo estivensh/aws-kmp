@@ -1,6 +1,6 @@
 set -e
 
-(cd samples/androidapp && ./local-check.sh)
-(cd samples/desktopApp && ./local-check.sh)
-(cd samples/wearApp && ./local-check.sh)
-(cd samples/webApp && ./local-check.sh)
+(cd sample/androidapp && ./local-check.sh)
+(cd sample/desktopApp && ./local-check.sh)
+(cd sample/wearApp && ./local-check.sh)
+(cd sample/webApp && ./local-check.sh)

@@ -49,7 +49,7 @@ kotlin {
             dependencies {
                 api(libs.kotlinx.datetime)
                 api(libs.kmm.viewmodel.core)
-                implementation(libs.aws.s3)
+                implementation(projects.awsS3)
             }
         }
         commonTest {

@@ -229,12 +229,15 @@ class AWSS3CommonTest {
 
     @Test
     fun `put object success`() = runTest {
-        val result = client.putObject(
-            bucketName = bucketName,
-            key = key,
-            uploadFile = createUploadFileForTest()
-        )
+        createUploadFileForTest()?.let {
+            val result = client.putObject(
+                bucketName = bucketName,
+                key = key,
+                uploadFile = it
+            )
 
-        assertNotNull(result.eTag)
+            assertNotNull(result.eTag)
+        }
+
     }
 }

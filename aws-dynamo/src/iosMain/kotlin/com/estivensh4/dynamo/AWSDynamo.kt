@@ -204,6 +204,7 @@ fun AWSDynamoDBUpdateItemOutput?.toResult(): UpdateItemResult {
     )
 }
 
+@Suppress("UNCHECKED_CAST")
 @OptIn(ExperimentalForeignApi::class)
 fun AWSDynamoDBScanOutput?.toResult(): ScanResult {
     val item = this?.items as List<Map<String, AttributeValue>>
@@ -212,6 +213,7 @@ fun AWSDynamoDBScanOutput?.toResult(): ScanResult {
     )
 }
 
+@Suppress("UNCHECKED_CAST")
 @OptIn(ExperimentalForeignApi::class)
 fun AWSDynamoDBQueryOutput?.toResult(): QueryResult {
     val item = this?.items as List<Map<String, AttributeValue>>

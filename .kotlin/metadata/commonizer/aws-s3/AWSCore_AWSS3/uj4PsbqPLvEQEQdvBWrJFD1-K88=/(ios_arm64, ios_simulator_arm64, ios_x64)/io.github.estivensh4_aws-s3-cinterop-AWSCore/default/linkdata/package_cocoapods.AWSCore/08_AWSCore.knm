@@ -1,0 +1,1515 @@
+
+¯O
+	cocoapods
+AWSCore
+ AWSSTSGetFederationTokenResponse
+AWSModel
+platform
+
+Foundation
+NSCoder
+coder
+kotlin
+
+commonizer
+ObjCCallable
+kotlinx
+cinterop
+ObjCConstructor
+initSelector
+initWithCoder:
+
+designated
+init
+collections
+Map
+Any
+
+dictionary
+CPointer
+ObjCObjectVar
+NSError
+error
+initWithDictionary:error:
+dictionaryValue
+
+ObjCMethod
+encoding
+@32@0:8@16^@24
+selector
+isStret
+
+Deprecated
+level
+DeprecationLevel
+ERROR
+message
+Use constructor instead
+replaceWith
+ReplaceWith
+imports
+
+expression
+8AWSSTSGetFederationTokenResponse(dictionaryValue, error)
+internal
+CCall
+ConsumesReceiver
+ReturnsRetained
+initWithDictionary
+@16@0:8
+"AWSSTSGetFederationTokenResponse()
+AWSSTSCredentials
+credentials
+Unit
+
+v24@0:8@16
+setCredentials:
+setCredentials
+
+@24@0:8@16
+'AWSSTSGetFederationTokenResponse(coder)
+initWithCoder
+NSNumber
+packedPolicySize
+setPackedPolicySize:
+setPackedPolicySize
+AWSSTSFederatedUser
+federatedUser
+setFederatedUser:
+setFederatedUser
+	Companion
+ExternalObjCClass
+ExperimentalForeignApi
+AWSTimestampSerializationMeta
+darwin
+NSObjectMeta
+cnames
+structs
+_NSZone
+zone
+AWSTimestampSerialization
+@24@0:8^{_NSZone=}16
+allocWithZone:
+)Use constructor or factory method instead
+allocWithZone
+rules
+NSDate
+value
+String
+@40@0:8@16@24^@32
+serializeTimestamp:value:error:
+serializeTimestamp
+new
+alloc
+parseTimestamp:
+parseTimestamp
++AWSCognitoIdentityDescribeIdentityPoolInput
+/AWSCognitoIdentityDescribeIdentityPoolInputMeta
+ObjCClassOf
+
+AWSRequest
+CAWSCognitoIdentityDescribeIdentityPoolInput(dictionaryValue, error)
+-AWSCognitoIdentityDescribeIdentityPoolInput()
+2AWSCognitoIdentityDescribeIdentityPoolInput(coder)
+identityPoolId
+setIdentityPoolId:
+setIdentityPoolId
+AWSSTSGetAccessKeyInfoRequest
+!AWSSTSGetAccessKeyInfoRequestMeta
+5AWSSTSGetAccessKeyInfoRequest(dictionaryValue, error)
+AWSSTSGetAccessKeyInfoRequest()
+$AWSSTSGetAccessKeyInfoRequest(coder)
+accessKeyId
+setAccessKeyId:
+setAccessKeyId
+AWSUICKeyChainStoreMeta
+key
+stringForKey:
+stringForKey
+Boolean
+
+B24@0:8@16
+removeItemForKey:
+removeItemForKey
+NSURL
+server
+Long
+AWSUICKeyChainStoreProtocolType
+protocolType
+%AWSUICKeyChainStoreAuthenticationType
+authenticationType
+AWSUICKeyChainStore
+@40@0:8@16q24q32
+8keyChainStoreWithServer:protocolType:authenticationType:
+keyChainStoreWithServer
+service
+keyChainStoreWithService:
+keyChainStoreWithService
+defaultService
+NSData
+dataForKey:
+
+dataForKey
+generatePassword
+data
+forKey
+accessGroup
+B48@0:8@16@24@32@40
+#setData:forKey:service:accessGroup:
+setData
+AWSUICKeyChainStoreItemClass
+	itemClass
+List
+
+@24@0:8q16
+allKeysWithItemClass:
+allKeysWithItemClass
+@32@0:8@16@24
+dataForKey:service:
+%setString:forKey:service:accessGroup:
+	setString
+B32@0:8@16@24
+setData:forKey:
+removeAllItemsForService:
+removeAllItemsForService
+B40@0:8@16@24@32
+setData:forKey:service:
+B16@0:8
+removeAllItems
+allItemsWithItemClass:
+allItemsWithItemClass
+%removeItemForKey:service:accessGroup:
+@40@0:8@16@24@32
+!stringForKey:service:accessGroup:
+%removeAllItemsForService:accessGroup:
+stringForKey:service:
+setString:forKey:service:
+	Function2
+
+completion
+v24@0:8@?16
+)requestSharedWebCredentialWithCompletion:
+(requestSharedWebCredentialWithCompletion
+removeItemForKey:service:
+keyChainStore
+@32@0:8@16q24
+%keyChainStoreWithServer:protocolType:
+dataForKey:service:accessGroup:
+setString:forKey:
+domain
+account
+v40@0:8@16@24@?32
+7requestSharedWebCredentialForDomain:account:completion:
+#requestSharedWebCredentialForDomain
+setDefaultService:
+setDefaultService
+%keyChainStoreWithService:accessGroup:
+)AWSDDRegisteredDynamicLoggingProtocolMeta
+ULong
+AWSDDLogLevel
+
+ddLogLevel
+
+v24@0:8Q16
+ddSetLogLevel:
+ddSetLogLevel
+Q16@0:8
+AWSJSONBuilderErrorType
+	NSInteger
+Will be removed.
+byValue
+#AWSJSONBuilderDefinitionFileIsEmpty
+AWSJSONBuilderInternalError
+!AWSJSONBuilderUndefinedActionRule
+AWSJSONBuilderUnknownError
+AWSJSONBuilderInvalidParameter
+Var
+CPrimitiveVar
+Type
+(Use sizeOf<T>() or alignOf<T>() instead.
+CEnumVar
+native
+	NativePtr
+rawPtr
+Enum
+CEnum
+AWSCancellationTokenMeta
+AWSCancellationToken
+.AWSCognitoIdentityUnlinkDeveloperIdentityInput
+2AWSCognitoIdentityUnlinkDeveloperIdentityInputMeta
+FAWSCognitoIdentityUnlinkDeveloperIdentityInput(dictionaryValue, error)
+
+identityId
+setIdentityId:
+setIdentityId
+0AWSCognitoIdentityUnlinkDeveloperIdentityInput()
+developerUserIdentifier
+5AWSCognitoIdentityUnlinkDeveloperIdentityInput(coder)
+setDeveloperUserIdentifier:
+setDeveloperUserIdentifier
+developerProviderName
+setDeveloperProviderName:
+setDeveloperProviderName
+AWSDDLoggerProtocol
+NSObjectProtocol
+AWSDDLogFormatterProtocol
+logFormatter
+setLogFormatter:
+setLogFormatter
+
+loggerName
+v16@0:8
+didAddLogger
+willRemoveLogger
+NSObject
+dispatch_queue_t
+queue
+didAddLoggerInQueue:
+didAddLoggerInQueue
+loggerQueue
+AWSDDLogMessage
+
+logMessage
+logMessage:
+flush
+AWSDDTTYLoggerMeta
+AWSDDAbstractLoggerMeta
+AWSDDLoggerProtocolMeta
+AWSDDTTYLogger
+sharedInstance
+!AWSCognitoIdentityRoleMappingType
+&AWSCognitoIdentityRoleMappingTypeRules
+&AWSCognitoIdentityRoleMappingTypeToken
+(AWSCognitoIdentityRoleMappingTypeUnknown
+)AWSCognitoIdentityCognitoIdentityProvider
+-AWSCognitoIdentityCognitoIdentityProviderMeta
+providerName
+AAWSCognitoIdentityCognitoIdentityProvider(dictionaryValue, error)
++AWSCognitoIdentityCognitoIdentityProvider()
+setProviderName:
+setProviderName
+serverSideTokenCheck
+0AWSCognitoIdentityCognitoIdentityProvider(coder)
+setServerSideTokenCheck:
+setServerSideTokenCheck
+clientId
+setClientId:
+setClientId
+AWSCognitoIdentityGetIdInput
+ AWSCognitoIdentityGetIdInputMeta
+4AWSCognitoIdentityGetIdInput(dictionaryValue, error)
+AWSCognitoIdentityGetIdInput()
+logins
+
+setLogins:
+	setLogins
+#AWSCognitoIdentityGetIdInput(coder)
+	accountId
+setAccountId:
+setAccountId
+AWSXMLRequestSerializerMeta
+#AWSURLRequestSerializerProtocolMeta
+AWSXMLRequestSerializer
+NSMutableURLRequest
+request
+AWSJSONDictionary
+
+parameters
+	uriSchema
+
+hostPrefix
+B64@0:8@16@24@32@40@48^@56
+JconstructURIandHeadersAndBody:rules:parameters:uriSchema:hostPrefix:error:
+constructURIandHeadersAndBody
+"AWSSTSGetAccessKeyInfoResponseMeta
+AWSModelMeta
+AWSSTSGetAccessKeyInfoResponse
+modelWithDictionary:error:
+modelWithDictionary
+AWSTaskCompletionSourceMeta
+AWSTaskCompletionSource
+taskCompletionSource
+AWSModelUtility
+AWSModelUtilityMeta
+AWSModelUtility()
+(AWSCognitoIdentityRulesConfigurationType
+,AWSCognitoIdentityRulesConfigurationTypeMeta
+@AWSCognitoIdentityRulesConfigurationType(dictionaryValue, error)
+*AWSCognitoIdentityRulesConfigurationType()
+/AWSCognitoIdentityRulesConfigurationType(coder)
+	setRules:
+setRules
+AWSNetworkingRequestInterceptor
+#AWSNetworkingRequestInterceptorMeta
+'AWSNetworkingRequestInterceptorProtocol
+	userAgent
+initWithUserAgent:
+debugDescription
+CPointed
+COpaquePointer
+	aSelector
+
+withObject
+_withObject
+@40@0:8:16@24@32
+&performSelector:withObject:withObject:
+performSelector
+!AWSNetworkingRequestInterceptor()
+	ObjCClass
+#16@0:8
+class
+description
+
+superclass
+
+B24@0:8:16
+respondsToSelector:
+respondsToSelector
+object
+isEqual:
+isEqual
+isProxy
+aClass
+
+B24@0:8#16
+isKindOfClass:
+isKindOfClass
+@32@0:8:16@24
+performSelector:withObject:
+
+@24@0:8:16
+performSelector:
+
+NSUInteger
+hash
+*AWSNetworkingRequestInterceptor(userAgent)
+initWithUserAgent
+	objcnames
+classes
+Protocol
+	aProtocol
+conformsToProtocol:
+conformsToProtocol
+isMemberOfClass:
+isMemberOfClass
+AWSTask
+interceptRequest:
+interceptRequest
+
+AWSService
+AWSServiceMeta
+AWSService()
+AWSServiceConfiguration
+AWSServiceConfigurationMeta
+AWSNetworkingConfiguration
+AWSRegionType
+region
+AWSEndpoint
+endpoint
+AWSCredentialsProviderProtocol
+credentialsProvider
+,initWithRegion:endpoint:credentialsProvider:
+#initWithRegion:credentialsProvider:
+localTestingEnabled
+@initWithRegion:endpoint:credentialsProvider:localTestingEnabled:
+AWSServiceType
+serviceType
+CinitWithRegion:serviceType:credentialsProvider:localTestingEnabled:
+
+regionType
+@44@0:8q16@24@32B40
+WAWSServiceConfiguration(regionType, endpoint, credentialsProvider, localTestingEnabled)
+initWithRegion
+AWSServiceConfiguration()
+@44@0:8q16q24@32B40
+ZAWSServiceConfiguration(regionType, serviceType, credentialsProvider, localTestingEnabled)
+q16@0:8
+@32@0:8q16@24
+8AWSServiceConfiguration(regionType, credentialsProvider)
+productToken
+addUserAgentProductToken:
+addUserAgentProductToken
+@40@0:8q16@24@32
+BAWSServiceConfiguration(regionType, endpoint, credentialsProvider)
+AWSRequestMeta
+ AWSCancellationTokenRegistration
+$AWSCancellationTokenRegistrationMeta
+"AWSCancellationTokenRegistration()
+dispose
+AWSMTLJSONAdapter
+AWSMTLJSONAdapterMeta
+AWSMTLModel
+model
+initWithModel:
+jSONDictionary
+
+modelClass
+(initWithJSONDictionary:modelClass:error:
+AWSMTLJSONAdapter()
+JSONDictionary
+@40@0:8@16#24^@32
+4AWSMTLJSONAdapter(JSONDictionary, modelClass, error)
+initWithJSONDictionary
+JSONKeyPathForPropertyKey:
+JSONKeyPathForPropertyKey
+AWSMTLJSONAdapter(model)
+initWithModel
+AWSCognitoIdentityErrorCode
+"AWSCognitoIdentityErrorCodeUnknown
+.AWSCognitoIdentityErrorCodeInternalServerError
+'AWSCognitoIdentityErrorCodeAccessDenied
+2AWSCognitoIdentityIdentityPoolShortDescriptionMeta
+.AWSCognitoIdentityIdentityPoolShortDescription
+AWSCancellationTokenSource
+AWSCancellationTokenSourceMeta
+cancel
+AWSCancellationTokenSource()
+isCancellationRequested
+token
+Int
+millis
+
+v20@0:8i16
+cancelAfterDelay:
+cancelAfterDelay
+cancellationRequested
+AWSDDLogFileManagerDefault
+AWSDDLogFileManagerDefaultMeta
+AWSDDLogFileManagerProtocol
+logsDirectory
+defaultFileProtectionLevel
+1initWithLogsDirectory:defaultFileProtectionLevel:
+initWithLogsDirectory:
+unsortedLogFileNames
+newLogFileName
+sortedLogFilePaths
+fileName
+
+isLogFile:
+	isLogFile
+)AWSDDLogFileManagerDefault(logsDirectory)
+initWithLogsDirectory
+createNewLogFile
+unsortedLogFileInfos
+sortedLogFileNames
+maximumNumberOfLogFiles
+AWSDDLogFileManagerDefault()
+setMaximumNumberOfLogFiles:
+setMaximumNumberOfLogFiles
+sortedLogFileInfos
+EAWSDDLogFileManagerDefault(logsDirectory, defaultFileProtectionLevel)
+unsortedLogFilePaths
+logFilesDiskQuota
+setLogFilesDiskQuota:
+setLogFilesDiskQuotaª
+ 
+ 
+ 
+ 
+
+
+ 
+
+	
+
+ 
+
+
+
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+! 
+# 
+( 
+,
+- 
+. 
+/ 
+3 
+5 
+< 
+@ 
+E 
+F 
+G 
+H
+"I 
+J
+$K
+%L 
+N 
+T 
+V 
+^ 
+*D 
+_ 
+` 
+a 
+h 
+/D 
+i 
+p 
+t 
+x 
+z 
+{ 
+} 
+ 
+á 
+ë 
+ì 
+´ 
+æ 
+ø 
+¿ 
+∆ 
+@D 
+"« 
+@  
+@À 
+@Ã 
+@Õ 
+@Œ 
+@œ 
+HD 
+– 
+J— 
+” 
+‘
+M,
+N’ 
+’ 
+◊ 
+ÿ 
+Ÿ 
+⁄ 
+€ 
+UD 
+‹ 
+È 
+"Í 
+Î 
+"Û 
+"Ù 
+˘ 
+˝ 
+˛ 
+ˇ 
+Ä 
+Ç 
+bD 
+bÉ 
+bÑ 
+bÖ 
+bœ 
+gD 
+Ü 
+iD 
+á 
+î 
+lD 
+ï 
+ü 
+† 
+° 
+¢ 
+§ 
+´ 
+¨ 
+≠ 
+∞ 
+± 
+≥ 
+yD 
+¥ 
+∂ 
+|D 
+∑ 
+Ω 
+D 
+æ 
+ø 
+√ 
+ƒ 
+Ã 
+"‡ 
+‰
+áÂ
+àÊ 
+Ï 
+Ô 
+ãD 
+ 
+Ú 
+éD 
+Û 
+Ù 
+ı 
+˜ 
+˘ 
+ˇ 
+ë 
+í 
+óD 
+ì 
+ñ 
+öD 
+ó 
+ò 
+ß 
+ûD 
+û® 
+û© 
+ûœ 
+¢D 
+û™ 
+´ 
+¨ 
+≠ 
+ßD 
+Æ 
+≥ 
+π 
+´D 
+∫ 
+ª "Ëó  D20:DB(0“
+	“
+(B “
+	“
+(BN00
+000“
+	“
+(J•002002
+000HóÄ“
+	“
+ ((  “
+6
+"
+08$%(&'B)*(+“
+“
+Jw0HóÄ“
+	“
+ (1(  “
+6
+"
+08$%(&'B)*(2“
+“
+J440HóÄ“
+	“
+ (1(4  J<80240HóÄ“
+	“
+ (6(7  J;020HóÄ“
+	“
+ (9(  “
+6
+"
+08$%(&'B)*(:“
+“
+J<?02=0HóÄ“
+	“
+ (6(>  J<C02A0HóÄ“
+	“
+ (6(B  J4A0HóÄ“
+	“
+ (1(A  J4=0HóÄ“
+	“
+ (1(=  RA08@XÜéR=08@XÜéR408@XÜé“
+“
+ "èó !20#BJSR0'2M
+0&0HóÄ“
+	“
+ (O(P  “
+%(QJhY0)2S002U0(2
+000HóÄ“
+	“
+ (W(X  J4Z0'HóÄ“
+	“
+ (1(Z  JC[0'HóÄ“
+	“
+ (1([  “
+%(QJ<]0(2U0HóÄ“
+	“
+ (9(\  “
+“
+ "Ü#+20,20*0-"‹ó * D20.:DB(0“
+	“
+(B “
+	“
+(BN00
+000“
+	“
+(J•00*2002
+000HóÄ“
+	“
+ ((  “
+6
+"
+08$%(&'B)*(b“
+“
+Jw0*HóÄ“
+	“
+ (1(  “
+6
+"
+08$%(&'B)*(c“
+“
+J;0*20HóÄ“
+	“
+ (9(  “
+6
+"
+08$%(&'B)*(d“
+“
+J<g02e0)HóÄ“
+	“
+ (6(f  J4e0)HóÄ“
+	“
+ (1(e  Re0)8@XÜé“
+“
+ "Ü#020120/0-"‹ó / D20.:DB(0“
+	“
+(B “
+	“
+(BN00
+000“
+	“
+(J•00/2002
+000HóÄ“
+	“
+ ((  “
+6
+"
+08$%(&'B)*(j“
+“
+Jw0/HóÄ“
+	“
+ (1(  “
+6
+"
+08$%(&'B)*(k“
+“
+J;0/20HóÄ“
+	“
+ (9(  “
+6
+"
+08$%(&'B)*(l“
+“
+J4m0)HóÄ“
+	“
+ (1(m  J<o02m0)HóÄ“
+	“
+ (6(n  Rm0)8@XÜé“
+“
+ "ªó 220#BJ<s0)2q0)HóÄ“
+	“
+ (9(r  J:w032q0)HóÄ“
+	“
+ (u(v  JUÇ082y042
+|05j`62
+~05j`7HóÄ“
+	“
+"	(Ä	(Å  J?Ö082	É0)HóÄ“
+	“
+!(9	(Ñ  J4Ü0)HóÄ“
+	“
+!(1	(Ü  J>â092q0)HóÄ“
+	“
+!(9	(à  J4Z08HóÄ“
+	“
+ (1(Z  JC[08HóÄ“
+	“
+ (1([  “
+%(QJ4ä0)HóÄ“
+	“
+!(1	(ä  J_ê032	ã092å0)2	É0)2	ç0)HóÄ“
+	“
+"	(é	(è  JHñ0;2í05j`:HóÄ“
+	“
+"	(î	(ï  JJâ092q0)2	É0)HóÄ“
+	“
+"	(ó	(ò  J^ö032U0)2å0)2	É0)2	ç0)HóÄ“
+	“
+"	(é	(ô  JIê032	ã092å0)HóÄ“
+	“
+"	(õ	(ú  J?û032	É0)HóÄ“
+	“
+!(u	(ù  JTê032	ã092å0)2	É0)HóÄ“
+	“
+"	(ü	(†  J5¢03HóÄ“
+	“
+"	(°	(¢  JH§0;2í05j`:HóÄ“
+	“
+"	(î	(£  JRw032q0)2	É0)2	ç0)HóÄ“
+	“
+"	(ü	(•  JTs0)2q0)2	É0)2	ç0)HóÄ“
+	“
+"	(¶	(ß  JKû032	É0)2	ç0)HóÄ“
+	“
+"	(õ	(®  JIs0)2q0)2	É0)HóÄ“
+	“
+"	(ó	(©  JSö032U0)2å0)2	É0)HóÄ“
+	“
+"	(ü	(™  JSR082M
+0&0HóÄ“
+	“
+ (O(P  “
+%(QJZØ02#¨
+0;000<HóÄ“
+	“
+"	(≠	(Æ  JGw032q0)2	É0)HóÄ“
+	“
+"	(õ	(∞  J4±08HóÄ“
+	“
+!(1	(±  JIÇ082y042
+|05j`6HóÄ“
+	“
+"	(≤	(≥  JUâ092q0)2	É0)2	ç0)HóÄ“
+	“
+"	(¶	(¥  JHö032U0)2å0)HóÄ“
+	“
+"	(õ	(µ  Jp∫02	∂0)2	∑0)2#¨
+0;000<HóÄ“
+	“
+"	(∏	(π  J=º02Ü0)HóÄ“
+	“
+!(6	(ª  JKÖ082	É0)2	ç0)HóÄ“
+	“
+"	(ó	(Ω  “
+“
+ "¢Á =20JBƒ02¡0>j`?HßÄ“
+	“
+"	(¬	(√  J9¡0>j`?HßÄ“
+	“
+"	(≈	(¡  R¡0>j`?8@XÜé“
+ "2Ü#A20J'…0@2
+U05j`BHáÄ“
+	%(»"	∆!C20@"	∆!D20@"	∆!E20@"	∆!F20@"	∆!G20@"á#I20K“
+	%(“"-Ü H D20L:DB÷0Oj`PRU0@8@XÜé"Já!@ D20@0Q20R:DœRU05j`B8XñÑj jÀjÃjÕjŒ“
+ "Áó S20#BJSR0T2M
+0&0HóÄ“
+	“
+ (O(P  “
+%(QJ4Z0THóÄ“
+	“
+ (1(Z  JC[0THóÄ“
+	“
+ (1([  “
+%(Q“
+“
+ "Ü#V20W20U0-"Ñ	ó U D20.:DB(0“
+	“
+(B “
+	“
+(BN00
+000“
+	“
+(J¶00U2002
+000HóÄ“
+	“
+ ((  “
+7
+"
+08$%(&'B)	*(›“
+“
+J?‡02	ﬁ0)HóÄ“
+	“
+!(6	(ﬂ  Jx0UHóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(·“
+“
+J6ﬁ0)HóÄ“
+	“
+!(1	(ﬁ  J6‚0)HóÄ“
+	“
+!(1	(‚  JÄ;0U20HóÄ“
+	“
+ (9(  “
+7
+"
+08$%(&'B)	*(„“
+“
+J?Â02	‚0)HóÄ“
+	“
+!(6	(‰  J<g02e0)HóÄ“
+	“
+ (6(f  J?Ë02	Ê0)HóÄ“
+	“
+!(6	(Á  J6Ê0)HóÄ“
+	“
+!(1	(Ê  J4e0)HóÄ“
+	“
+ (1(e  Rﬁ0)8@XÜéR‚0)8@XÜéRe0)8@XÜéRÊ0)8@XÜé“
+“
+ "ŸÁ X20YJ=Ó02Ï0ZHßÄ“
+	“
+!(6	(Ì  J4Ô0)HóÄ“
+	“
+!(1	(Ô  J5Ò0HóÄ“
+	“
+"	(	(Ò  J5Ú0HóÄ“
+	“
+"	(	(Ú  JE˜02ı
+0[j`\HóÄ“
+	“
+!(6	(ˆ  J4Ï0ZHßÄ“
+	“
+!(1	(Ï  J<¯
+0[j`\HóÄ“
+	“
+!(1	(¯  J=˙02˙0]HßÄ“
+	“
+!(6	(˚  J5¸0HóÄ“
+	“
+"	(	(¸  RÏ0Z8@XÜéRÔ0)8XÜÑR¯
+0[j`\8XÜÑ“
+ "¥ó ^20_20`BJSR0a2M
+0&0HóÄ“
+	“
+ (O(P  “
+%(QJ4Z0aHóÄ“
+	“
+ (1(Z  JC[0aHóÄ“
+	“
+ (1([  “
+%(QJ6Å0aHóÄ“
+	“
+!(1	(Å  RÅ0a8XÜÑ“
+“
+ "2Ü#c20J'…0b2
+U05j`BHáÄ“
+	%(»"	∆!d20b"	∆!e20b"	∆!f20b"á#h20K“
+	%(“"-Ü g D20L:DB÷0Oj`PRU0b8@XÜé"@á!b D20b0Q20R:DœRU05j`B8XñÑjÉjÑjÖ“
+ "Ü#j20k20i0-"˛ó i D20:DB(0“
+	“
+(B “
+	“
+(BN00
+000“
+	“
+(J6à0)HóÄ“
+	“
+!(1	(à  J¶00i2002
+000HóÄ“
+	“
+ ((  “
+7
+"
+08$%(&'B)	*(â“
+“
+Jx0iHóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(ä“
+“
+J?å02	à0)HóÄ“
+	“
+!(6	(ã  J6ç0HóÄ“
+	“
+!(1	(ç  JÄ;0i20HóÄ“
+	“
+ (9(  “
+7
+"
+08$%(&'B)	*(é“
+“
+J?ê02	ç0HóÄ“
+	“
+!(6	(è  J?ì02	ë0)HóÄ“
+	“
+!(6	(í  J6ë0)HóÄ“
+	“
+!(1	(ë  Rë0)8@XÜéRç08@XÜéRà0)8@XÜé“
+“
+ "Ü#m20n20l0-"úó l D20.:DB(0“
+	“
+(B “
+	“
+(BN00
+000“
+	“
+(J¶00l2002
+000HóÄ“
+	“
+ ((  “
+7
+"
+08$%(&'B)	*(ñ“
+“
+Jx0lHóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(ó“
+“
+JKö02ò00HóÄ“
+	“
+!(6	(ô  JÄ;0l20HóÄ“
+	“
+ (9(  “
+7
+"
+08$%(&'B)	*(õ“
+“
+J<g02e0)HóÄ“
+	“
+ (6(f  J6ú0)HóÄ“
+	“
+!(1	(ú  JBò00HóÄ“
+	“
+!(1	(ò  J?û02	ú0)HóÄ“
+	“
+!(6	(ù  J4e0)HóÄ“
+	“
+ (1(e  Rò008@XÜéRe0)8@XÜéRú0)8@XÜé“
+“
+ "˝ó o20#20pBJSR0q2M
+0&0HóÄ“
+	“
+ (O(P  “
+%(QJ4Z0qHóÄ“
+	“
+ (1(Z  JC[0qHóÄ“
+	“
+ (1([  “
+%(QJè™032	£0r2S0s2•002	¶0)2	ß0)2
+000HóÄ“
+	“
+"	(®	(©  “
+“
+ "Õó t20uBJSR0v2M
+0&0HóÄ“
+	“
+ (O(P  “
+%(QJ4Z0vHóÄ“
+	“
+ (1(Z  JC[0vHóÄ“
+	“
+ (1([  “
+%(QJdØ0v2002
+000HóÄ“
+	“
+!(	(Æ  “
+“
+ "ùó w20#BJ4≤0xHóÄ“
+	“
+!(1	(≤  JSR0x2M
+0&0HóÄ“
+	“
+ (O(P  “
+%(QJ4Z0xHóÄ“
+	“
+ (1(Z  JC[0xHóÄ“
+	“
+ (1([  “
+%(Q“
+“
+ "Ü#z20{20y0-"¥ó y D20[:DB “
+	“
+(Jx0yHóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(µ“
+“
+“
+“
+ "Ü#}20~20|0-"Óó | D20:DB(0“
+	“
+(B “
+	“
+(BN00
+000“
+	“
+(J¶00|2002
+000HóÄ“
+	“
+ ((  “
+7
+"
+08$%(&'B)	*(∏“
+“
+Jx0|HóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(π“
+“
+J8S0;HóÄ“
+	“
+ (1(S  JÄ;0|20HóÄ“
+	“
+ (9(  “
+7
+"
+08$%(&'B)	*(∫“
+“
+JBº02S0;HóÄ“
+	“
+!(6	(ª  RS0;8@XÜé“
+“
+ "Ü#Ä20Å200-"Àó  D20[20Ç:DB “
+	“
+(B,	¿0)“
+	“
+	(¡J6¬0)HóÄ“
+	“
+!(1	(¬  Jh 02≈0É0j`Ñ2	∆02	«0HóÄ“
+	“
+"	(»	(…  Jx0HóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(À“
+“
+J8Œ0ÖHóÄ“
+	“
+"	(Õ	(Œ  J6¿0)HóÄ“
+	“
+!(1	(¿  J6œ0)HóÄ“
+	“
+!(1	(œ  J8–0ÖHóÄ“
+	“
+"	(Õ	(–  JP”032≈0É0j`ÑHóÄ“
+	“
+"	(—	(“  J?÷032	‘0HóÄ“
+	“
+!(u	(’  J5◊03HóÄ“
+	“
+"	(°	(◊  JA€032
+ÿ0ÖHóÄ“
+	“
+"	(Ÿ	(⁄  J] 02≈0É0j`Ñ2	∆0HóÄ“
+	“
+"	(‹	(›  JR 02≈0É0j`ÑHóÄ“
+	“
+"	(ﬁ	(ﬂ  J:·0>j`ÜHóÄ“
+	“
+"	(≈	(·  JÖ„02	¿0)HóÄ“
+	“
+!(9	(¡  “
+7
+"
+08$%(&'B)	*(‚“
+“
+J@È032
+Á0âHóÄ“
+	“
+!(u	(Ë  JAÎ032
+ÿ0ÖHóÄ“
+	“
+"	(Ÿ	(Í  JBÓ0ä2	£0rHóÄ“
+	“
+!(9	(Ì  R¿0)8XÜÑ“
+“
+ "Ü#å20ç2	0ã0-"∂ó ã D20[:DB “
+	“
+(Jy0ãHóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(Ò“
+“
+“
+“
+ "Ü#è20ê2	0é0-"Öó é D20ë:DB “
+	“
+(BCˆ0í
+¯0ì
+˙0î“
+	“
+	(˚B7ˆ0í
+˙0î“
+	“
+	(¸BLˆ0í
+¯0ì
+˙0î˝03“
+	“
+	(˛BJˆ0íÄ0ï
+˙0î˝03“
+	“
+	(ÅJßÖ0é2Ç0í2
+¯0ì2
+˙0î2˝03HóÄ“
+	“
+"	(É	(˛  “
+7
+"
+08$%(&'B)	*(Ñ“
+“
+Jy0éHóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(Ü“
+“
+J6¿0)HóÄ“
+	“
+!(1	(¿  J5˝03HóÄ“
+	“
+"	(°	(˝  J•Ö0é2Ç0í2Ä0ï2
+˙0î2˝03HóÄ“
+	“
+"	(á	(Å  “
+7
+"
+08$%(&'B)	*(à“
+“
+J6Ç0íHóÄ“
+	“
+"	(â	(Ç  J7¯0ìHóÄ“
+	“
+!(1	(¯  J7˙0îHóÄ“
+	“
+!(1	(˙  JíÖ0é2Ç0í2
+˙0îHóÄ“
+	“
+"	(ä	(¸  “
+7
+"
+08$%(&'B)	*(ã“
+“
+J?é02	å0)HóÄ“
+	“
+!(6	(ç  JûÖ0é2Ç0í2
+¯0ì2
+˙0îHóÄ“
+	“
+"	(è	(˚  “
+7
+"
+08$%(&'B)	*(ê“
+“
+R˝038XÜÑR¿0)8XÜÑR˙0î8XÜÑR¯0ì8XÜÑRÇ0í8XÜÑ“
+“
+ "Œó ñ20uBJSR0.2M
+0&0HóÄ“
+	“
+ (O(P  “
+%(QJ4Z0.HóÄ“
+	“
+ (1(Z  JC[0.HóÄ“
+	“
+ (1([  “
+%(QJdØ0.2002
+000HóÄ“
+	“
+!(	(Æ  “
+“
+ "Ü#ò20ô2	0ó0-"Ìó ó D20[:DB “
+	“
+(Jy0óHóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(î“
+“
+J5ï0HóÄ“
+	“
+"	(	(ï  “
+“
+ "Ü#õ20ú2	0ö0-"÷ó ö D20[:DB-
+ô0ù“
+	“
+	(öB\õ00
+ú0Ö
+000“
+	“
+	(ùB “
+	“
+(Jy0öHóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(û“
+“
+JBü00HóÄ“
+	“
+!(1	(ü  J∂¢02ü002
+ú0Ö2
+000HóÄ“
+	“
+"	(†	(ù  “
+7
+"
+08$%(&'B)	*(°“
+“
+J@§0)2q0)HóÄ“
+	“
+!(9	(£  J7ô0ùHóÄ“
+	“
+!(1	(ô  JÜ¶02
+ô0ùHóÄ“
+	“
+!(9	(ö  “
+7
+"
+08$%(&'B)	*(•“
+“
+Rô0ù8XÜÑ“
+“
+ "4Ü#ü20J(…0û2
+U05j`BHáÄ“
+	%(»"∆!†20û"∆!°20û"á#£20K“
+	%(“"/Ü ¢ D20L:DB÷0Oj`PRU0û8@XÜé"∆!§20û"Bá!û D2	0û0Q20R:DœRU05j`B8XñÑj®j©j™“
+ "“ó •20uBJTR0¶2M
+0&0HóÄ“
+	“
+ (O(P  “
+%(QJ5Z0¶HóÄ“
+	“
+ (1(Z  JD[0¶HóÄ“
+	“
+ (1([  “
+%(QJeØ0¶2002
+000HóÄ“
+	“
+!(	(Æ  “
+“
+ "Õó ~20uBJSR0|2M
+0&0HóÄ“
+	“
+ (O(P  “
+%(QJ4Z0|HóÄ“
+	“
+ (1(Z  JC[0|HóÄ“
+	“
+ (1([  “
+%(QJdØ0|2002
+000HóÄ“
+	“
+!(	(Æ  “
+“
+ "Ü#®20©2	0ß0-"ó ß D20[:DB “
+	“
+(J5Ø0HóÄ“
+	“
+"	(	(Ø  Jy0ßHóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(∞“
+“
+J5±03HóÄ“
+	“
+"	(°	(±  J4≤0THóÄ“
+	“
+!(1	(≤  J?∑02¥0™HóÄ“
+	“
+"	(µ	(∂  J5ï0HóÄ“
+	“
+"	(	(ï  R≤0T8XÜÑR∏038XÜÑ“
+“
+ "Ü#¨20≠2	0´0-"Óó ´ D20[20Æ:DB7	º0)	Ω0)“
+	“
+	(æ B,	º0)“
+	“
+	(øB “
+	“
+( Jh 02≈0É0j`Ñ2	∆02	«0HóÄ“
+	“
+"	(»	(…  J8Œ0ÖHóÄ“
+	“
+"	(Õ	(Œ  JP”032≈0É0j`ÑHóÄ“
+	“
+"	(—	(“  J:¿0;HóÄ“
+	“
+!(1	(¿  J;¡0)HóÄ“
+	“
+!(1	(¡  “
+J:¬0;HóÄ“
+	“
+!(1	(¬  J?÷032	‘0HóÄ“
+	“
+!(u	(’  J5◊03HóÄ“
+	“
+"	(°	(◊  J6œ0)HóÄ“
+	“
+!(1	(œ  J] 02≈0É0j`Ñ2	∆0HóÄ“
+	“
+"	(‹	(›  JA€032
+ÿ0ÖHóÄ“
+	“
+"	(Ÿ	(⁄  J?≈032	√0)HóÄ“
+	“
+!(u	(ƒ  JÜ«0´2	º0)HóÄ“
+	“
+!(9	(ø  “
+7
+"
+08$%(&'B)	*(∆“
+“
+J:·0>j`ÜHóÄ“
+	“
+"	(≈	(·  J@È032
+Á0âHóÄ“
+	“
+!(u	(Ë  J6»0)HóÄ“
+	“
+!(1	(»  J:…0;HóÄ“
+	“
+!(1	(…  J: 0;HóÄ“
+	“
+!(1	(   J:À0>j`ÜHóÄ“
+	“
+"	(≈	(À  Jy0´HóÄ“
+	“
+ (1(  “
+7
+"
+08$%(&'B)	*(Ã“
+“
+JCŒ02À0>j`ÜHóÄ“
+	“
+"	(¬	(Õ  J6¬0)HóÄ“
+	“
+!(1	(¬  J:œ0;HóÄ“
+	“
+!(1	(œ  J8–0ÖHóÄ“
+	“
+"	(Õ	(–  JR 02≈0É0j`ÑHóÄ“
+	“
+"	(ﬁ	(ﬂ  J6º0)HóÄ“
+	“
+!(1	(º  Jí«0´2	º0)2	Ω0)HóÄ“
+	“
+"	(ó	(æ  “
+7
+"
+08$%(&'B)	*(–“
+“
+J:—0;HóÄ“
+	“
+!(1	(—  JAÎ032
+ÿ0ÖHóÄ“
+	“
+"	(Ÿ	(Í  J5“0>HóÄ“
+	“
+"	(≈	(“  J>‘02“0>HóÄ“
+	“
+"	(¬	(”  R¡0)8XÜÑ“
+“
+ ‡
+ Í
+cocoapods.AWSCoreÚ
+V!+*0/2=ACDEFGIH@SVUX^cdefhgbjimlotwzy}|Äåãèéñòóõöü†°£¢§û•~®ß¨´

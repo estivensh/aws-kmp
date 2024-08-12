@@ -13,6 +13,7 @@ plugins {
     alias(libs.plugins.androidApplication) apply false
     alias(libs.plugins.kotlinAndroid) apply false
     alias(libs.plugins.dokka)
+    alias(libs.plugins.compose.compiler) apply false
     id("io.kotest.multiplatform") version "5.8.0" apply false
     id("org.jetbrains.kotlinx.kover") version "0.7.6"
     id("org.sonarqube") version "4.4.1.3373"

@@ -1,66 +1,57 @@
 [versions]
 agp = "8.1.4"
 awsAndroidSdkS3 = "2.73.0"
-cognitoidentityprovider = "0.33.1-beta"
-core = "1.5.0"
-dynamodb = "0.33.0-beta"
+core = "1.6.1"
 kotestVersion = "5.8.0"
-kotlin = "1.9.22"
-compose = "1.6.3"
-compose-compiler = "1.5.10"
+kotlin = "2.0.0"
+compose = "1.6.8"
 compose-material3 = "1.2.1"
-androidx-activityCompose = "1.8.2"
-kotlinxCoroutinesCore = "1.7.3"
-kotlinxDatetime = "0.5.0"
-core-ktx = "1.12.0"
+androidx-activityCompose = "1.9.1"
+kotlinxCoroutinesCore = "1.8.1"
+kotlinxDatetime = "0.6.0"
+core-ktx = "1.13.1"
 junit = "4.13.2"
-androidx-test-ext-junit = "1.1.5"
-espresso-core = "3.5.1"
-lifecycle-runtime-ktx = "2.7.0"
-compose-bom = "2024.02.02"
-mockative = "2.0.1"
+androidx-test-ext-junit = "1.2.1"
+espresso-core = "3.6.1"
+lifecycle-runtime-ktx = "2.8.4"
+compose-bom = "2024.06.00"
+mockative = "2.2.2"
 mockitoCore = "5.7.0"
 mockitoKotlin = "3.2.0"
-mockk = "1.13.10"
-org-jetbrains-kotlin-jvm = "1.9.22"
+mockk = "1.13.12"
+org-jetbrains-kotlin-jvm = "2.0.0"
 detektVersion = "1.23.5"
 ktlint-version = "3.15.0"
 truthish = "0.6.5"
 dokka = "1.9.10"
-spotless = "6.22.0"
-ktlint = "1.0.1"
 native-coroutines = "1.0.0-ALPHA-20"
-ksp = "1.9.22-1.0.17"
+ksp = "2.0.0-1.0.24"
 kmmViewModelVersion = "1.0.0-ALPHA-15"
 compileSdk = "34"
 minSdk = "26"
-play-services-wearable = "18.1.0"
+play-services-wearable = "18.2.0"
 percentlayout = "1.0.0"
 legacy-support-v4 = "1.0.0"
 recyclerview = "1.3.2"
-compose-material = "1.3.0"
-compose-foundation = "1.3.0"
+compose-material = "1.3.1"
+compose-foundation = "1.3.1"
 
 [libraries]
 androidx-core = { module = "androidx.test:core", version.ref = "core" }
 aws-android-sdk-s3 = { module = "com.amazonaws:aws-android-sdk-s3", version.ref = "awsAndroidSdkS3" }
 aws-android-sdk-ddb = { module = "com.amazonaws:aws-android-sdk-ddb", version.ref = "awsAndroidSdkS3" }
-cognitoidentity = { module = "aws.sdk.kotlin:cognitoidentity", version.ref = "cognitoidentityprovider" }
-cognitoidentityprovider = { module = "aws.sdk.kotlin:cognitoidentityprovider", version.ref = "cognitoidentityprovider" }
-dynamodb = { module = "aws.sdk.kotlin:dynamodb", version.ref = "dynamodb" }
 kotest-assertions = { module = "io.kotest:kotest-assertions-core", version.ref = "kotestVersion" }
 kotest-engine = { module = "io.kotest:kotest-framework-engine", version.ref = "kotestVersion" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotestVersion" }
 kotest-runner = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotestVersion" }
 
-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.7.3" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version = "1.8.1" }
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
 compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose" }
-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "compose" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
 kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
@@ -96,13 +87,9 @@ androidLibrary = { id = "com.android.library", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinCocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
-org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
-org-jetbrains-compose = { id = "org.jetbrains.compose", version="1.6.0" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
-gradle-spotless = { id = "com.diffplug.gradle.spotless", version.ref = "spotless" }
 buildKonfig = { id = "com.codingfeline.buildkonfig", version = "0.15.0" }
-sonarqube = { id = "org.sonarqube", version = "3.5.0.2730" }
-kover = { id = "org.jetbrains.kotlinx.kover", version = "0.7.4" }
-composePlugin = { id = "org.jetbrains.compose", version = "1.6.0" }
+composePlugin = { id = "org.jetbrains.compose", version = "1.6.11" }
 native-coroutines = { id = "com.rickclephas.kmp.nativecoroutines", version.ref = "native-coroutines" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }

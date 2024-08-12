@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.native.coroutines)
     alias(libs.plugins.ksp)
     alias(libs.plugins.buildKonfig)
+    alias(libs.plugins.compose.compiler) apply false
 }
 
 kotlin {
@@ -77,8 +78,8 @@ buildkonfig {
     packageName = "com.estivensh4.shared"
     exposeObjectWithName = "BuildPublicConfig"
     defaultConfigs {
-        buildConfigField(STRING, "accessKey", System.getenv("AWS_ACCESS_KEY"))
-        buildConfigField(STRING, "secretKey", System.getenv("AWS_SECRET_KEY"))
+       // buildConfigField(STRING, "accessKey", System.getenv("AWS_ACCESS_KEY"))
+        //buildConfigField(STRING, "secretKey", System.getenv("AWS_SECRET_KEY"))
     }
 }
 

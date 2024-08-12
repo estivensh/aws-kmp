@@ -1,6 +1,7 @@
 /*
  * Copyright 2023 estiven. Use of this source code is governed by the Apache 2.0 license.
  */
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.net.URL
 
 plugins {
@@ -8,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlinCocoapods)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.compose.compiler)
     id("javadoc-stub-convention")
     id("publication-convention")
     id("detekt-convention")
@@ -26,10 +28,8 @@ kotlin {
 
     androidTarget {
         publishAllLibraryVariants()
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
     iosX64()

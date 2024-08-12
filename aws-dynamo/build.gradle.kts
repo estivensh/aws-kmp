@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 /*
  * Copyright 2023 estiven. Use of this source code is governed by the Apache 2.0 license.
  */
@@ -24,10 +26,8 @@ kotlin {
 
     androidTarget {
         publishAllLibraryVariants()
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_11)
         }
     }
     iosX64()
@@ -44,8 +44,8 @@ kotlin {
             baseName = "aws-dynamo"
         }
         noPodspec()
-        pod("AWSCore")
-        pod("AWSDynamoDB")
+       // pod("AWSCore")
+        //pod("AWSDynamoDB")
     }
 
     sourceSets {
